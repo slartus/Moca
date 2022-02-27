@@ -4,12 +4,14 @@ plugins {
     id("com.android.library")
     kotlin("multiplatform")
     id("org.jetbrains.compose")
+    kotlin("plugin.serialization") version "1.6.10"
 }
 
 kotlin {
     android()
     jvm("desktop")
 
+    val ktor_version = "1.6.3"
     sourceSets {
         named("commonMain") {
             dependencies {
@@ -18,12 +20,19 @@ kotlin {
                 api(compose.material)
                 // Needed only for preview.
                 implementation(compose.preview)
+
+                implementation("io.ktor:ktor-client-core:$ktor_version")
+                implementation("io.ktor:ktor-client-serialization:$ktor_version")
+                implementation("io.ktor:ktor-client-cio:$ktor_version")
+                implementation("org.kodein.di:kodein-di-framework-compose:7.9.0")
+
             }
         }
         named("androidMain") {
             dependencies {
-                api("androidx.appcompat:appcompat:1.3.1")
-                api("androidx.core:core-ktx:1.6.0")
+                api("androidx.appcompat:appcompat:1.4.1")
+                api("androidx.core:core-ktx:1.7.0")
+                implementation("io.ktor:ktor-client-cio:$ktor_version")
             }
         }
     }
