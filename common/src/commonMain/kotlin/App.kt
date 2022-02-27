@@ -31,12 +31,11 @@ fun App() = withDI(httpModule) {
 
         }
     }
-    val httpClient: HttpClient by rememberInstance()
+    val tmdbApi: TmdbApi by rememberInstance()
     LaunchedEffect(key1 = Unit, block = {
-
-        genres = TmdbApi(httpClient).Genres().getMovieList()
+        genres = tmdbApi.Genres().getMovieList()
     })
 }
 
-expect fun getPlatformName(): String
 expect fun getHttpClient(): HttpClient
+expect fun getPlatformName(): String
