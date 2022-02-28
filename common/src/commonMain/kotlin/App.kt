@@ -14,3 +14,6 @@ fun App() = withDI(dataModule, domainModule) {
 }
 
 expect fun getHttpClient(): HttpClient
+
+@Composable
+expect fun AsyncImage(imageUrl: String)

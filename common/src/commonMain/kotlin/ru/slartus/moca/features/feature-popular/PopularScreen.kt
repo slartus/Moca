@@ -1,11 +1,12 @@
 package ru.slartus.moca.features.feature_popular
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import AsyncImage
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Card
 import androidx.compose.material.Text
+
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -41,6 +42,9 @@ private fun MovieView(modifier: Modifier = Modifier, movie: Movie) {
             .padding(horizontal = 10.dp, vertical = 5.dp),
         elevation = 4.dp
     ) {
+        Column {
+            AsyncImage(movie.posterUrl!!)
+        }
         Text(
             modifier = Modifier.padding(5.dp),
             text = movie.title

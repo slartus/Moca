@@ -23,12 +23,18 @@ class TmdbApi(val client: HttpClient) {
                 client.get("$END_POINT/movie/popular?page=${page.page}&$DEFAULT_PARAMS")
             return (genresResponse.results ?: emptyList()).mapNotNull {
                 val id = it.id ?: return@mapNotNull null
+                val posterPath = it.backdrop_path
                 return@mapNotNull RepositoryMovie(
                     id = id.toString(),
-                    title = it.title ?: it.original_title ?: "No title"
+                    title = it.title ?: it.original_title ?: "No title",
+                    posterUrl = if (posterPath == null) null else getImageUrl(500, posterPath)
                 )
             }
         }
+    }
+
+    private fun getImageUrl(fileSize: Int, filePath: String): String {
+        return "https://image.tmdb.org/t/p/w$fileSize$filePath"
     }
 
     companion object {

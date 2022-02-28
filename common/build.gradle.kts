@@ -26,6 +26,7 @@ kotlin {
                 implementation("io.ktor:ktor-client-cio:$ktor_version")
                 implementation("org.kodein.di:kodein-di-framework-compose:7.9.0")
 
+
             }
         }
         named("androidMain") {
@@ -33,6 +34,7 @@ kotlin {
                 api("androidx.appcompat:appcompat:1.4.1")
                 api("androidx.core:core-ktx:1.7.0")
                 implementation("io.ktor:ktor-client-cio:$ktor_version")
+                implementation("io.coil-kt:coil-compose:1.4.0")
             }
         }
         named("desktopMain") {
