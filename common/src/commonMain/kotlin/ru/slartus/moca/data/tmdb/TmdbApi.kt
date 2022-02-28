@@ -2,13 +2,18 @@ package ru.slartus.moca.data.tmdb
 
 import io.ktor.client.*
 import io.ktor.client.request.*
+import ru.slartus.moca.data.CatalogApi
 import ru.slartus.moca.data.tmdb.models.Genre
 import ru.slartus.moca.data.tmdb.models.GenresResponse
 import ru.slartus.moca.domain.models.Movie as RepositoryMovie
 import ru.slartus.moca.data.tmdb.models.PopularResponse
 import kotlin.jvm.JvmInline
 
-class TmdbApi(val client: HttpClient) {
+class TmdbApi(val client: HttpClient) : CatalogApi {
+    override val name = "TMDB"
+
+    override suspend fun getPopularMovies(): List<RepositoryMovie> = Movies().getPopular()
+
     inner class Genres {
         suspend fun getMovieList(): List<Genre> {
             val genresResponse: GenresResponse =

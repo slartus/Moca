@@ -4,6 +4,7 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
 data class AppColors(
+    val primary: Color,
     val primaryText: Color,
     val primaryBackground: Color,
     val secondaryBackground: Color,
@@ -16,7 +17,8 @@ val lightPalette = AppColors(
     primaryBackground = Palette.white,
     secondaryBackground = Color(0xFFCCCCCC),
     primarySurface = Color(0xFF0F9D58),
-    drawerColor = Palette.white
+    drawerColor = Palette.white,
+    primary = Color.Green
 )
 
 val darkPalette = AppColors(
@@ -24,7 +26,8 @@ val darkPalette = AppColors(
     primaryBackground = Palette.nero15,
     secondaryBackground = Palette.nero29,
     primarySurface = Palette.nero21,
-    drawerColor = Palette.nero1B
+    drawerColor = Palette.nero1B,
+    primary = Palette.christmasOrange
 )
 
 val LocalAppColors = staticCompositionLocalOf<AppColors> {
@@ -40,4 +43,5 @@ object Palette {
     val nero21: Color = Color(0xFF212121)
     val nero29: Color = Color(0xFF292929)
     val lightGray: Color = Color(0xFFD0D0D0)
+    val christmasOrange: Color = Color(0xFFd36728)
 }

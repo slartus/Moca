@@ -8,6 +8,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.*
@@ -26,7 +27,11 @@ import ru.slartus.moca.features.feature_popular.PopularScreen
 
 @Composable
 fun MainScreen() {
-    val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scaffoldState = rememberScaffoldState(
+        drawerState = rememberDrawerState(DrawerValue.Closed),
+        snackbarHostState = snackbarHostState
+    )
     val coroutineScope = rememberCoroutineScope()
 
     BoxWithConstraints {
@@ -60,7 +65,15 @@ fun MainScreen() {
                 if (screenWidth == ScreenWidth.Large) {
                     DrawerView(modifier = Modifier.width(200.dp))
                 }
-                PopularScreen()
+                PopularScreen(
+                    onError = {
+                        coroutineScope.launch {
+                            snackbarHostState.showSnackbar(
+                                message = it.message ?: it.toString()
+                            )
+                        }
+                    }
+                )
             }
 
         }

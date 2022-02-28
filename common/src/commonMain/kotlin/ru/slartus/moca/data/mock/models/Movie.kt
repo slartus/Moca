@@ -1,4 +1,4 @@
-package ru.slartus.moca.data.filmix.models
+package ru.slartus.moca.data.mock.models
 
 import kotlinx.serialization.*
 

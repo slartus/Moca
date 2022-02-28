@@ -12,6 +12,7 @@ kotlin {
     jvm("desktop")
 
     val ktor_version = "1.6.3"
+    val accompanist = "0.24.3-alpha"
     sourceSets {
         named("commonMain") {
             dependencies {
@@ -23,10 +24,7 @@ kotlin {
 
                 implementation("io.ktor:ktor-client-core:$ktor_version")
                 implementation("io.ktor:ktor-client-serialization:$ktor_version")
-                implementation("io.ktor:ktor-client-cio:$ktor_version")
                 implementation("org.kodein.di:kodein-di-framework-compose:7.9.0")
-
-
             }
         }
         named("androidMain") {

@@ -5,9 +5,12 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Card
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
@@ -21,23 +24,68 @@ import ru.slartus.moca.domain.repositories.CatalogRepository
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun PopularScreen() {
-    var popular: List<Movie> by mutableStateOf(emptyList())
+fun PopularScreen(
+    onError: (ex: Exception) -> Unit = {}
+) {
+    var viewState: ScreenState by remember {
+        mutableStateOf(
+            ScreenState(
+                isLoading = true,
+                data = emptyList(),
+                error = null
+            )
+        )
+    }
 
-    LazyVerticalGrid(
-        modifier = Modifier.fillMaxSize(),
-        cells = GridCells.Adaptive(128.dp),
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
     ) {
-        popular.forEach { movie ->
-            item {
-                MovieView(modifier = Modifier, movie)
+        val listState = rememberLazyListState()
+        LazyVerticalGrid(
+            state = listState,
+            modifier = Modifier.fillMaxSize(),
+            cells = GridCells.Adaptive(128.dp),
+        ) {
+            viewState.data.forEach { movie ->
+                item {
+                    MovieView(modifier = Modifier, movie)
+                }
             }
+        }
+
+        if (viewState.isLoading)
+            CircularProgressIndicator(
+                modifier = Modifier.align(Alignment.Center),
+                color = AppTheme.colors.primary,
+            )
+        else if (viewState.data.isEmpty())
+            Text(
+                modifier = Modifier.align(Alignment.Center),
+                text = "No data",
+                color = AppTheme.colors.primaryText
+            )
+        viewState.error?.let {
+            onError(it)
         }
     }
 
     val catalogRepository: CatalogRepository by rememberInstance()
     LaunchedEffect(key1 = Unit, block = {
-        popular = catalogRepository.getPopularMovies()
+        viewState = try {
+            val popular = catalogRepository.getPopularMovies()
+            ScreenState(
+                isLoading = false,
+                data = popular,
+                error = viewState.error
+            )
+        } catch (ex: Exception) {
+            ScreenState(
+                isLoading = false,
+                data = viewState.data,
+                error = ex
+            )
+        }
     })
 }
 
@@ -55,14 +103,22 @@ private fun MovieView(modifier: Modifier = Modifier, movie: Movie) {
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            AsyncImage(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .weight(weight = 1f),
-                imageUrl = movie.posterUrl!!,
-                contentDescription = movie.title,
-                contentScale = ContentScale.FillWidth
-            )
+            if (movie.posterUrl != null)
+                AsyncImage(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .weight(weight = 1f),
+                    imageUrl = movie.posterUrl,
+                    contentDescription = movie.title,
+                    contentScale = ContentScale.FillWidth
+                )
+            else {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .weight(weight = 1f)
+                )
+            }
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -78,3 +134,10 @@ private fun MovieView(modifier: Modifier = Modifier, movie: Movie) {
         }
     }
 }
+
+
+data class ScreenState(
+    val isLoading: Boolean,
+    val data: List<Movie>,
+    val error: Exception?
+)

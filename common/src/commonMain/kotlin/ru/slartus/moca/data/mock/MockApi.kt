@@ -1,11 +1,16 @@
-package ru.slartus.moca.data.filmix
+package ru.slartus.moca.data.mock
 
 import io.ktor.client.*
 import kotlinx.coroutines.delay
-import ru.slartus.moca.data.filmix.models.Movie
+import ru.slartus.moca.data.CatalogApi
+import ru.slartus.moca.data.mock.models.Movie
 import ru.slartus.moca.domain.models.Movie as RepositoryMovie
 
-class FilmixApi(val client: HttpClient) {
+class MockApi(val client: HttpClient) : CatalogApi {
+    override val name = "Mock"
+
+    override suspend fun getPopularMovies(): List<RepositoryMovie> = Movies().getPopular()
+
     inner class Movies {
         suspend fun getPopular(): List<RepositoryMovie> {
             delay(1000)
@@ -19,12 +24,5 @@ class FilmixApi(val client: HttpClient) {
                 )
             }
         }
-    }
-
-    companion object {
-        private const val END_POINT = "http://filmix.net"
-        private const val END_POINT_MOBILE = "http://m.filmix.net"
-
-
     }
 }
