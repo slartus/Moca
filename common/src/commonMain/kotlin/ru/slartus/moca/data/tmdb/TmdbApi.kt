@@ -11,7 +11,7 @@ class TmdbApi(val client: HttpClient) {
     inner class Genres {
         suspend fun getMovieList(): List<Genre> {
             val genresResponse: GenresResponse =
-                client.get("$END_POINT/genre/movie/list?language=en-US&api_key=$API_KEY")
+                client.get("$END_POINT/genre/movie/list?$DEFAULT_PARAMS")
             return genresResponse.genres ?: emptyList()
         }
     }
@@ -19,7 +19,7 @@ class TmdbApi(val client: HttpClient) {
     inner class Movies {
         suspend fun getPopular(): List<RepositoryMovie> {
             val genresResponse: PopularResponse =
-                client.get("$END_POINT/movie/popular?api_key=$API_KEY")
+                client.get("$END_POINT/movie/popular?$DEFAULT_PARAMS")
             return (genresResponse.results ?: emptyList()).mapNotNull {
                 val id = it.id ?: return@mapNotNull null
                 return@mapNotNull RepositoryMovie(
@@ -33,5 +33,7 @@ class TmdbApi(val client: HttpClient) {
     companion object {
         private const val END_POINT = "https://api.themoviedb.org/3"
         private const val API_KEY = "9c97850f98d684bace19186d2979504f"
+        private const val LANGUAGE = "ru-RU"
+        private const val DEFAULT_PARAMS = "language=$LANGUAGE&api_key=$API_KEY"
     }
 }
