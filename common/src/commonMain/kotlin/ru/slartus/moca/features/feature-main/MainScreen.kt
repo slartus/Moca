@@ -1,4 +1,4 @@
-package ru.slartus.moca.features.feature_main
+package ru.slartus.moca.features.`feature-main`
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -10,37 +10,50 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import icMovies
 import kotlinx.coroutines.launch
+import ru.slartus.moca.`core-ui`.appClickable
 import ru.slartus.moca.core_ui.ScreenWidth
 import ru.slartus.moca.core_ui.screenWidth
 import ru.slartus.moca.core_ui.theme.AppTheme
-import ru.slartus.moca.features.feature_popular.PopularScreen
+import ru.slartus.moca.features.feature_popular.PopularView
 
 @Composable
 fun MainScreen() {
     val snackbarHostState = remember { SnackbarHostState() }
     val scaffoldState = rememberScaffoldState(
-        drawerState = rememberDrawerState(DrawerValue.Closed),
+        drawerState = rememberDrawerState(DrawerValue.Open),
         snackbarHostState = snackbarHostState
     )
     val coroutineScope = rememberCoroutineScope()
+    val eventListener: EventListener = object : EventListener {
+        override fun onEvent(event: Event) {
+            when (event) {
+                Event.MenuMoviesClick -> {
 
+                }
+            }
+        }
+    }
     BoxWithConstraints {
         val screenWidth = maxWidth.screenWidth
 
         val drawerContent: @Composable (ColumnScope.() -> Unit)? = when (screenWidth) {
             ScreenWidth.Medium, ScreenWidth.Small -> { ->
                 DrawerView(
-                    modifier = Modifier
+                    modifier = Modifier,
+                    eventListener = eventListener
                 )
             }
             ScreenWidth.Large -> null
@@ -63,9 +76,9 @@ fun MainScreen() {
         ) {
             Row(modifier = Modifier.fillMaxSize()) {
                 if (screenWidth == ScreenWidth.Large) {
-                    DrawerView(modifier = Modifier.width(200.dp))
+                    DrawerView(modifier = Modifier.width(200.dp), eventListener = eventListener)
                 }
-                PopularScreen(
+                PopularView(
                     onError = {
                         coroutineScope.launch {
                             snackbarHostState.showSnackbar(
@@ -111,15 +124,39 @@ private fun TopBarView(
 
 
 @Composable
-private fun DrawerView(modifier: Modifier = Modifier) {
+private fun DrawerView(modifier: Modifier = Modifier, eventListener: EventListener) {
     Column(
         modifier = modifier
             .background(AppTheme.colors.drawerColor)
             .fillMaxSize()
     ) {
-        repeat(5) { item ->
-            Text(text = "Item number $item", modifier = Modifier.padding(8.dp), color = Color.Black)
+        DrawerMenuItem(title = "Фильмы") {
+            eventListener.onEvent(Event.MenuMoviesClick)
         }
+    }
+}
+
+@Composable
+private fun DrawerMenuItem(modifier: Modifier = Modifier, title: String, onClick: () -> Unit) {
+    Row(
+        modifier = modifier.fillMaxWidth().height(54.dp).appClickable {
+            onClick()
+        }.padding(start = 16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            modifier = Modifier.size(24.dp),
+            tint = AppTheme.colors.primaryText,
+            painter = icMovies(),
+            contentDescription = null
+        )
+        Text(
+            text = title,
+            color = AppTheme.colors.primaryText,
+            modifier = Modifier.padding(start = 16.dp),
+            maxLines = 1,
+            fontWeight = FontWeight.Bold,
+        )
     }
 }
 
@@ -173,4 +210,12 @@ private fun customDrawerShape(width: Dp) = object : Shape {
             )
         }
     }
+}
+
+private interface EventListener {
+    fun onEvent(event: Event)
+}
+
+private sealed class Event {
+    object MenuMoviesClick : Event()
 }

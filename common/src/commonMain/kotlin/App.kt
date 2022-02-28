@@ -8,7 +8,7 @@ import ru.slartus.moca.core_ui.PlatformSettings
 import ru.slartus.moca.core_ui.theme.AppTheme
 import ru.slartus.moca.data.di.dataModule
 import ru.slartus.moca.domain.di.domainModule
-import ru.slartus.moca.features.feature_main.MainScreen
+import ru.slartus.moca.features.`feature-main`.MainScreen
 
 @Composable
 fun App() = withDI(dataModule, domainModule) {
@@ -29,4 +29,3 @@ expect fun AsyncImage(
 )
 
 expect fun getPlatform(): Platform
-

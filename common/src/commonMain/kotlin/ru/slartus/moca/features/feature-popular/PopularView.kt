@@ -18,13 +18,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import org.kodein.di.compose.rememberInstance
+import ru.slartus.moca.`core-ui`.appClickable
 import ru.slartus.moca.core_ui.theme.AppTheme
 import ru.slartus.moca.domain.models.Movie
 import ru.slartus.moca.domain.repositories.CatalogRepository
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun PopularScreen(
+fun PopularView(
     onError: (ex: Exception) -> Unit = {}
 ) {
     var viewState: ScreenState by remember {
@@ -95,7 +96,10 @@ private fun MovieView(modifier: Modifier = Modifier, movie: Movie) {
         modifier = modifier
             .fillMaxWidth()
             .height(200.dp)
-            .padding(horizontal = 5.dp, vertical = 5.dp),
+            .padding(horizontal = 5.dp, vertical = 5.dp)
+            .appClickable {
+
+            },
         backgroundColor = AppTheme.colors.secondaryBackground,
         elevation = 4.dp
     ) {

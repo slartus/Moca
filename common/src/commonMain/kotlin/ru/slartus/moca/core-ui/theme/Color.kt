@@ -27,7 +27,7 @@ val darkPalette = AppColors(
     secondaryBackground = Palette.nero29,
     primarySurface = Palette.nero21,
     drawerColor = Palette.nero1B,
-    primary = Palette.christmasOrange
+    primary = Palette.bermuda
 )
 
 val LocalAppColors = staticCompositionLocalOf<AppColors> {
@@ -44,4 +44,5 @@ object Palette {
     val nero29: Color = Color(0xFF292929)
     val lightGray: Color = Color(0xFFD0D0D0)
     val christmasOrange: Color = Color(0xFFd36728)
+    val bermuda: Color = Color(0xFF80CBC4)
 }
