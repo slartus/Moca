@@ -35,6 +35,11 @@ kotlin {
                 implementation("io.ktor:ktor-client-cio:$ktor_version")
             }
         }
+        named("desktopMain") {
+            dependencies {
+                implementation("io.ktor:ktor-client-cio:$ktor_version")
+            }
+        }
     }
 }
 

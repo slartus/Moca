@@ -1,4 +1,4 @@
-package ru.slartus.moca.data.models
+package ru.slartus.moca.data.tmdb.models
 
 import kotlinx.serialization.*
 

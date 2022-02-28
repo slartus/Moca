@@ -1,41 +1,16 @@
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import io.ktor.client.*
-import org.kodein.di.compose.rememberInstance
 import org.kodein.di.compose.withDI
-import ru.slartus.moca.data.TmdbApi
-import ru.slartus.moca.data.di.httpModule
-import ru.slartus.moca.data.models.Genre
+import ru.slartus.moca.data.di.dataModule
+import ru.slartus.moca.domain.di.domainModule
+import ru.slartus.moca.features.feature_main.MainScreen
 
 @Composable
-fun App() = withDI(httpModule) {
-    var genres: List<Genre> by mutableStateOf(emptyList())
+fun App() = withDI(dataModule, domainModule) {
     MaterialTheme {
-        var text by remember { mutableStateOf("Hello, World1!") }
-
-        Button(onClick = {
-            text = "Hello, ${getPlatformName()}"
-        }) {
-            Text(text)
-        }
-
-        LazyColumn {
-            genres.forEach { genre ->
-                item {
-                    Text(text = genre.name ?: "no")
-                }
-            }
-
-        }
+        MainScreen()
     }
-    val tmdbApi: TmdbApi by rememberInstance()
-    LaunchedEffect(key1 = Unit, block = {
-        genres = tmdbApi.Genres().getMovieList()
-    })
 }
 
 expect fun getHttpClient(): HttpClient
-expect fun getPlatformName(): String
