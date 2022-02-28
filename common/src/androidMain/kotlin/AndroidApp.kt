@@ -1,16 +1,18 @@
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.layout.ContentScale
 import coil.compose.rememberImagePainter
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
+import ru.slartus.moca.core_ui.Platform
 
-actual fun getHttpClient(): HttpClient = HttpClient(CIO){
-    install(JsonFeature){
+actual fun getPlatform() = Platform.Android
+
+actual fun getHttpClient(): HttpClient = HttpClient(CIO) {
+    install(JsonFeature) {
         serializer = KotlinxSerializer(kotlinx.serialization.json.Json {
             prettyPrint = true
             isLenient = true
@@ -18,11 +20,18 @@ actual fun getHttpClient(): HttpClient = HttpClient(CIO){
         })
     }
 }
+
 @Composable
-actual fun AsyncImage(imageUrl:String){
+actual fun AsyncImage(
+    modifier: Modifier,
+    imageUrl: String,
+    contentDescription: String,
+    contentScale: ContentScale
+) {
     Image(
         painter = rememberImagePainter(imageUrl),
-        contentDescription = null,
-        modifier = Modifier.size(128.dp)
+        contentDescription = contentDescription,
+        modifier = modifier,
+        contentScale = contentScale
     )
 }

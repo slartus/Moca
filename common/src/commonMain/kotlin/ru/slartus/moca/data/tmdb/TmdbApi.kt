@@ -23,7 +23,7 @@ class TmdbApi(val client: HttpClient) {
                 client.get("$END_POINT/movie/popular?page=${page.page}&$DEFAULT_PARAMS")
             return (genresResponse.results ?: emptyList()).mapNotNull {
                 val id = it.id ?: return@mapNotNull null
-                val posterPath = it.backdrop_path
+                val posterPath = it.poster_path
                 return@mapNotNull RepositoryMovie(
                     id = id.toString(),
                     title = it.title ?: it.original_title ?: "No title",

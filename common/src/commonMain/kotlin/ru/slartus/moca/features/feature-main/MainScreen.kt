@@ -2,10 +2,7 @@ package ru.slartus.moca.features.feature_main
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
@@ -15,6 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
+import ru.slartus.moca.core_ui.ScreenWidth
+import ru.slartus.moca.core_ui.screenWidth
+import ru.slartus.moca.core_ui.theme.AppTheme
 import ru.slartus.moca.features.feature_popular.PopularScreen
 
 @Composable
@@ -22,53 +22,80 @@ fun MainScreen() {
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
     val coroutineScope = rememberCoroutineScope()
 
-    Scaffold(
-        scaffoldState = scaffoldState,
-        topBar = {
-            TopBarView(
-                onMenuClick = {
-                    coroutineScope.launch {
+    BoxWithConstraints {
+        val screenWidth = maxWidth.screenWidth
 
-                        scaffoldState.drawerState.open()
-                    }
-                }
-            )
-        },
-        drawerShape = MaterialTheme.shapes.small,
-        drawerContent = {
-            DrawerView(
-                modifier = Modifier
-            )
+        val drawerContent: @Composable (ColumnScope.() -> Unit)? = when (screenWidth) {
+            ScreenWidth.Medium, ScreenWidth.Small -> { ->
+                DrawerView(
+                    modifier = Modifier
+                )
+            }
+            ScreenWidth.Large -> null
         }
-    ) {
-        PopularScreen()
+        Scaffold(
+            scaffoldState = scaffoldState,
+            backgroundColor = AppTheme.colors.primaryBackground,
+            topBar = {
+                TopBarView(
+                    screenWidth = screenWidth,
+                    onMenuClick = {
+                        coroutineScope.launch {
+                            scaffoldState.drawerState.open()
+                        }
+                    }
+                )
+            },
+            drawerShape = MaterialTheme.shapes.small,
+            drawerContent = drawerContent
+        ) {
+            Row(modifier = Modifier.fillMaxSize()) {
+                if (screenWidth == ScreenWidth.Large) {
+                    DrawerView(modifier = Modifier.width(200.dp))
+                }
+                PopularScreen()
+            }
+
+        }
     }
 }
 
+
 @Composable
-fun TopBarView(modifier: Modifier = Modifier, onMenuClick: () -> Unit = {}) {
-    TopAppBar(
-        modifier = modifier,
-        title = {
-            Text(text = "Scaffold||GFG", color = Color.White)
-        },
-        navigationIcon = {
+private fun TopBarView(
+    modifier: Modifier = Modifier,
+    screenWidth: ScreenWidth,
+    onMenuClick: () -> Unit = {}
+) {
+    val iconContent: @Composable (() -> Unit)? = when (screenWidth) {
+        ScreenWidth.Medium, ScreenWidth.Small -> { ->
             Icon(
                 imageVector = Icons.Default.Menu,
                 contentDescription = "Menu",
                 modifier = Modifier.clickable(onClick = onMenuClick),
                 tint = Color.White
             )
+        }
+        ScreenWidth.Large -> null
+    }
+
+    TopAppBar(
+        modifier = modifier,
+        title = {
+            Text(text = "MovieCatalog", color = AppTheme.colors.primaryText)
         },
-        backgroundColor = Color(0xFF0F9D58)
+        navigationIcon = iconContent,
+        backgroundColor = AppTheme.colors.primarySurface,
+        contentColor = AppTheme.colors.primaryText
     )
 }
 
+
 @Composable
-fun DrawerView(modifier: Modifier = Modifier) {
+private fun DrawerView(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
-            .background(Color.White)
+            .background(AppTheme.colors.drawerColor)
             .fillMaxSize()
     ) {
         repeat(5) { item ->
