@@ -9,5 +9,6 @@ internal sealed class Event {
     object MenuClick : Event()
     object MenuMoviesClick : Event()
     object MenuTvClick : Event()
+    object OnDrawerClosed : Event()
     data class Error(val error: Exception) : Event()
 }

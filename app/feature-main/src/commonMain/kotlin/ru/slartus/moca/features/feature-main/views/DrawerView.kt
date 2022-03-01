@@ -18,10 +18,10 @@ internal fun DrawerView(modifier: Modifier = Modifier, eventListener: EventListe
             .background(AppTheme.colors.drawerColor)
             .fillMaxSize()
     ) {
-        DrawerMenuItem(title = "Фильмы", icon = icMovies()) {
+        DrawerMenuItem(title = AppTheme.strings.movies, icon = icMovies()) {
             eventListener.onEvent(Event.MenuMoviesClick)
         }
-        DrawerMenuItem(title = "Сериалы", icon = icTv()) {
+        DrawerMenuItem(title = AppTheme.strings.series, icon = icTv()) {
             eventListener.onEvent(Event.MenuTvClick)
         }
     }

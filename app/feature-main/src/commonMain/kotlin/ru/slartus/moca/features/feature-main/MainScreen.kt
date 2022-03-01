@@ -2,7 +2,10 @@ package ru.slartus.moca.features.`feature-main`
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
@@ -17,56 +20,40 @@ import ru.slartus.moca.features.feature_popular.PopularTvView
 
 @Composable
 fun MainScreen() {
-    var viewState: ScreenState by remember {
-        mutableStateOf(
-            ScreenState(
-                title = "Movies",
-                subScreen = SubScreen.Movies,
-                error = null,
-                drawerOpened = false
-            )
-        )
-    }
-    val snackbarHostState = remember { SnackbarHostState() }
+    val coroutineScope = rememberCoroutineScope()
+    val strings = AppTheme.strings
+    val viewModel = remember { MainViewModel(strings, coroutineScope) }
+    val viewState = viewModel.stateFlow.collectAsState()
+
     val scaffoldState = rememberScaffoldState(
         drawerState = rememberDrawerState(DrawerValue.Closed) { drawerValue ->
-            viewState = viewState.copy(drawerOpened = drawerValue == DrawerValue.Open)
+            if (drawerValue == DrawerValue.Closed)
+                viewModel.onEvent(Event.OnDrawerClosed)
             true
         },
-        snackbarHostState = snackbarHostState
+        snackbarHostState = remember { SnackbarHostState() }
     )
-    val coroutineScope = rememberCoroutineScope()
-    val eventListener: EventListener = object : EventListener {
-        override fun onEvent(event: Event) {
-            when (event) {
-                is Event.Error -> {
-                    coroutineScope.launch {
-                        snackbarHostState.showSnackbar(
-                            message = event.error.message ?: event.error.toString()
-                        )
-                    }
-                }
-                else -> {
-                    viewState = reduceState(screenState = viewState, event)
-                    coroutineScope.launch {
-                        if (viewState.drawerOpened) {
-                            scaffoldState.drawerState.open()
-                        } else {
-                            scaffoldState.drawerState.close()
-                        }
-                    }
-                }
+    if (scaffoldState.drawerState.isOpen != viewState.value.drawerOpened) {
+        coroutineScope.launch {
+            if (viewState.value.drawerOpened) {
+                scaffoldState.drawerState.open()
+            } else {
+                scaffoldState.drawerState.close()
             }
+        }
+    }
+    viewState.value.error?.let {
+        coroutineScope.launch {
+            scaffoldState.snackbarHostState.showSnackbar(it.message ?: it.toString())
         }
     }
     BoxWithConstraints {
         val screenWidth = maxWidth.screenWidth
-
         val drawerContent: @Composable (ColumnScope.() -> Unit)? = when (screenWidth) {
             ScreenWidth.Medium, ScreenWidth.Small -> { ->
                 DrawerView(
                     modifier = Modifier,
-                    eventListener = eventListener
+                    eventListener = viewModel
                 )
             }
             ScreenWidth.Large -> null
@@ -76,9 +63,9 @@ fun MainScreen() {
             backgroundColor = AppTheme.colors.primaryBackground,
             topBar = {
                 TopBarView(
-                    title = viewState.title,
+                    title = viewState.value.title,
                     screenWidth = screenWidth,
-                    onMenuClick = { eventListener.onEvent(Event.MenuClick) }
+                    onMenuClick = { viewModel.onEvent(Event.MenuClick) }
                 )
             },
             drawerShape = customDrawerShape(250.dp),
@@ -86,42 +73,10 @@ fun MainScreen() {
         ) {
             Row(modifier = Modifier.fillMaxSize()) {
                 if (screenWidth == ScreenWidth.Large) {
-                    DrawerView(modifier = Modifier.width(200.dp), eventListener = eventListener)
+                    DrawerView(modifier = Modifier.width(200.dp), eventListener = viewModel)
                 }
-                SubScreenView(viewState.subScreen, eventListener)
+                SubScreenView(viewState.value.subScreen, viewModel)
             }
-        }
-    }
-}
-
-private fun reduceState(screenState: ScreenState, event: Event): ScreenState {
-    return when (event) {
-        Event.MenuMoviesClick -> {
-            ScreenState(
-                title = "Movies",
-                subScreen = SubScreen.Movies,
-                error = null,
-                drawerOpened = false
-            )
-        }
-        Event.MenuTvClick -> {
-            ScreenState(
-                title = "TV",
-                subScreen = SubScreen.Tv,
-                error = null,
-                drawerOpened = false
-            )
-        }
-        is Event.Error -> {
-            error("error reduce state: $event")
-        }
-        Event.MenuClick -> {
-            ScreenState(
-                title = screenState.title,
-                subScreen = screenState.subScreen,
-                error = screenState.error,
-                drawerOpened = !screenState.drawerOpened
-            )
         }
     }
 }
@@ -136,16 +91,4 @@ private fun SubScreenView(subScreen: SubScreen, eventListener: EventListener) {
             onError = { eventListener.onEvent(Event.Error(it)) }
         )
     }
-}
-
-
-private data class ScreenState(
-    val title: String,
-    val subScreen: SubScreen,
-    val error: Exception?,
-    val drawerOpened: Boolean
-)
-
-private enum class SubScreen {
-    Movies, Tv
 }
