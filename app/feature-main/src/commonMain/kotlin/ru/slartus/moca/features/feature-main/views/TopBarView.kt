@@ -26,7 +26,7 @@ internal fun TopBarView(
                 imageVector = Icons.Default.Menu,
                 contentDescription = "Menu",
                 modifier = Modifier.clickable(onClick = onMenuClick),
-                tint = Color.White
+                tint = AppTheme.colors.actionBarContentColor
             )
         }
         ScreenWidth.Large -> null
@@ -35,10 +35,10 @@ internal fun TopBarView(
     TopAppBar(
         modifier = modifier,
         title = {
-            Text(text = title, color = AppTheme.colors.primaryText)
+            Text(text = title, color = AppTheme.colors.actionBarContentColor)
         },
         navigationIcon = iconContent,
         backgroundColor = AppTheme.colors.primarySurface,
-        contentColor = AppTheme.colors.primaryText
+        contentColor = AppTheme.colors.actionBarContentColor
     )
 }
