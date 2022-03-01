@@ -1,6 +1,10 @@
 package ru.slartus.moca.data.api.tmdb.models
 
 import kotlinx.serialization.*
+import ru.slartus.moca.data.api.tmdb.Genres
+
+inline val Movie.isAnimation: Boolean
+    get() = this.genre_ids?.contains(Genres.Animation.id) == true
 
 @Serializable
 data class Movie(

@@ -2,6 +2,9 @@ package ru.slartus.moca.data.api.tmdb
 
 import io.ktor.client.*
 import io.ktor.client.request.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.withContext
 import ru.slartus.moca.data.api.tmdb.models.*
 import ru.slartus.moca.domain.CatalogApi
 import ru.slartus.moca.domain.models.Movie as RepositoryMovie
@@ -11,8 +14,21 @@ import kotlin.jvm.JvmInline
 class TmdbApi(val client: HttpClient) : CatalogApi {
     override val name = "TMDB"
 
-    override suspend fun getPopularMovies(): List<RepositoryMovie> = Movies().getPopular()
-    override suspend fun getPopularTv(): List<RepositoryTv> = TV().getPopular()
+    override suspend fun getPopularMovies(): List<RepositoryMovie> {
+        return withContext(Dispatchers.Default) {
+            val page1 = async { Movies().getPopular(MoviesPage(1)) }
+            val page2 = async { Movies().getPopular(MoviesPage(2)) }
+            page1.await() + page2.await()
+        }
+    }
+
+    override suspend fun getPopularTv(): List<RepositoryTv> {
+        return withContext(Dispatchers.Default) {
+            val page1 = async { TV().getPopular(MoviesPage(1)) }
+            val page2 = async { TV().getPopular(MoviesPage(2)) }
+            page1.await() + page2.await()
+        }
+    }
 
     inner class Genres {
         suspend fun getMovieList(): List<Genre> {
@@ -26,15 +42,20 @@ class TmdbApi(val client: HttpClient) : CatalogApi {
         suspend fun getPopular(page: MoviesPage = MoviesPage(1)): List<RepositoryMovie> {
             val genresResponse: PagedResponse<Movie> =
                 client.get("$END_POINT/movie/popular?page=${page.page}&$DEFAULT_PARAMS")
-            return (genresResponse.results ?: emptyList()).mapNotNull {
-                val id = it.id ?: return@mapNotNull null
-                val posterPath = it.poster_path
-                return@mapNotNull RepositoryMovie(
-                    id = id.toString(),
-                    title = it.title ?: it.original_title ?: "No title",
-                    posterUrl = if (posterPath == null) null else getImageUrl(500, posterPath)
-                )
-            }
+            return (genresResponse.results ?: emptyList())
+                .filter { !it.isAnimation }
+                .mapNotNull {
+                    val id = it.id ?: return@mapNotNull null
+                    val posterPath = it.poster_path
+                    return@mapNotNull RepositoryMovie(
+                        id = id.toString(),
+                        title = it.title ?: it.original_title ?: "No title",
+                        posterUrl = if (posterPath == null) null else getImageUrl(
+                            500,
+                            posterPath
+                        )
+                    )
+                }
         }
     }
 
@@ -65,6 +86,7 @@ class TmdbApi(val client: HttpClient) : CatalogApi {
         private const val DEFAULT_PARAMS = "language=$LANGUAGE&api_key=$API_KEY"
     }
 }
+
 
 @JvmInline
 value class MoviesPage(val page: Int) {

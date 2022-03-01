@@ -21,7 +21,7 @@ import org.kodein.di.compose.rememberInstance
 import ru.slartus.moca.`core-ui`.appClickable
 import ru.slartus.moca.core_ui.theme.AppTheme
 import ru.slartus.moca.domain.models.Tv
-import ru.slartus.moca.domain.repositories.CatalogRepository
+import ru.slartus.moca.domain.repositories.SeriesRepository
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -71,10 +71,10 @@ fun PopularTvView(
         }
     }
 
-    val catalogRepository: CatalogRepository by rememberInstance()
+    val repository: SeriesRepository by rememberInstance()
     LaunchedEffect(key1 = Unit, block = {
         viewState = try {
-            val popular = catalogRepository.getPopularTv()
+            val popular = repository.getPopular()
             ScreenState(
                 isLoading = false,
                 data = popular,

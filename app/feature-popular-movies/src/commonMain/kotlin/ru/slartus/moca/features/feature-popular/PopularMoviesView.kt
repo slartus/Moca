@@ -21,7 +21,7 @@ import org.kodein.di.compose.rememberInstance
 import ru.slartus.moca.`core-ui`.appClickable
 import ru.slartus.moca.core_ui.theme.AppTheme
 import ru.slartus.moca.domain.models.Movie
-import ru.slartus.moca.domain.repositories.CatalogRepository
+import ru.slartus.moca.domain.repositories.MoviesRepository
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -71,10 +71,10 @@ fun PopularMoviesView(
         }
     }
 
-    val catalogRepository: CatalogRepository by rememberInstance()
+    val repository: MoviesRepository by rememberInstance()
     LaunchedEffect(key1 = Unit, block = {
         viewState = try {
-            val popular = catalogRepository.getPopularMovies()
+            val popular = repository.getPopular()
             ScreenState(
                 isLoading = false,
                 data = popular,
