@@ -22,5 +22,8 @@ android {
 
 dependencies {
     implementation(project(":common"))
-    implementation("androidx.activity:activity-compose:1.3.0")
+    implementation(project(":app:core-ui"))
+    implementation("androidx.activity:activity-compose:1.4.0")
+
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.23.0")
 }

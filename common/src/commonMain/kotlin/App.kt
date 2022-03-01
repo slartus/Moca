@@ -12,10 +12,7 @@ import ru.slartus.moca.features.`feature-main`.MainScreen
 
 @Composable
 fun App() = withDI(dataModule, domainModule) {
-    val platformSettings = PlatformSettings(getPlatform())
-    AppTheme(platformSettings = platformSettings, darkTheme = true) {
-        MainScreen()
-    }
+    MainScreen()
 }
 
 expect fun getHttpClient(): HttpClient
