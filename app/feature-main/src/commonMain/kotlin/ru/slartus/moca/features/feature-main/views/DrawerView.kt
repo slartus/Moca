@@ -19,5 +19,8 @@ internal fun DrawerView(modifier: Modifier = Modifier, eventListener: EventListe
         DrawerMenuItem(title = "Фильмы") {
             eventListener.onEvent(Event.MenuMoviesClick)
         }
+        DrawerMenuItem(title = "Сериалы") {
+            eventListener.onEvent(Event.MenuTvClick)
+        }
     }
 }

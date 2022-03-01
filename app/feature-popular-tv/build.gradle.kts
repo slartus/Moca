@@ -18,8 +18,6 @@ kotlin {
             dependencies {
                 implementation(project(":app:core-ui"))
                 implementation(project(":app:domain"))
-                implementation(project(":app:feature-popular-movies"))
-                implementation(project(":app:feature-popular-tv"))
 
                 api(compose.runtime)
                 api(compose.foundation)
@@ -27,7 +25,6 @@ kotlin {
                 // Needed only for preview.
                 implementation(compose.preview)
                 implementation("org.kodein.di:kodein-di-framework-compose:7.9.0")
-
             }
         }
         named("androidMain") {

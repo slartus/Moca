@@ -20,12 +20,12 @@ import androidx.compose.ui.unit.dp
 import org.kodein.di.compose.rememberInstance
 import ru.slartus.moca.`core-ui`.appClickable
 import ru.slartus.moca.core_ui.theme.AppTheme
-import ru.slartus.moca.domain.models.Movie
+import ru.slartus.moca.domain.models.Tv
 import ru.slartus.moca.domain.repositories.CatalogRepository
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun PopularView(
+fun PopularTvView(
     onError: (ex: Exception) -> Unit = {}
 ) {
     var viewState: ScreenState by remember {
@@ -48,9 +48,9 @@ fun PopularView(
             modifier = Modifier.fillMaxSize(),
             cells = GridCells.Adaptive(128.dp),
         ) {
-            viewState.data.forEach { movie ->
+            viewState.data.forEach { tv ->
                 item {
-                    MovieView(modifier = Modifier, movie)
+                    TvView(modifier = Modifier, tv)
                 }
             }
         }
@@ -74,7 +74,7 @@ fun PopularView(
     val catalogRepository: CatalogRepository by rememberInstance()
     LaunchedEffect(key1 = Unit, block = {
         viewState = try {
-            val popular = catalogRepository.getPopularMovies()
+            val popular = catalogRepository.getPopularTv()
             ScreenState(
                 isLoading = false,
                 data = popular,
@@ -91,7 +91,7 @@ fun PopularView(
 }
 
 @Composable
-private fun MovieView(modifier: Modifier = Modifier, movie: Movie) {
+private fun TvView(modifier: Modifier = Modifier, tv: Tv) {
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -107,13 +107,13 @@ private fun MovieView(modifier: Modifier = Modifier, movie: Movie) {
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            if (movie.posterUrl != null)
+            if (tv.posterUrl != null)
                 AsyncImage(
                     modifier = Modifier
                         .fillMaxSize()
                         .weight(weight = 1f),
-                    imageUrl = movie.posterUrl!!,
-                    contentDescription = movie.title,
+                    imageUrl = tv.posterUrl!!,
+                    contentDescription = tv.title,
                     contentScale = ContentScale.FillWidth
                 )
             else {
@@ -129,7 +129,7 @@ private fun MovieView(modifier: Modifier = Modifier, movie: Movie) {
                     .height(44.dp)
                     .padding(start = 4.dp, top = 4.dp, end = 4.dp),
                 maxLines = 2,
-                text = movie.title,
+                text = tv.title,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
                 color = AppTheme.colors.primaryText,
@@ -142,6 +142,6 @@ private fun MovieView(modifier: Modifier = Modifier, movie: Movie) {
 
 data class ScreenState(
     val isLoading: Boolean,
-    val data: List<Movie>,
+    val data: List<Tv>,
     val error: Exception?
 )

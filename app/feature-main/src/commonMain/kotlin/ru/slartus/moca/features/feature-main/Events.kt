@@ -6,5 +6,8 @@ internal interface EventListener {
 }
 
 internal sealed class Event {
+    object MenuClick : Event()
     object MenuMoviesClick : Event()
+    object MenuTvClick : Event()
+    data class Error(val error: Exception) : Event()
 }
