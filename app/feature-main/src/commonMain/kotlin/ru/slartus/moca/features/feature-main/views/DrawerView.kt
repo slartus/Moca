@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import icMovies
+import icTv
 import ru.slartus.moca.core_ui.theme.AppTheme
 import ru.slartus.moca.features.`feature-main`.Event
 import ru.slartus.moca.features.`feature-main`.EventListener
@@ -16,10 +18,10 @@ internal fun DrawerView(modifier: Modifier = Modifier, eventListener: EventListe
             .background(AppTheme.colors.drawerColor)
             .fillMaxSize()
     ) {
-        DrawerMenuItem(title = "Фильмы") {
+        DrawerMenuItem(title = "Фильмы", icon = icMovies()) {
             eventListener.onEvent(Event.MenuMoviesClick)
         }
-        DrawerMenuItem(title = "Сериалы") {
+        DrawerMenuItem(title = "Сериалы", icon = icTv()) {
             eventListener.onEvent(Event.MenuTvClick)
         }
     }

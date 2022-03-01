@@ -17,6 +17,7 @@ import ru.slartus.moca.core_ui.theme.AppTheme
 internal fun TopBarView(
     modifier: Modifier = Modifier,
     screenWidth: ScreenWidth,
+    title: String,
     onMenuClick: () -> Unit = {}
 ) {
     val iconContent: @Composable (() -> Unit)? = when (screenWidth) {
@@ -34,7 +35,7 @@ internal fun TopBarView(
     TopAppBar(
         modifier = modifier,
         title = {
-            Text(text = "MovieCatalog", color = AppTheme.colors.primaryText)
+            Text(text = title, color = AppTheme.colors.primaryText)
         },
         navigationIcon = iconContent,
         backgroundColor = AppTheme.colors.primarySurface,

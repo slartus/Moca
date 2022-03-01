@@ -20,6 +20,7 @@ fun MainScreen() {
     var viewState: ScreenState by remember {
         mutableStateOf(
             ScreenState(
+                title = "Movies",
                 subScreen = SubScreen.Movies,
                 error = null,
                 drawerOpened = false
@@ -72,6 +73,7 @@ fun MainScreen() {
             backgroundColor = AppTheme.colors.primaryBackground,
             topBar = {
                 TopBarView(
+                    title = viewState.title,
                     screenWidth = screenWidth,
                     onMenuClick = { eventListener.onEvent(Event.MenuClick) }
                 )
@@ -93,6 +95,7 @@ private fun reduceState(screenState: ScreenState, event: Event): ScreenState {
     return when (event) {
         Event.MenuMoviesClick -> {
             ScreenState(
+                title = "Movies",
                 subScreen = SubScreen.Movies,
                 error = null,
                 drawerOpened = false
@@ -100,6 +103,7 @@ private fun reduceState(screenState: ScreenState, event: Event): ScreenState {
         }
         Event.MenuTvClick -> {
             ScreenState(
+                title = "TV",
                 subScreen = SubScreen.Tv,
                 error = null,
                 drawerOpened = false
@@ -110,6 +114,7 @@ private fun reduceState(screenState: ScreenState, event: Event): ScreenState {
         }
         Event.MenuClick -> {
             ScreenState(
+                title = screenState.title,
                 subScreen = screenState.subScreen,
                 error = screenState.error,
                 drawerOpened = !screenState.drawerOpened
@@ -132,6 +137,7 @@ private fun SubScreenView(subScreen: SubScreen, eventListener: EventListener) {
 
 
 private data class ScreenState(
+    val title: String,
     val subScreen: SubScreen,
     val error: Exception?,
     val drawerOpened: Boolean

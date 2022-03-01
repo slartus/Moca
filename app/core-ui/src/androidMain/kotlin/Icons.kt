@@ -6,4 +6,7 @@ import ru.slartus.moca.core_ui.R
 object CoreUiIconsResolve {
     @Composable
     fun icMovies() = painterResource(R.drawable.ic_movies)
+
+    @Composable
+    fun icTv() = painterResource(R.drawable.ic_series)
 }

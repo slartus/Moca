@@ -3,3 +3,6 @@ import androidx.compose.ui.graphics.painter.Painter
 
 @Composable
 expect fun icMovies(): Painter
+
+@Composable
+expect fun icTv(): Painter
