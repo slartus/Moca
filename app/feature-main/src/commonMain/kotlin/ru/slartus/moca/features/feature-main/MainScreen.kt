@@ -29,7 +29,10 @@ fun MainScreen() {
     }
     val snackbarHostState = remember { SnackbarHostState() }
     val scaffoldState = rememberScaffoldState(
-        drawerState = rememberDrawerState(DrawerValue.Closed),
+        drawerState = rememberDrawerState(DrawerValue.Closed) { drawerValue ->
+            viewState = viewState.copy(drawerOpened = drawerValue == DrawerValue.Open)
+            true
+        },
         snackbarHostState = snackbarHostState
     )
     val coroutineScope = rememberCoroutineScope()
