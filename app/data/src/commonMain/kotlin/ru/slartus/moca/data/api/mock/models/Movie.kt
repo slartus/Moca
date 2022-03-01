@@ -1,4 +1,4 @@
-package ru.slartus.moca.data.mock.models
+package ru.slartus.moca.data.api.mock.models
 
 import kotlinx.serialization.*
 

@@ -1,12 +1,12 @@
-package ru.slartus.moca.data.tmdb
+package ru.slartus.moca.data.api.tmdb
 
 import io.ktor.client.*
 import io.ktor.client.request.*
 import ru.slartus.moca.domain.CatalogApi
-import ru.slartus.moca.data.tmdb.models.Genre
-import ru.slartus.moca.data.tmdb.models.GenresResponse
+import ru.slartus.moca.data.api.tmdb.models.Genre
+import ru.slartus.moca.data.api.tmdb.models.GenresResponse
 import ru.slartus.moca.domain.models.Movie as RepositoryMovie
-import ru.slartus.moca.data.tmdb.models.PopularResponse
+import ru.slartus.moca.data.api.tmdb.models.PopularResponse
 import kotlin.jvm.JvmInline
 
 class TmdbApi(val client: HttpClient) : CatalogApi {

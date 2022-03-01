@@ -1,7 +1,8 @@
-package ru.slartus.moca.domain.repositories
+package ru.slartus.moca.data.repo
 
 import ru.slartus.moca.domain.CatalogApi
 import ru.slartus.moca.domain.models.Movie
+import ru.slartus.moca.domain.repositories.CatalogRepository
 
 class CatalogRepositoryImpl(
     private val catalogApis: List<CatalogApi>

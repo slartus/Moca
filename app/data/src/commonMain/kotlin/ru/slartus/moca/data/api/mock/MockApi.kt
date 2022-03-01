@@ -1,9 +1,9 @@
-package ru.slartus.moca.data.mock
+package ru.slartus.moca.data.api.mock
 
 import io.ktor.client.*
 import kotlinx.coroutines.delay
 import ru.slartus.moca.domain.CatalogApi
-import ru.slartus.moca.data.mock.models.Movie
+import ru.slartus.moca.data.api.mock.models.Movie
 import ru.slartus.moca.domain.models.Movie as RepositoryMovie
 
 class MockApi(val client: HttpClient) : CatalogApi {
