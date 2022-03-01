@@ -1,1 +1,1 @@
-include(":common", ":android", ":desktop")
+include(":common", ":android", ":desktop",":app:core-ui")

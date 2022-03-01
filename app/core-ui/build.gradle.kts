@@ -11,33 +11,26 @@ kotlin {
     android()
     jvm("desktop")
 
-    val ktor_version = "1.6.3"
-    val accompanist = "0.24.3-alpha"
     sourceSets {
         named("commonMain") {
             dependencies {
-                implementation(project(":app:core-ui"))
-
                 api(compose.runtime)
                 api(compose.foundation)
                 api(compose.material)
                 // Needed only for preview.
                 implementation(compose.preview)
-                implementation("io.ktor:ktor-client-core:$ktor_version")
-                implementation("io.ktor:ktor-client-serialization:$ktor_version")
-                implementation("org.kodein.di:kodein-di-framework-compose:7.9.0")
+
             }
         }
         named("androidMain") {
             dependencies {
                 api("androidx.appcompat:appcompat:1.4.1")
                 api("androidx.core:core-ktx:1.7.0")
-                implementation("io.ktor:ktor-client-cio:$ktor_version")
+                implementation("io.coil-kt:coil-compose:1.4.0")
             }
         }
         named("desktopMain") {
             dependencies {
-                implementation("io.ktor:ktor-client-cio:$ktor_version")
             }
         }
     }

@@ -1,8 +1,6 @@
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.layout.ContentScale
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
@@ -34,12 +32,4 @@ actual fun AsyncImage(
     imageUrl: String,
     contentDescription: String,
     contentScale: ContentScale
-) {
-    AsyncImage(
-        load = { loadImageBitmap(imageUrl) },
-        painterFor = { remember { BitmapPainter(it) } },
-        contentDescription = contentDescription,
-        modifier = modifier,
-        contentScale = contentScale
-    )
-}
+) = AppResolve.AsyncImage(modifier, imageUrl, contentDescription, contentScale)
