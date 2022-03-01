@@ -4,7 +4,7 @@ import getHttpClient
 import org.kodein.di.DI
 import org.kodein.di.bindSingleton
 import org.kodein.di.instance
-import ru.slartus.moca.data.CatalogApi
+import ru.slartus.moca.domain.CatalogApi
 import ru.slartus.moca.data.mock.MockApi
 import ru.slartus.moca.data.tmdb.TmdbApi
 

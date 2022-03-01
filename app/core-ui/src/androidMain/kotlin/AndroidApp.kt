@@ -6,7 +6,7 @@ import coil.compose.rememberImagePainter
 import ru.slartus.moca.core_ui.Platform
 
 
-object AppResolve {
+object CoreUiAppResolve {
     fun getPlatform() = Platform.Android
 
     @Composable

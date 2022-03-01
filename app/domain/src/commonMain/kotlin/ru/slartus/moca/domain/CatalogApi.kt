@@ -1,4 +1,4 @@
-package ru.slartus.moca.data
+package ru.slartus.moca.domain
 
 import ru.slartus.moca.domain.models.Movie
 

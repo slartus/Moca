@@ -2,7 +2,7 @@ package ru.slartus.moca.data.tmdb
 
 import io.ktor.client.*
 import io.ktor.client.request.*
-import ru.slartus.moca.data.CatalogApi
+import ru.slartus.moca.domain.CatalogApi
 import ru.slartus.moca.data.tmdb.models.Genre
 import ru.slartus.moca.data.tmdb.models.GenresResponse
 import ru.slartus.moca.domain.models.Movie as RepositoryMovie

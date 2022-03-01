@@ -1,6 +1,6 @@
 package ru.slartus.moca.domain.repositories
 
-import ru.slartus.moca.data.CatalogApi
+import ru.slartus.moca.domain.CatalogApi
 import ru.slartus.moca.domain.models.Movie
 
 class CatalogRepositoryImpl(

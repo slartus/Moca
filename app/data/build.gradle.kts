@@ -16,18 +16,14 @@ kotlin {
     sourceSets {
         named("commonMain") {
             dependencies {
-                implementation(project(":app:core-ui"))
-                implementation(project(":app:data"))
                 implementation(project(":app:domain"))
-                implementation(project(":app:feature-main"))
-                implementation(project(":app:feature-popular"))
-
                 api(compose.runtime)
                 api(compose.foundation)
                 api(compose.material)
                 // Needed only for preview.
                 implementation(compose.preview)
                 implementation("io.ktor:ktor-client-core:$ktor_version")
+                implementation("io.ktor:ktor-client-serialization:$ktor_version")
                 implementation("org.kodein.di:kodein-di-framework-compose:7.9.0")
             }
         }
@@ -35,10 +31,12 @@ kotlin {
             dependencies {
                 api("androidx.appcompat:appcompat:1.4.1")
                 api("androidx.core:core-ktx:1.7.0")
+                implementation("io.ktor:ktor-client-cio:$ktor_version")
             }
         }
         named("desktopMain") {
             dependencies {
+                implementation("io.ktor:ktor-client-cio:$ktor_version")
             }
         }
     }

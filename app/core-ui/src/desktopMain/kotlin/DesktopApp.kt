@@ -5,7 +5,7 @@ import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.layout.ContentScale
 import ru.slartus.moca.core_ui.Platform
 
-object AppResolve {
+object CoreUiAppResolve {
     fun getPlatform() = Platform.Desktop
 
 
