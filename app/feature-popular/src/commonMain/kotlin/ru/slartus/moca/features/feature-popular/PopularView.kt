@@ -112,7 +112,7 @@ private fun MovieView(modifier: Modifier = Modifier, movie: Movie) {
                     modifier = Modifier
                         .fillMaxSize()
                         .weight(weight = 1f),
-                    imageUrl = movie.posterUrl,
+                    imageUrl = movie.posterUrl!!,
                     contentDescription = movie.title,
                     contentScale = ContentScale.FillWidth
                 )
