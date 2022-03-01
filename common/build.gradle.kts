@@ -20,8 +20,6 @@ kotlin {
                 implementation(project(":app:data"))
                 implementation(project(":app:domain"))
                 implementation(project(":app:feature-main"))
-                implementation(project(":app:feature-popular-movies"))
-                implementation(project(":app:feature-popular-tv"))
 
                 api(compose.runtime)
                 api(compose.foundation)

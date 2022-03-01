@@ -18,8 +18,6 @@ kotlin {
             dependencies {
                 implementation(project(":app:core-ui"))
                 implementation(project(":app:domain"))
-                implementation(project(":app:feature-popular-movies"))
-                implementation(project(":app:feature-popular-tv"))
 
                 api(compose.runtime)
                 api(compose.foundation)

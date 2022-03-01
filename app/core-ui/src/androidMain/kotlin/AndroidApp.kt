@@ -5,6 +5,13 @@ import androidx.compose.ui.layout.ContentScale
 import coil.compose.rememberImagePainter
 import ru.slartus.moca.core_ui.Platform
 
+@Composable
+actual fun AsyncImage(
+    modifier: Modifier,
+    imageUrl: String,
+    contentDescription: String,
+    contentScale: ContentScale
+) = CoreUiAppResolve.AsyncImage(modifier, imageUrl, contentDescription, contentScale)
 
 object CoreUiAppResolve {
     fun getPlatform() = Platform.Android
