@@ -15,8 +15,8 @@ import ru.slartus.moca.core_ui.theme.AppTheme
 import ru.slartus.moca.features.`feature-main`.views.DrawerView
 import ru.slartus.moca.features.`feature-main`.views.TopBarView
 import ru.slartus.moca.features.`feature-main`.views.customDrawerShape
-import ru.slartus.moca.features.feature_popular.PopularMoviesView
-import ru.slartus.moca.features.feature_popular.PopularTvView
+import ru.slartus.moca.features.`feature-main`.videoGridViews.PopularMoviesView
+import ru.slartus.moca.features.`feature-main`.videoGridViews.PopularTvView
 
 @Composable
 fun MainScreen() {
