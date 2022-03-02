@@ -15,6 +15,7 @@ object Dependencies {
         const val ktorClientCore = "io.ktor:ktor-client-core:$ktor"
         const val ktorClientSerialization = "io.ktor:ktor-client-serialization:$ktor"
         const val ktorClientCio = "io.ktor:ktor-client-cio:$ktor"
+        const val ktorClientLogging = "io.ktor:ktor-client-logging:$ktor"
     }
 
     object AndroidX {

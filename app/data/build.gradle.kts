@@ -22,6 +22,7 @@ kotlin {
                 implementation(compose.preview)
                 implementation(Dependencies.Network.ktorClientCore)
                 implementation(Dependencies.Network.ktorClientSerialization)
+                implementation(Dependencies.Network.ktorClientLogging)
                 implementation(Dependencies.DI.kodein)
             }
         }
