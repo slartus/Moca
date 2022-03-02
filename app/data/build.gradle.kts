@@ -24,6 +24,7 @@ kotlin {
                 implementation(Dependencies.Network.ktorClientSerialization)
                 implementation(Dependencies.Network.ktorClientLogging)
                 implementation(Dependencies.DI.kodein)
+                implementation(Dependencies.Logging.napier)
             }
         }
         named("androidMain") {

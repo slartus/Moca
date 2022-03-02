@@ -1,5 +1,6 @@
 package ru.slartus.moca.features.`feature-main`
 
+import com.benasher44.uuid.uuid4
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -52,7 +53,8 @@ internal class MainViewModel(
                             title = screenState.title,
                             subScreen = screenState.subScreen,
                             errorMessages = screenState.errorMessages + Message(
-                                id = 0, message = event.error.message ?: event.error.toString()
+                                id = uuid4().toString(),
+                                message = event.error.message ?: event.error.toString()
                             ),
                             drawerOpened = screenState.drawerOpened
                         )
@@ -82,7 +84,7 @@ internal class MainViewModel(
         }
     }
 
-    fun errorShown(messageId: Long) {
+    fun errorShown(messageId: String) {
         _stateFlow.update { screenState ->
             ScreenState(
                 title = appStrings.movies,
@@ -107,4 +109,4 @@ internal enum class SubScreen {
     Movies, Tv
 }
 
-internal data class Message(val id: Long, val message: String)
+internal data class Message(val id: String, val message: String)

@@ -1,3 +1,4 @@
+import io.github.aakira.napier.Napier
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.features.*
@@ -16,7 +17,7 @@ object DataAppResolve {
                 ignoreUnknownKeys = true
             })
         }
-        install(Logging){
+        install(Logging) {
             logger = Logger.ANDROID
             level = LogLevel.HEADERS
         }
@@ -28,6 +29,7 @@ object DataAppResolve {
 //                }
             }
             handleResponseException { exception ->
+                Napier.e("Network error", exception)
                 throw Exception("Network error", exception)
 //                val exceptionResponse = exception.response
 //                if (exceptionResponse.status.value !in 200..201) {

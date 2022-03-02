@@ -26,6 +26,8 @@ kotlin {
 
                 implementation(Dependencies.Navigation.odysseyCore)
                 implementation(Dependencies.Navigation.odysseyCompose)
+                implementation(Dependencies.Logging.napier)
+                implementation(Dependencies.Tools.uuid)
             }
         }
         named("androidMain") {

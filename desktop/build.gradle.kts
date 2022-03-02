@@ -18,6 +18,7 @@ kotlin {
                 implementation(project(":app:core-ui"))
                 implementation(Dependencies.Navigation.odysseyCore)
                 implementation(Dependencies.Navigation.odysseyCompose)
+                implementation(Dependencies.Logging.napier)
             }
         }
     }

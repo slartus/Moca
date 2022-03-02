@@ -23,6 +23,14 @@ object Dependencies {
         const val coreKtx = "androidx.core:core-ktx:1.7.0"
     }
 
+    object Logging{
+        const val napier="io.github.aakira:napier:2.4.0"
+    }
+
+    object Tools{
+        const val uuid="com.benasher44:uuid:0.4.0"
+    }
+
     object AndroidCompose {
         const val coil = "io.coil-kt:coil-compose:1.4.0"
         const val activity = "androidx.activity:activity-compose:1.4.0"
