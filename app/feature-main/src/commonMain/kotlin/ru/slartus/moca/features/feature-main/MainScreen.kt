@@ -23,8 +23,7 @@ fun MainScreen() {
     val coroutineScope = rememberCoroutineScope()
     val strings = AppTheme.strings
     val viewModel = remember { MainViewModel(strings, coroutineScope) }
-    val viewFlow = viewModel.stateFlow.collectAsState()
-    val viewState by remember { viewFlow }
+    val viewState by viewModel.stateFlow.collectAsState()
 
     val scaffoldState = rememberScaffoldState(
         drawerState = rememberDrawerState(DrawerValue.Closed) { drawerValue ->
