@@ -19,7 +19,7 @@ import ru.slartus.moca.domain.repositories.MoviesRepository
 @Composable
 internal fun PopularMoviesView(
     modifier: Modifier = Modifier,
-    onItemClick: (id: Movie?) -> Unit = {},
+    onItemClick: (id: Movie) -> Unit = {},
     onError: (ex: Exception) -> Unit = {}
 ) {
     var viewState: GridViewState<Movie> by remember {
@@ -39,7 +39,7 @@ internal fun PopularMoviesView(
         VideoGridView(modifier = Modifier.fillMaxSize(),
             data = viewState.data.map { VideoCard(it.id, it.title, it.posterUrl) })
         { card ->
-            onItemClick(viewState.data.firstOrNull { it.id == card.id })
+            onItemClick(viewState.data.single { it.id == card.id })
         }
 
         if (viewState.isLoading)

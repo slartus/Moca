@@ -89,13 +89,21 @@ private fun SubScreenView(subScreen: SubScreen, eventListener: EventListener) {
     when (subScreen) {
         SubScreen.Movies -> PopularMoviesView(
             onItemClick = { item ->
-                rootController.launch("movie", animationType = AnimationType.Present(500))
+                rootController.launch(
+                    "movie",
+                    params = item,
+                    animationType = AnimationType.Present(300)
+                )
             },
             onError = { eventListener.onEvent(Event.Error(it)) }
         )
         SubScreen.Tv -> PopularTvView(
             onItemClick = { item ->
-                rootController.launch("movie", animationType = AnimationType.Present(500))
+//                rootController.launch(
+//                    "movie",
+//                    params = item,
+//                    animationType = AnimationType.Present(500)
+//                )
             },
             onError = { eventListener.onEvent(Event.Error(it)) }
         )
