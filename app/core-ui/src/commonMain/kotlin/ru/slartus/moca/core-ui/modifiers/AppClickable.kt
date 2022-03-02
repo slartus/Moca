@@ -1,4 +1,4 @@
-package ru.slartus.moca.`core-ui`
+package ru.slartus.moca.`core-ui`.modifiers
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource

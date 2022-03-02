@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import ru.slartus.moca.`core-ui`.appClickable
+import ru.slartus.moca.`core-ui`.modifiers.appClickable
 import ru.slartus.moca.core_ui.theme.AppTheme
 
 

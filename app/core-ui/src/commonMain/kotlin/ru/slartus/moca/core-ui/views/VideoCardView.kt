@@ -11,7 +11,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import ru.slartus.moca.`core-ui`.appClickable
+import ru.slartus.moca.`core-ui`.modifiers.appClickable
 import ru.slartus.moca.core_ui.theme.AppTheme
 
 @Composable
