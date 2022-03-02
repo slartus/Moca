@@ -11,8 +11,6 @@ kotlin {
     android()
     jvm("desktop")
 
-    val ktor_version = "1.6.3"
-    val accompanist = "0.24.3-alpha"
     sourceSets {
         named("commonMain") {
             dependencies {
@@ -22,32 +20,32 @@ kotlin {
                 api(compose.material)
                 // Needed only for preview.
                 implementation(compose.preview)
-                implementation("io.ktor:ktor-client-core:$ktor_version")
-                implementation("io.ktor:ktor-client-serialization:$ktor_version")
-                implementation("org.kodein.di:kodein-di-framework-compose:7.9.0")
+                implementation(Dependencies.Network.ktorClientCore)
+                implementation(Dependencies.Network.ktorClientSerialization)
+                implementation(Dependencies.DI.kodein)
             }
         }
         named("androidMain") {
             dependencies {
-                api("androidx.appcompat:appcompat:1.4.1")
-                api("androidx.core:core-ktx:1.7.0")
-                implementation("io.ktor:ktor-client-cio:$ktor_version")
+                api(Dependencies.AndroidX.appcompat)
+                api(Dependencies.AndroidX.coreKtx)
+                implementation(Dependencies.Network.ktorClientCio)
             }
         }
         named("desktopMain") {
             dependencies {
-                implementation("io.ktor:ktor-client-cio:$ktor_version")
+                implementation(Dependencies.Network.ktorClientCio)
             }
         }
     }
 }
 
 android {
-    compileSdkVersion(31)
+    compileSdkVersion(Config.compileSdkVersion)
 
     defaultConfig {
-        minSdkVersion(21)
-        targetSdkVersion(31)
+        minSdkVersion(Config.minSdkVersion)
+        targetSdkVersion(Config.targetSdkVersion)
         versionCode = 1
         versionName = "1.0"
     }

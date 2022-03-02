@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    compileSdkVersion(31)
+    compileSdkVersion(Config.compileSdkVersion)
 
     defaultConfig {
-        minSdkVersion(21)
-        targetSdkVersion(31)
+        minSdkVersion(Config.minSdkVersion)
+        targetSdkVersion(Config.targetSdkVersion)
         versionCode = 1
         versionName = "1.0"
     }
@@ -23,11 +23,11 @@ android {
 dependencies {
     implementation(project(":common"))
     implementation(project(":app:core-ui"))
-    implementation("androidx.activity:activity-compose:1.4.0")
+    implementation(Dependencies.AndroidCompose.activity)
 
-    implementation("com.google.accompanist:accompanist-systemuicontroller:0.23.0")
+    implementation(Dependencies.AndroidCompose.Accompanist.systemuicontroller)
 
 
-    implementation("io.github.alexgladkov:odyssey-core:0.4.0") // For core classes
-    implementation("io.github.alexgladkov:odyssey-compose:0.4.0") // For compose extensions
+    implementation(Dependencies.Navigation.odysseyCore)
+    implementation(Dependencies.Navigation.odysseyCompose)
 }

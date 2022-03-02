@@ -20,16 +20,16 @@ kotlin {
                 // Needed only for preview.
                 implementation(compose.preview)
 
-                implementation("io.github.alexgladkov:odyssey-core:0.4.0") // For core classes
-                implementation("io.github.alexgladkov:odyssey-compose:0.4.0") // For compose extensions
-                implementation("org.kodein.di:kodein-di-framework-compose:7.9.0")
+                implementation(Dependencies.Navigation.odysseyCore)
+                implementation(Dependencies.Navigation.odysseyCompose)
+                implementation(Dependencies.DI.kodein)
             }
         }
         named("androidMain") {
             dependencies {
-                api("androidx.appcompat:appcompat:1.4.1")
-                api("androidx.core:core-ktx:1.7.0")
-                implementation("io.coil-kt:coil-compose:1.4.0")
+                api(Dependencies.AndroidX.appcompat)
+                api(Dependencies.AndroidX.coreKtx)
+                implementation(Dependencies.AndroidCompose.coil)
 
             }
         }
@@ -41,11 +41,11 @@ kotlin {
 }
 
 android {
-    compileSdkVersion(31)
+    compileSdkVersion(Config.compileSdkVersion)
 
     defaultConfig {
-        minSdkVersion(21)
-        targetSdkVersion(31)
+        minSdkVersion(Config.minSdkVersion)
+        targetSdkVersion(Config.targetSdkVersion)
         versionCode = 1
         versionName = "1.0"
     }

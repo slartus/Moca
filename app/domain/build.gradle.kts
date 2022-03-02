@@ -11,8 +11,6 @@ kotlin {
     android()
     jvm("desktop")
 
-    val ktor_version = "1.6.3"
-    val accompanist = "0.24.3-alpha"
     sourceSets {
         named("commonMain") {
             dependencies {
@@ -21,13 +19,13 @@ kotlin {
                 api(compose.material)
                 // Needed only for preview.
                 implementation(compose.preview)
-                implementation("org.kodein.di:kodein-di-framework-compose:7.9.0")
+                implementation(Dependencies.DI.kodein)
             }
         }
         named("androidMain") {
             dependencies {
-                api("androidx.appcompat:appcompat:1.4.1")
-                api("androidx.core:core-ktx:1.7.0")
+                api(Dependencies.AndroidX.appcompat)
+                api(Dependencies.AndroidX.coreKtx)
             }
         }
         named("desktopMain") {
@@ -39,11 +37,11 @@ kotlin {
 }
 
 android {
-    compileSdkVersion(31)
+    compileSdkVersion(Config.compileSdkVersion)
 
     defaultConfig {
-        minSdkVersion(21)
-        targetSdkVersion(31)
+        minSdkVersion(Config.minSdkVersion)
+        targetSdkVersion(Config.targetSdkVersion)
         versionCode = 1
         versionName = "1.0"
     }
