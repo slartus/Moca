@@ -5,6 +5,7 @@ import io.ktor.client.request.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
+import ru.slartus.moca.data.api.tmdb.mappers.map
 import ru.slartus.moca.data.api.tmdb.models.*
 import ru.slartus.moca.domain.CatalogApi
 import ru.slartus.moca.domain.models.Movie as RepositoryMovie
@@ -44,18 +45,7 @@ class TmdbApi(val client: HttpClient) : CatalogApi {
                 client.get("$END_POINT/movie/popular?page=${page.page}&$DEFAULT_PARAMS")
             return (genresResponse.results ?: emptyList())
                 .filter { !it.isAnimation }
-                .mapNotNull {
-                    val id = it.id ?: return@mapNotNull null
-                    val posterPath = it.poster_path
-                    return@mapNotNull RepositoryMovie(
-                        id = id.toString(),
-                        title = it.title ?: it.original_title ?: "No title",
-                        posterUrl = if (posterPath == null) null else getImageUrl(
-                            500,
-                            posterPath
-                        )
-                    )
-                }
+                .mapNotNull { it.map() }
         }
     }
 
@@ -63,21 +53,10 @@ class TmdbApi(val client: HttpClient) : CatalogApi {
         suspend fun getPopular(page: MoviesPage = MoviesPage(1)): List<RepositoryTv> {
             val genresResponse: PagedResponse<Tv> =
                 client.get("$END_POINT/tv/popular?page=${page.page}&$DEFAULT_PARAMS")
-            return (genresResponse.results ?: emptyList()).mapNotNull {
-                val id = it.id ?: return@mapNotNull null
-                val posterPath = it.poster_path
-                return@mapNotNull RepositoryTv(
-                    id = id.toString(),
-                    title = it.name ?: it.original_name ?: "No title",
-                    posterUrl = if (posterPath == null) null else getImageUrl(500, posterPath)
-                )
-            }
+            return (genresResponse.results ?: emptyList()).mapNotNull { it.map() }
         }
     }
 
-    private fun getImageUrl(fileSize: Int, filePath: String): String {
-        return "https://image.tmdb.org/t/p/w$fileSize$filePath"
-    }
 
     companion object {
         private const val END_POINT = "https://api.themoviedb.org/3"

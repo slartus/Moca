@@ -14,6 +14,8 @@ data class AppColors(
     val drawerColor: Color,
     val statusBarColor: Color,
     val navigationBarColor: Color,
+    val strongText: Color,
+    val secondaryText: Color,
 )
 
 val lightPalette = AppColors(
@@ -25,8 +27,10 @@ val lightPalette = AppColors(
     primarySurface = Color(0xFF0F9D58),
     drawerColor = Palette.white,
     primary = Color.Green,
-    statusBarColor = Color.White,
-    navigationBarColor = Color.White
+    statusBarColor = Palette.white,
+    navigationBarColor = Palette.white,
+    strongText = Palette.black,
+    secondaryText = Color(0xFFCCCCCC)
 )
 
 val darkPalette = AppColors(
@@ -39,7 +43,9 @@ val darkPalette = AppColors(
     drawerColor = Palette.nero1B,
     primary = Palette.bermuda,
     statusBarColor = Color.Black,
-    navigationBarColor = Color.Black
+    navigationBarColor = Color.Black,
+    strongText = Palette.white,
+    secondaryText = Palette.silver
 )
 
 val LocalAppColors = staticCompositionLocalOf<AppColors> {
@@ -57,4 +63,5 @@ object Palette {
     val lightGray: Color = Color(0xFFD0D0D0)
     val christmasOrange: Color = Color(0xFFd36728)
     val bermuda: Color = Color(0xFF80CBC4)
+    val silver: Color = Color(0xFFBDBDBD)
 }

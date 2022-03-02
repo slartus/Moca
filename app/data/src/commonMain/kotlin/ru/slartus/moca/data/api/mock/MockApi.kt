@@ -19,12 +19,13 @@ class MockApi(val client: HttpClient) : CatalogApi {
         suspend fun getPopular(): List<RepositoryMovie> {
             delay(1000)
 
-            val movies = listOf(Movie("0", "test1"))
+            val movies = listOf(Movie("0", "Название","Title"))
             return movies.mapNotNull {
                 val id = it.id ?: return@mapNotNull null
                 return@mapNotNull RepositoryMovie(
                     id = id,
-                    title = it.title ?: "No title"
+                    title = it.title ?: "No title",
+                    originalTitle = it.originalTitle ?: it.title ?: "No title"
                 )
             }
         }

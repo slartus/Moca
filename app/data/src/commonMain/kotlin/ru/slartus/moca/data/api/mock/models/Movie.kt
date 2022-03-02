@@ -5,5 +5,6 @@ import kotlinx.serialization.*
 @Serializable
 data class Movie(
     val id: String?,
-    val title: String?
+    val title: String?,
+    val originalTitle: String?,
 )
