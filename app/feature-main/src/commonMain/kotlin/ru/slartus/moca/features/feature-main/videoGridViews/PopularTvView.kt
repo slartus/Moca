@@ -17,6 +17,8 @@ import ru.slartus.moca.domain.repositories.SeriesRepository
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun PopularTvView(
+    modifier: Modifier = Modifier,
+    onItemClick: (item: Tv?) -> Unit = {},
     onError: (ex: Exception) -> Unit = {}
 ) {
     var viewState: GridViewState<Tv> by remember {
@@ -29,11 +31,14 @@ internal fun PopularTvView(
         )
     }
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
     ) {
         VideoGridView(modifier = Modifier.fillMaxSize(),
-            data = viewState.data.map { VideoCard(it.title, it.posterUrl) })
+            data = viewState.data.map { VideoCard(it.id, it.title, it.posterUrl) })
+        { card ->
+            onItemClick(viewState.data.firstOrNull { it.id == card.id })
+        }
         if (viewState.isLoading)
             CircularProgressIndicator(
                 modifier = Modifier.align(Alignment.Center),

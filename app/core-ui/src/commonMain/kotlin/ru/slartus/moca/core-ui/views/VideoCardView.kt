@@ -64,6 +64,7 @@ fun VideoCardView(modifier: Modifier = Modifier, tv: VideoCard, onClick: () -> U
 }
 
 data class VideoCard(
+    val id: String,
     val title: String,
     val posterUrl: String?
 )

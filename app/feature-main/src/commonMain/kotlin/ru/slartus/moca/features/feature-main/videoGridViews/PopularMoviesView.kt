@@ -12,11 +12,14 @@ import org.kodein.di.compose.rememberInstance
 import ru.slartus.moca.`core-ui`.views.VideoCard
 import ru.slartus.moca.core_ui.theme.AppTheme
 import ru.slartus.moca.domain.models.Movie
+import ru.slartus.moca.domain.models.Tv
 import ru.slartus.moca.domain.repositories.MoviesRepository
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun PopularMoviesView(
+    modifier: Modifier = Modifier,
+    onItemClick: (id: Movie?) -> Unit = {},
     onError: (ex: Exception) -> Unit = {}
 ) {
     var viewState: GridViewState<Movie> by remember {
@@ -30,11 +33,14 @@ internal fun PopularMoviesView(
     }
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
     ) {
         VideoGridView(modifier = Modifier.fillMaxSize(),
-            data = viewState.data.map { VideoCard(it.title, it.posterUrl) })
+            data = viewState.data.map { VideoCard(it.id, it.title, it.posterUrl) })
+        { card ->
+            onItemClick(viewState.data.firstOrNull { it.id == card.id })
+        }
 
         if (viewState.isLoading)
             CircularProgressIndicator(

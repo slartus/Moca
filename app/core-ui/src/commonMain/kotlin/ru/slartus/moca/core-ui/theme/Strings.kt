@@ -21,3 +21,7 @@ val enStrings = AppStrings(
 val LocalAppStrings = staticCompositionLocalOf<AppStrings> {
     error("No strings provided")
 }
+
+enum class Language{
+    Ru, En
+}

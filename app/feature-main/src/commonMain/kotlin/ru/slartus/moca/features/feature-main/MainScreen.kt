@@ -9,6 +9,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
+import ru.alexgladkov.odyssey.compose.local.LocalRootController
+import ru.alexgladkov.odyssey.core.animations.AnimationType
 import ru.slartus.moca.core_ui.ScreenWidth
 import ru.slartus.moca.core_ui.screenWidth
 import ru.slartus.moca.core_ui.theme.AppTheme
@@ -83,11 +85,18 @@ fun MainScreen() {
 
 @Composable
 private fun SubScreenView(subScreen: SubScreen, eventListener: EventListener) {
+    val rootController = LocalRootController.current
     when (subScreen) {
         SubScreen.Movies -> PopularMoviesView(
+            onItemClick = { item ->
+                rootController.launch("movie", animationType = AnimationType.Present(500))
+            },
             onError = { eventListener.onEvent(Event.Error(it)) }
         )
         SubScreen.Tv -> PopularTvView(
+            onItemClick = { item ->
+                rootController.launch("movie", animationType = AnimationType.Present(500))
+            },
             onError = { eventListener.onEvent(Event.Error(it)) }
         )
     }

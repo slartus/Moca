@@ -20,6 +20,9 @@ kotlin {
                 // Needed only for preview.
                 implementation(compose.preview)
 
+                implementation("io.github.alexgladkov:odyssey-core:0.3.2") // For core classes
+                implementation("io.github.alexgladkov:odyssey-compose:0.3.2") // For compose extensions
+                implementation("org.kodein.di:kodein-di-framework-compose:7.9.0")
             }
         }
         named("androidMain") {
@@ -27,6 +30,7 @@ kotlin {
                 api("androidx.appcompat:appcompat:1.4.1")
                 api("androidx.core:core-ktx:1.7.0")
                 implementation("io.coil-kt:coil-compose:1.4.0")
+
             }
         }
         named("desktopMain") {

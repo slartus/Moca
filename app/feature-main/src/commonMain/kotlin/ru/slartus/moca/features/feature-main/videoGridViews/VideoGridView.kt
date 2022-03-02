@@ -12,7 +12,11 @@ import ru.slartus.moca.`core-ui`.views.VideoCardView
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-internal fun VideoGridView(modifier: Modifier = Modifier, data: List<VideoCard>) {
+internal fun VideoGridView(
+    modifier: Modifier = Modifier,
+    data: List<VideoCard>,
+    onCardClick: (card: VideoCard) -> Unit
+) {
     LazyVerticalGrid(
         modifier = modifier.fillMaxSize(),
         cells = GridCells.Adaptive(128.dp),
@@ -20,7 +24,7 @@ internal fun VideoGridView(modifier: Modifier = Modifier, data: List<VideoCard>)
         data.forEach { card ->
             item {
                 VideoCardView(modifier = Modifier, card) {
-
+                    onCardClick(card)
                 }
             }
         }

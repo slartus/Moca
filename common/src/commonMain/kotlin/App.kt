@@ -4,8 +4,6 @@ import androidx.compose.ui.layout.ContentScale
 import io.ktor.client.*
 import org.kodein.di.compose.withDI
 import ru.slartus.moca.core_ui.Platform
-import ru.slartus.moca.core_ui.PlatformSettings
-import ru.slartus.moca.core_ui.theme.AppTheme
 import ru.slartus.moca.data.di.dataModule
 import ru.slartus.moca.domain.di.domainModule
 import ru.slartus.moca.features.`feature-main`.MainScreen
@@ -14,6 +12,13 @@ import ru.slartus.moca.features.`feature-main`.MainScreen
 fun App() = withDI(dataModule, domainModule) {
     MainScreen()
 }
+
+@Composable
+fun withDI(content: @Composable () -> Unit): Unit =
+    withDI(dataModule, domainModule, ) {
+        content()
+    }
+
 
 expect fun getHttpClient(): HttpClient
 
