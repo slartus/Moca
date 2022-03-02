@@ -17,8 +17,8 @@ internal class MainViewModel(
         ScreenState(
             title = appStrings.movies,
             subScreen = SubScreen.Movies,
-            error = null,
-            drawerOpened = false
+            drawerOpened = false,
+            errorMessages = emptyList(),
         )
     )
     val stateFlow: StateFlow<ScreenState> = _stateFlow.asStateFlow()
@@ -27,32 +27,34 @@ internal class MainViewModel(
         scope.launch {
             when (event) {
                 Event.MenuMoviesClick -> {
-                    _stateFlow.emit(
+                    _stateFlow.update { screenState ->
                         ScreenState(
                             title = appStrings.movies,
                             subScreen = SubScreen.Movies,
-                            error = null,
+                            errorMessages = screenState.errorMessages,
                             drawerOpened = false
                         )
-                    )
+                    }
                 }
                 Event.MenuTvClick -> {
-                    _stateFlow.emit(
+                    _stateFlow.update { screenState ->
                         ScreenState(
                             title = appStrings.series,
                             subScreen = SubScreen.Tv,
-                            error = null,
+                            errorMessages = screenState.errorMessages,
                             drawerOpened = false
                         )
-                    )
+                    }
                 }
                 is Event.Error -> {
                     _stateFlow.update { screenState ->
                         ScreenState(
                             title = screenState.title,
                             subScreen = screenState.subScreen,
-                            error = event.error,
-                            drawerOpened = !screenState.drawerOpened
+                            errorMessages = screenState.errorMessages + Message(
+                                id = 0, message = event.error.message ?: event.error.toString()
+                            ),
+                            drawerOpened = screenState.drawerOpened
                         )
                     }
                 }
@@ -61,7 +63,7 @@ internal class MainViewModel(
                         ScreenState(
                             title = screenState.title,
                             subScreen = screenState.subScreen,
-                            error = null,
+                            errorMessages = screenState.errorMessages,
                             drawerOpened = !screenState.drawerOpened
                         )
                     }
@@ -71,12 +73,23 @@ internal class MainViewModel(
                         ScreenState(
                             title = screenState.title,
                             subScreen = screenState.subScreen,
-                            error = null,
+                            errorMessages = screenState.errorMessages,
                             drawerOpened = false
                         )
                     }
                 }
             }
+        }
+    }
+
+    fun errorShown(messageId: Long) {
+        _stateFlow.update { screenState ->
+            ScreenState(
+                title = appStrings.movies,
+                subScreen = SubScreen.Movies,
+                errorMessages = screenState.errorMessages.filterNot { it.id == messageId },
+                drawerOpened = false
+            )
         }
     }
 }
@@ -85,7 +98,7 @@ internal class MainViewModel(
 internal data class ScreenState(
     val title: String,
     val subScreen: SubScreen,
-    val error: Exception?,
+    val errorMessages: List<Message>,
     val drawerOpened: Boolean
 )
 
@@ -93,3 +106,5 @@ internal data class ScreenState(
 internal enum class SubScreen {
     Movies, Tv
 }
+
+internal data class Message(val id: Long, val message: String)

@@ -26,8 +26,7 @@ internal fun PopularMoviesView(
         mutableStateOf(
             GridViewState(
                 isLoading = true,
-                data = emptyList(),
-                error = null
+                data = emptyList()
             )
         )
     }
@@ -53,9 +52,7 @@ internal fun PopularMoviesView(
                 text = "No data",
                 color = AppTheme.colors.primaryText
             )
-        viewState.error?.let {
-            onError(it)
-        }
+
     }
 
     val repository: MoviesRepository by rememberInstance()
@@ -64,14 +61,13 @@ internal fun PopularMoviesView(
             val popular = repository.getPopular()
             GridViewState(
                 isLoading = false,
-                data = popular,
-                error = viewState.error
+                data = popular
             )
         } catch (ex: Exception) {
+            onError(ex)
             GridViewState(
                 isLoading = false,
-                data = viewState.data,
-                error = ex
+                data = viewState.data
             )
         }
     })

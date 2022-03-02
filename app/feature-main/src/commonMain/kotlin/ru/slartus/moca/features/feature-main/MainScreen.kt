@@ -2,10 +2,7 @@ package ru.slartus.moca.features.`feature-main`
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
@@ -26,7 +23,8 @@ fun MainScreen() {
     val coroutineScope = rememberCoroutineScope()
     val strings = AppTheme.strings
     val viewModel = remember { MainViewModel(strings, coroutineScope) }
-    val viewState = viewModel.stateFlow.collectAsState()
+    val viewFlow = viewModel.stateFlow.collectAsState()
+    val viewState by remember { viewFlow }
 
     val scaffoldState = rememberScaffoldState(
         drawerState = rememberDrawerState(DrawerValue.Closed) { drawerValue ->
@@ -36,18 +34,20 @@ fun MainScreen() {
         },
         snackbarHostState = remember { SnackbarHostState() }
     )
-    if (scaffoldState.drawerState.isOpen != viewState.value.drawerOpened) {
+    if (scaffoldState.drawerState.isOpen != viewState.drawerOpened) {
         coroutineScope.launch {
-            if (viewState.value.drawerOpened) {
+            if (viewState.drawerOpened) {
                 scaffoldState.drawerState.open()
             } else {
                 scaffoldState.drawerState.close()
             }
         }
     }
-    viewState.value.error?.let {
+
+    viewState.errorMessages.firstOrNull()?.let {
         coroutineScope.launch {
-            scaffoldState.snackbarHostState.showSnackbar(it.message ?: it.toString())
+            viewModel.errorShown(it.id)
+            scaffoldState.snackbarHostState.showSnackbar(it.message)
         }
     }
     BoxWithConstraints {
@@ -66,7 +66,7 @@ fun MainScreen() {
             backgroundColor = AppTheme.colors.primaryBackground,
             topBar = {
                 MainTopBarView(
-                    title = viewState.value.title,
+                    title = viewState.title,
                     screenWidth = screenWidth,
                     onMenuClick = { viewModel.onEvent(Event.MenuClick) }
                 )
@@ -78,7 +78,7 @@ fun MainScreen() {
                 if (screenWidth == ScreenWidth.Large) {
                     DrawerView(modifier = Modifier.width(200.dp), eventListener = viewModel)
                 }
-                SubScreenView(viewState.value.subScreen, viewModel)
+                SubScreenView(viewState.subScreen, viewModel)
             }
         }
     }
@@ -96,7 +96,9 @@ private fun SubScreenView(subScreen: SubScreen, eventListener: EventListener) {
                     animationType = AnimationType.Present(300)
                 )
             },
-            onError = { eventListener.onEvent(Event.Error(it)) }
+            onError = {
+                eventListener.onEvent(Event.Error(it))
+            }
         )
         SubScreen.Tv -> PopularTvView(
             onItemClick = { item ->
