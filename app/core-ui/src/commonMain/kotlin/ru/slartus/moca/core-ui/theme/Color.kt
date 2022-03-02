@@ -1,4 +1,4 @@
-package com.therabody.plus.core_lib.ui.compose.themes
+package ru.slartus.moca.`core-ui`.theme
 
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color

@@ -3,10 +3,10 @@ package ru.slartus.moca.core_ui.theme
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import com.therabody.plus.core_lib.ui.compose.themes.AppColors
-import com.therabody.plus.core_lib.ui.compose.themes.LocalAppColors
-import com.therabody.plus.core_lib.ui.compose.themes.darkPalette
-import com.therabody.plus.core_lib.ui.compose.themes.lightPalette
+import ru.slartus.moca.`core-ui`.theme.AppColors
+import ru.slartus.moca.`core-ui`.theme.LocalAppColors
+import ru.slartus.moca.`core-ui`.theme.darkPalette
+import ru.slartus.moca.`core-ui`.theme.lightPalette
 import ru.slartus.moca.`core-ui`.theme.AppStrings
 import ru.slartus.moca.`core-ui`.theme.LocalAppStrings
 import ru.slartus.moca.`core-ui`.theme.ruStrings
