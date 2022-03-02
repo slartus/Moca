@@ -6,3 +6,7 @@ Compose Multiplatform Application
 
 **Android**
 - `./gradlew installDebug` - install Android application on an Android device (on a real device or on an emulator)
+
+**TODO:**
+- Logging
+- Paging
