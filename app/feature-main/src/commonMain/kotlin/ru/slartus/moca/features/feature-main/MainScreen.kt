@@ -15,10 +15,11 @@ import ru.slartus.moca.core_ui.ScreenWidth
 import ru.slartus.moca.core_ui.screenWidth
 import ru.slartus.moca.core_ui.theme.AppTheme
 import ru.slartus.moca.features.`feature-main`.views.DrawerView
-import ru.slartus.moca.features.`feature-main`.views.TopBarView
+
 import ru.slartus.moca.features.`feature-main`.views.customDrawerShape
 import ru.slartus.moca.features.`feature-main`.videoGridViews.PopularMoviesView
 import ru.slartus.moca.features.`feature-main`.videoGridViews.PopularTvView
+import ru.slartus.moca.features.`feature-main`.views.MainTopBarView
 
 @Composable
 fun MainScreen() {
@@ -64,7 +65,7 @@ fun MainScreen() {
             scaffoldState = scaffoldState,
             backgroundColor = AppTheme.colors.primaryBackground,
             topBar = {
-                TopBarView(
+                MainTopBarView(
                     title = viewState.value.title,
                     screenWidth = screenWidth,
                     onMenuClick = { viewModel.onEvent(Event.MenuClick) }
