@@ -8,8 +8,8 @@ fun main() = SwingUtilities.invokeLater {
     window.setSize(800, 600)
 
     window.setupNavigation(
-        "test",
-        *appProviders()
+        "main"
+
     ) {
         generateGraph()
     }
