@@ -28,6 +28,6 @@ dependencies {
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.23.0")
 
 
-    implementation("io.github.alexgladkov:odyssey-core:0.3.2") // For core classes
-    implementation("io.github.alexgladkov:odyssey-compose:0.3.2") // For compose extensions
+    implementation("io.github.alexgladkov:odyssey-core:0.4.0") // For core classes
+    implementation("io.github.alexgladkov:odyssey-compose:0.4.0") // For compose extensions
 }

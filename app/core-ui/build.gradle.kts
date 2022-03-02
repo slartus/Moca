@@ -20,8 +20,8 @@ kotlin {
                 // Needed only for preview.
                 implementation(compose.preview)
 
-                implementation("io.github.alexgladkov:odyssey-core:0.3.2") // For core classes
-                implementation("io.github.alexgladkov:odyssey-compose:0.3.2") // For compose extensions
+                implementation("io.github.alexgladkov:odyssey-core:0.4.0") // For core classes
+                implementation("io.github.alexgladkov:odyssey-compose:0.4.0") // For compose extensions
                 implementation("org.kodein.di:kodein-di-framework-compose:7.9.0")
             }
         }
