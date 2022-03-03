@@ -1,4 +1,3 @@
-
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ProvidedValue
 import androidx.compose.ui.awt.ComposePanel
@@ -20,11 +19,14 @@ fun JFrame.setupNavigation(
     // Below function setup drawing, you can extend it
     // by adding CompositionLocalProviders or something else
     composePanel.setContent {
-        CompositionLocalProvider(
-            *providers,
-            LocalRootController provides rootController
-        ) {
-            Navigator(startScreen)
+        withDI {
+            CompositionLocalProvider(
+                *providers,
+                LocalRootController provides rootController
+            ) {
+
+                Navigator(startScreen)
+            }
         }
     }
 

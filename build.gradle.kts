@@ -1,6 +1,6 @@
 buildscript {
     // __LATEST_COMPOSE_RELEASE_VERSION__
-    val composeVersion = System.getenv("COMPOSE_TEMPLATE_COMPOSE_VERSION") ?: "1.0.0-beta5"
+    val composeVersion = "1.1.0"
 
     repositories {
         mavenCentral()
@@ -12,7 +12,7 @@ buildscript {
         classpath("org.jetbrains.compose:compose-gradle-plugin:$composeVersion")
         classpath("com.android.tools.build:gradle:4.1.3")
         // __KOTLIN_COMPOSE_VERSION__
-        classpath(kotlin("gradle-plugin", version = "1.5.31"))
+        classpath(kotlin("gradle-plugin", version = "1.6.10"))
     }
 }
 
