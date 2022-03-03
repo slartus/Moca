@@ -24,7 +24,6 @@ dependencies {
     implementation(project(":common"))
     implementation("androidx.activity:activity-compose:1.4.0")
 
-    implementation("com.google.accompanist:accompanist-systemuicontroller:0.23.0")
 
 
     implementation("io.github.alexgladkov:odyssey-core:0.4.0") // For core classes
