@@ -18,7 +18,7 @@ fun TopBarView(
     modifier: Modifier = Modifier,
     navigationIcon: @Composable (() -> Unit)? = null,
     actions: @Composable RowScope.() -> Unit = {},
-    backgroundColor: Color = AppTheme.colors.primarySurface,
+    backgroundColor: Color = AppTheme.colors.actionBarColor,
     contentColor: Color = AppTheme.colors.actionBarContentColor,
     elevation: Dp = AppBarDefaults.TopAppBarElevation
 

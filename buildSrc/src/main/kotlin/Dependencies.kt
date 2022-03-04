@@ -1,6 +1,6 @@
 object Dependencies {
     object DI {
-        const val kodein = "org.kodein.di:kodein-di-framework-compose:7.9.0"
+        const val kodein = "org.kodein.di:kodein-di-framework-compose:7.10.0"
     }
 
     object Navigation {

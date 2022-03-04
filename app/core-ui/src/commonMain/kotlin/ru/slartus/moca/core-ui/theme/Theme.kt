@@ -7,11 +7,9 @@ import ru.slartus.moca.`core-ui`.theme.LocalAppColors
 import ru.slartus.moca.`core-ui`.theme.LocalAppStrings
 
 object AppTheme {
-    val strings: AppStrings
-        @Composable
-        get() = LocalAppStrings.current
-
     val colors: AppColors
         @Composable
         get() = LocalAppColors.current
 }
+
+data class AppResources(val strings: AppStrings)

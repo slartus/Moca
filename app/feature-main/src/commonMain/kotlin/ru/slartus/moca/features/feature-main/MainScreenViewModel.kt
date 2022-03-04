@@ -7,21 +7,22 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import ru.slartus.moca.`core-ui`.theme.AppStrings
+import ru.slartus.moca.core_ui.theme.AppResources
 
 
-internal class MainViewModel(
-    private val appStrings: AppStrings,
+class MainScreenViewModel(
+    private val appResources: AppResources,
     private val scope: CoroutineScope
 ) : EventListener {
     private val _stateFlow = MutableStateFlow(
         ScreenState(
-            title = appStrings.movies,
+            title = appResources.strings.movies,
             subScreen = SubScreen.Movies,
             drawerOpened = false,
             errorMessages = emptyList(),
         )
     )
+
     val stateFlow: StateFlow<ScreenState> = _stateFlow.asStateFlow()
 
     override fun onEvent(event: Event) {
@@ -30,7 +31,7 @@ internal class MainViewModel(
                 Event.MenuMoviesClick -> {
                     _stateFlow.update { screenState ->
                         ScreenState(
-                            title = appStrings.movies,
+                            title = appResources.strings.movies,
                             subScreen = SubScreen.Movies,
                             errorMessages = screenState.errorMessages,
                             drawerOpened = false
@@ -40,7 +41,7 @@ internal class MainViewModel(
                 Event.MenuTvClick -> {
                     _stateFlow.update { screenState ->
                         ScreenState(
-                            title = appStrings.series,
+                            title = appResources.strings.series,
                             subScreen = SubScreen.Tv,
                             errorMessages = screenState.errorMessages,
                             drawerOpened = false
@@ -87,7 +88,7 @@ internal class MainViewModel(
     fun errorShown(messageId: String) {
         _stateFlow.update { screenState ->
             ScreenState(
-                title = appStrings.movies,
+                title = appResources.strings.movies,
                 subScreen = SubScreen.Movies,
                 errorMessages = screenState.errorMessages.filterNot { it.id == messageId },
                 drawerOpened = false
@@ -97,7 +98,7 @@ internal class MainViewModel(
 }
 
 
-internal data class ScreenState(
+data class ScreenState(
     val title: String,
     val subScreen: SubScreen,
     val errorMessages: List<Message>,
@@ -105,8 +106,8 @@ internal data class ScreenState(
 )
 
 
-internal enum class SubScreen {
+enum class SubScreen {
     Movies, Tv
 }
 
-internal data class Message(val id: String, val message: String)
+data class Message(val id: String, val message: String)

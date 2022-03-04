@@ -1,40 +1,41 @@
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ProvidedValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import di.AppModule
 import io.ktor.client.*
+import org.kodein.di.DI
+import org.kodein.di.bindSingleton
 import org.kodein.di.compose.withDI
+import org.kodein.di.subDI
 import ru.slartus.moca.`core-ui`.theme.*
 import ru.slartus.moca.core_ui.LocalPlatformSettings
 import ru.slartus.moca.core_ui.Platform
 import ru.slartus.moca.core_ui.PlatformSettings
+import ru.slartus.moca.core_ui.theme.AppResources
 import ru.slartus.moca.data.di.dataModule
 import ru.slartus.moca.domain.di.domainModule
+import ru.slartus.moca.features.`feature-main`.di.mainScreenModule
 
-fun appProviders(): Array<ProvidedValue<out Any>> {
-    val darkTheme = true
-    val language = Language.Ru
-
-    val platformSettings = PlatformSettings(getPlatform())
-
-    val colors = if (darkTheme) darkPalette else lightPalette
-    val strings = when (language) {
-        Language.Ru -> ruStrings
-        Language.En -> enStrings
-    }
-    return arrayOf(
-        LocalAppColors provides colors,
-        LocalAppStrings provides strings,
-        LocalPlatformSettings provides platformSettings
-    )
-}
+lateinit var appDi: DI
 
 @Composable
-fun withDI(content: @Composable () -> Unit): Unit =
-    withDI(dataModule, domainModule, ) {
+fun withApp(content: @Composable () -> Unit) {
+    val appResources = AppResources(LocalAppStrings.current)
+    val coroutineScope = rememberCoroutineScope()
+    appDi = DI {
+        import(dataModule)
+        import(domainModule)
+        bindSingleton { appResources }
+        bindSingleton { coroutineScope }
+
+        import(mainScreenModule)
+    }
+    withDI(appDi) {
         content()
     }
-
+}
 
 expect fun getHttpClient(): HttpClient
 

@@ -6,29 +6,28 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
+import org.kodein.di.compose.rememberInstance
 import ru.alexgladkov.odyssey.compose.local.LocalRootController
 import ru.alexgladkov.odyssey.core.animations.AnimationType
 import ru.slartus.moca.core_ui.ScreenWidth
 import ru.slartus.moca.core_ui.screenWidth
 import ru.slartus.moca.core_ui.theme.AppTheme
-import ru.slartus.moca.features.`feature-main`.views.DrawerView
-
-import ru.slartus.moca.features.`feature-main`.views.customDrawerShape
 import ru.slartus.moca.features.`feature-main`.videoGridViews.PopularMoviesView
 import ru.slartus.moca.features.`feature-main`.videoGridViews.PopularTvView
+import ru.slartus.moca.features.`feature-main`.views.DrawerView
 import ru.slartus.moca.features.`feature-main`.views.MainTopBarView
+import ru.slartus.moca.features.`feature-main`.views.customDrawerShape
 
 @Composable
 fun MainScreen() {
     val coroutineScope = rememberCoroutineScope()
-    val strings = AppTheme.strings
-    val viewModel = remember { MainViewModel(strings, coroutineScope) }
-    val viewState by viewModel.stateFlow.collectAsState()
+    val screenViewModel: MainScreenViewModel by rememberInstance()
+    val viewState by screenViewModel.stateFlow.collectAsState()
 
     val scaffoldState = rememberScaffoldState(
         drawerState = rememberDrawerState(DrawerValue.Closed) { drawerValue ->
             if (drawerValue == DrawerValue.Closed)
-                viewModel.onEvent(Event.OnDrawerClosed)
+                screenViewModel.onEvent(Event.OnDrawerClosed)
             true
         },
         snackbarHostState = remember { SnackbarHostState() }
@@ -45,7 +44,7 @@ fun MainScreen() {
 
     viewState.errorMessages.firstOrNull()?.let {
         coroutineScope.launch {
-            viewModel.errorShown(it.id)
+            screenViewModel.errorShown(it.id)
             scaffoldState.snackbarHostState.showSnackbar(it.message)
         }
     }
@@ -55,7 +54,7 @@ fun MainScreen() {
             ScreenWidth.Medium, ScreenWidth.Small -> { ->
                 DrawerView(
                     modifier = Modifier,
-                    eventListener = viewModel
+                    eventListener = screenViewModel
                 )
             }
             ScreenWidth.Large -> null
@@ -67,7 +66,7 @@ fun MainScreen() {
                 MainTopBarView(
                     title = viewState.title,
                     screenWidth = screenWidth,
-                    onMenuClick = { viewModel.onEvent(Event.MenuClick) }
+                    onMenuClick = { screenViewModel.onEvent(Event.MenuClick) }
                 )
             },
             drawerShape = customDrawerShape(250.dp),
@@ -75,9 +74,9 @@ fun MainScreen() {
         ) {
             Row(modifier = Modifier.fillMaxSize()) {
                 if (screenWidth == ScreenWidth.Large) {
-                    DrawerView(modifier = Modifier.width(200.dp), eventListener = viewModel)
+                    DrawerView(modifier = Modifier.width(200.dp), eventListener = screenViewModel)
                 }
-                SubScreenView(viewState.subScreen, viewModel)
+                SubScreenView(viewState.subScreen, screenViewModel)
             }
         }
     }

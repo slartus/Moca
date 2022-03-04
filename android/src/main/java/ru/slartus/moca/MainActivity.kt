@@ -14,7 +14,7 @@ import ru.alexgladkov.odyssey.compose.local.LocalRootController
 import ru.alexgladkov.odyssey.compose.navigation.RootComposeBuilder
 import ru.alexgladkov.odyssey.compose.navigation.bottom_sheet_navigation.ModalSheetNavigator
 import ru.slartus.moca.core_ui.theme.AppTheme
-import withDI
+import withApp
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
             ) {
                 val systemUiController = rememberSystemUiController()
                 val useDarkIcons = !AppTheme.colors.darkTheme
-                val statusBarColor = AppTheme.colors.statusBarColor
+                val statusBarColor = AppTheme.colors.actionBarColor
                 val navigationBarColor = AppTheme.colors.navigationBarColor
 
                 SideEffect {
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
                         darkIcons = useDarkIcons
                     )
                 }
-                withDI {
+                withApp {
                     ModalSheetNavigator {
                         Navigator("main")
                     }

@@ -19,12 +19,11 @@ fun JFrame.setupNavigation(
     // Below function setup drawing, you can extend it
     // by adding CompositionLocalProviders or something else
     composePanel.setContent {
-        withDI {
-            CompositionLocalProvider(
-                *providers,
-                LocalRootController provides rootController
-            ) {
-
+        CompositionLocalProvider(
+            *providers,
+            LocalRootController provides rootController
+        ) {
+            withApp {
                 Navigator(startScreen)
             }
         }
