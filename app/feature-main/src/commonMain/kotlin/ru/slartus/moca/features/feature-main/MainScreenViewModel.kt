@@ -19,7 +19,7 @@ class MainScreenViewModel(
             title = appResources.strings.movies,
             subScreen = SubScreen.Movies,
             drawerOpened = false,
-            errorMessages = emptyList(),
+            actions = emptyList(),
         )
     )
 
@@ -33,7 +33,7 @@ class MainScreenViewModel(
                         ScreenState(
                             title = appResources.strings.movies,
                             subScreen = SubScreen.Movies,
-                            errorMessages = screenState.errorMessages,
+                            actions = screenState.actions,
                             drawerOpened = false
                         )
                     }
@@ -43,7 +43,7 @@ class MainScreenViewModel(
                         ScreenState(
                             title = appResources.strings.series,
                             subScreen = SubScreen.Tv,
-                            errorMessages = screenState.errorMessages,
+                            actions = screenState.actions,
                             drawerOpened = false
                         )
                     }
@@ -53,8 +53,7 @@ class MainScreenViewModel(
                         ScreenState(
                             title = screenState.title,
                             subScreen = screenState.subScreen,
-                            errorMessages = screenState.errorMessages + Message(
-                                id = uuid4().toString(),
+                            actions = screenState.actions + Action.Error(
                                 message = event.error.message ?: event.error.toString()
                             ),
                             drawerOpened = screenState.drawerOpened
@@ -66,7 +65,7 @@ class MainScreenViewModel(
                         ScreenState(
                             title = screenState.title,
                             subScreen = screenState.subScreen,
-                            errorMessages = screenState.errorMessages,
+                            actions = screenState.actions,
                             drawerOpened = !screenState.drawerOpened
                         )
                     }
@@ -76,8 +75,18 @@ class MainScreenViewModel(
                         ScreenState(
                             title = screenState.title,
                             subScreen = screenState.subScreen,
-                            errorMessages = screenState.errorMessages,
+                            actions = screenState.actions,
                             drawerOpened = false
+                        )
+                    }
+                }
+                Event.RefreshClick -> {
+                    _stateFlow.update { screenState ->
+                        ScreenState(
+                            title = screenState.title,
+                            subScreen = screenState.subScreen,
+                            actions = screenState.actions + Action.Refresh(),
+                            drawerOpened = screenState.drawerOpened
                         )
                     }
                 }
@@ -85,12 +94,12 @@ class MainScreenViewModel(
         }
     }
 
-    fun errorShown(messageId: String) {
+    fun actionReceived(messageId: String) {
         _stateFlow.update { screenState ->
             ScreenState(
                 title = appResources.strings.movies,
                 subScreen = SubScreen.Movies,
-                errorMessages = screenState.errorMessages.filterNot { it.id == messageId },
+                actions = screenState.actions.filterNot { it.id == messageId },
                 drawerOpened = false
             )
         }
@@ -101,7 +110,7 @@ class MainScreenViewModel(
 data class ScreenState(
     val title: String,
     val subScreen: SubScreen,
-    val errorMessages: List<Message>,
+    val actions: List<Action>,
     val drawerOpened: Boolean
 )
 
@@ -110,4 +119,9 @@ enum class SubScreen {
     Movies, Tv
 }
 
-data class Message(val id: String, val message: String)
+sealed class Action() {
+    val id: String = uuid4().toString()
+
+    class Error(val message: String) : Action()
+    class Refresh() : Action()
+}

@@ -5,30 +5,28 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import org.kodein.di.compose.rememberInstance
 import ru.slartus.moca.`core-ui`.views.VideoCard
 import ru.slartus.moca.core_ui.theme.AppTheme
 import ru.slartus.moca.domain.models.Series
-import ru.slartus.moca.domain.repositories.SeriesRepository
+import ru.slartus.moca.features.`feature-main`.Action
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-internal fun PopularTvView(
+internal fun PopularSeriesView(
     modifier: Modifier = Modifier,
+    refresh: Boolean,
     onItemClick: (item: Series) -> Unit = {},
     onError: (ex: Exception) -> Unit = {}
 ) {
-    var viewState: GridViewState<Series> by remember {
-        mutableStateOf(
-            GridViewState(
-                isLoading = true,
-                data = emptyList()
-            )
-        )
-    }
+    val screenViewModel: PopularSeriesViewModel by rememberInstance()
+    val viewState by screenViewModel.state.collectAsState()
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -51,21 +49,7 @@ internal fun PopularTvView(
             )
     }
 
-    val repository: SeriesRepository by rememberInstance()
-    LaunchedEffect(key1 = Unit, block = {
-        viewState = try {
-            val popular = repository.getPopular()
-            GridViewState(
-                isLoading = false,
-                data = popular
-
-            )
-        } catch (ex: Exception) {
-            onError(ex)
-            GridViewState(
-                isLoading = false,
-                data = viewState.data
-            )
-        }
-    })
+    if (refresh) {
+        screenViewModel.reload()
+    }
 }

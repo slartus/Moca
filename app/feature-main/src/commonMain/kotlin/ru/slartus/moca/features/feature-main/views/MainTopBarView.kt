@@ -2,8 +2,11 @@ package ru.slartus.moca.features.`feature-main`.views
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import ru.slartus.moca.`core-ui`.theme.LocalAppStrings
+import ru.slartus.moca.`core-ui`.views.AppActionIcon
 import ru.slartus.moca.`core-ui`.views.AppNavigationIcon
 import ru.slartus.moca.`core-ui`.views.TopBarView
 import ru.slartus.moca.core_ui.ScreenWidth
@@ -14,13 +17,15 @@ internal fun MainTopBarView(
     modifier: Modifier = Modifier,
     screenWidth: ScreenWidth,
     title: String,
-    onMenuClick: () -> Unit = {}
+    onMenuClick: () -> Unit = {},
+    onRefreshClick: () -> Unit = {},
 ) {
+    val strings = LocalAppStrings.current
     val navigationIcon: @Composable (() -> Unit)? = when (screenWidth) {
         ScreenWidth.Medium, ScreenWidth.Small -> { ->
             AppNavigationIcon(
                 imageVector = Icons.Default.Menu,
-                contentDescription = "Menu"
+                contentDescription = strings.menu
             ) {
                 onMenuClick()
             }
@@ -31,6 +36,14 @@ internal fun MainTopBarView(
     TopBarView(
         modifier = modifier,
         title = title,
-        navigationIcon = navigationIcon
+        navigationIcon = navigationIcon,
+        actions = {
+            AppActionIcon(
+                imageVector = Icons.Default.Refresh,
+                contentDescription = strings.refresh
+            ){
+                onRefreshClick()
+            }
+        }
     )
 }

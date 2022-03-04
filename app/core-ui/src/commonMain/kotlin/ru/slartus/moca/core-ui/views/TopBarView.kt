@@ -49,6 +49,16 @@ fun AppNavigationIcon(imageVector: ImageVector, contentDescription: String, onCl
 }
 
 @Composable
+fun AppActionIcon(imageVector: ImageVector, contentDescription: String, onClick: () -> Unit = {}) {
+    Icon(
+        imageVector = imageVector,
+        contentDescription = contentDescription,
+        modifier = Modifier.clickable(onClick = onClick),
+        tint = AppTheme.colors.actionBarContentColor
+    )
+}
+
+@Composable
 fun TopBarView(
     title: @Composable () -> Unit,
     modifier: Modifier = Modifier,

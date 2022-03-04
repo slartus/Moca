@@ -14,7 +14,7 @@ import ru.slartus.moca.core_ui.ScreenWidth
 import ru.slartus.moca.core_ui.screenWidth
 import ru.slartus.moca.core_ui.theme.AppTheme
 import ru.slartus.moca.features.`feature-main`.videoGridViews.PopularMoviesView
-import ru.slartus.moca.features.`feature-main`.videoGridViews.PopularTvView
+import ru.slartus.moca.features.`feature-main`.videoGridViews.PopularSeriesView
 import ru.slartus.moca.features.`feature-main`.views.DrawerView
 import ru.slartus.moca.features.`feature-main`.views.MainTopBarView
 import ru.slartus.moca.features.`feature-main`.views.customDrawerShape
@@ -42,11 +42,17 @@ fun MainScreen() {
             }
         }
     }
-
-    viewState.errorMessages.firstOrNull()?.let {
-        coroutineScope.launch {
-            screenViewModel.errorShown(it.id)
-            scaffoldState.snackbarHostState.showSnackbar(it.message)
+    var refresh = false
+    viewState.actions.firstOrNull()?.let {
+        screenViewModel.actionReceived(it.id)
+        when (it) {
+            is Action.Error ->
+                coroutineScope.launch {
+                    scaffoldState.snackbarHostState.showSnackbar(it.message)
+                }
+            is Action.Refresh -> {
+                refresh = true
+            }
         }
     }
     BoxWithConstraints {
@@ -67,7 +73,8 @@ fun MainScreen() {
                 MainTopBarView(
                     title = viewState.title,
                     screenWidth = screenWidth,
-                    onMenuClick = { screenViewModel.onEvent(Event.MenuClick) }
+                    onMenuClick = { screenViewModel.onEvent(Event.MenuClick) },
+                    onRefreshClick = { screenViewModel.onEvent(Event.RefreshClick) }
                 )
             },
             drawerShape = customDrawerShape(250.dp),
@@ -77,17 +84,19 @@ fun MainScreen() {
                 if (screenWidth == ScreenWidth.Large) {
                     DrawerView(modifier = Modifier.width(200.dp), eventListener = screenViewModel)
                 }
-                SubScreenView(viewState.subScreen, screenViewModel)
+                SubScreenView(viewState.subScreen, screenViewModel, refresh)
             }
         }
     }
 }
 
 @Composable
-private fun SubScreenView(subScreen: SubScreen, eventListener: EventListener) {
+private fun SubScreenView(subScreen: SubScreen, eventListener: EventListener, refresh: Boolean) {
     val rootController = LocalRootController.current
+
     when (subScreen) {
         SubScreen.Movies -> PopularMoviesView(
+            refresh=refresh,
             onItemClick = { item ->
                 rootController.launch(
                     AppScreenName.MovieInfo.name,
@@ -99,7 +108,8 @@ private fun SubScreenView(subScreen: SubScreen, eventListener: EventListener) {
                 eventListener.onEvent(Event.Error(it))
             }
         )
-        SubScreen.Tv -> PopularTvView(
+        SubScreen.Tv -> PopularSeriesView(
+            refresh=refresh,
             onItemClick = { item ->
                 rootController.launch(
                     AppScreenName.SeriesInfo.name,
@@ -110,4 +120,5 @@ private fun SubScreenView(subScreen: SubScreen, eventListener: EventListener) {
             onError = { eventListener.onEvent(Event.Error(it)) }
         )
     }
+
 }

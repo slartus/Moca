@@ -12,23 +12,18 @@ import org.kodein.di.compose.rememberInstance
 import ru.slartus.moca.`core-ui`.views.VideoCard
 import ru.slartus.moca.core_ui.theme.AppTheme
 import ru.slartus.moca.domain.models.Movie
-import ru.slartus.moca.domain.repositories.MoviesRepository
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun PopularMoviesView(
     modifier: Modifier = Modifier,
+    refresh: Boolean,
     onItemClick: (id: Movie) -> Unit = {},
     onError: (ex: Exception) -> Unit = {}
 ) {
-    var viewState: GridViewState<Movie> by remember {
-        mutableStateOf(
-            GridViewState(
-                isLoading = true,
-                data = emptyList()
-            )
-        )
-    }
+
+    val screenViewModel: PopularMoviesViewModel by rememberInstance()
+    val viewState by screenViewModel.state.collectAsState()
 
     Box(
         modifier = modifier
@@ -51,23 +46,8 @@ internal fun PopularMoviesView(
                 text = "No data",
                 color = AppTheme.colors.primaryText
             )
-
     }
-
-    val repository: MoviesRepository by rememberInstance()
-    LaunchedEffect(key1 = Unit, block = {
-        viewState = try {
-            val popular = repository.getPopular()
-            GridViewState(
-                isLoading = false,
-                data = popular
-            )
-        } catch (ex: Exception) {
-            onError(ex)
-            GridViewState(
-                isLoading = false,
-                data = viewState.data
-            )
-        }
-    })
+    if (refresh) {
+        screenViewModel.reload()
+    }
 }

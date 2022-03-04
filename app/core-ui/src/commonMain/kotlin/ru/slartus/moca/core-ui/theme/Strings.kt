@@ -4,17 +4,23 @@ import androidx.compose.runtime.staticCompositionLocalOf
 
 data class AppStrings(
     val movies: String,
-    val series: String
+    val series: String,
+    val menu: String,
+    val refresh: String,
 )
 
 val ruStrings = AppStrings(
     movies = "Фильмы",
-    series = "Сериалы"
+    series = "Сериалы",
+    menu = "Меню",
+    refresh = "Обновить"
 )
 
 val enStrings = AppStrings(
     movies = "Movies",
-    series = "TV"
+    series = "TV",
+    menu = "Menu",
+    refresh = "Refresh"
 )
 
 
