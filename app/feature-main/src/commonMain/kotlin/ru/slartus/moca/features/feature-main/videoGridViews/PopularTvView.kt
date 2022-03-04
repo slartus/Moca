@@ -11,17 +11,17 @@ import androidx.compose.ui.Modifier
 import org.kodein.di.compose.rememberInstance
 import ru.slartus.moca.`core-ui`.views.VideoCard
 import ru.slartus.moca.core_ui.theme.AppTheme
-import ru.slartus.moca.domain.models.Tv
+import ru.slartus.moca.domain.models.Series
 import ru.slartus.moca.domain.repositories.SeriesRepository
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun PopularTvView(
     modifier: Modifier = Modifier,
-    onItemClick: (item: Tv) -> Unit = {},
+    onItemClick: (item: Series) -> Unit = {},
     onError: (ex: Exception) -> Unit = {}
 ) {
-    var viewState: GridViewState<Tv> by remember {
+    var viewState: GridViewState<Series> by remember {
         mutableStateOf(
             GridViewState(
                 isLoading = true,

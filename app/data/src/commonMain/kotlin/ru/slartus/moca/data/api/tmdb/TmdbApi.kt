@@ -9,7 +9,7 @@ import ru.slartus.moca.data.api.tmdb.mappers.map
 import ru.slartus.moca.data.api.tmdb.models.*
 import ru.slartus.moca.domain.CatalogApi
 import ru.slartus.moca.domain.models.Movie as RepositoryMovie
-import ru.slartus.moca.domain.models.Tv as RepositoryTv
+import ru.slartus.moca.domain.models.Series as RepositoryTv
 import kotlin.jvm.JvmInline
 
 class TmdbApi(val client: HttpClient) : CatalogApi {

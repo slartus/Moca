@@ -14,6 +14,7 @@ kotlin {
     sourceSets {
         named("commonMain") {
             dependencies {
+                implementation(project(":app:core"))
                 implementation(project(":app:core-ui"))
                 implementation(project(":app:domain"))
 

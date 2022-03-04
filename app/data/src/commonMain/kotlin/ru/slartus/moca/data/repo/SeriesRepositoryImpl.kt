@@ -1,7 +1,7 @@
 package ru.slartus.moca.data.repo
 
 import ru.slartus.moca.domain.CatalogApi
-import ru.slartus.moca.domain.models.Tv
+import ru.slartus.moca.domain.models.Series
 import ru.slartus.moca.domain.repositories.SeriesRepository
 
 class SeriesRepositoryImpl(
@@ -9,7 +9,7 @@ class SeriesRepositoryImpl(
 ) : SeriesRepository {
     private val catalog = catalogApis.first()
 
-    override suspend fun getPopular(): List<Tv> {
+    override suspend fun getPopular(): List<Series> {
         return catalog.getPopularTv()
     }
 }

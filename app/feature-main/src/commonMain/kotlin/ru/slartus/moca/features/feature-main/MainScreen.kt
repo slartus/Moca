@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 import org.kodein.di.compose.rememberInstance
 import ru.alexgladkov.odyssey.compose.local.LocalRootController
 import ru.alexgladkov.odyssey.core.animations.AnimationType
+import ru.slartus.moca.core.AppScreenName
 import ru.slartus.moca.core_ui.ScreenWidth
 import ru.slartus.moca.core_ui.screenWidth
 import ru.slartus.moca.core_ui.theme.AppTheme
@@ -89,7 +90,7 @@ private fun SubScreenView(subScreen: SubScreen, eventListener: EventListener) {
         SubScreen.Movies -> PopularMoviesView(
             onItemClick = { item ->
                 rootController.launch(
-                    "movie",
+                    AppScreenName.MovieInfo.name,
                     params = item,
                     animationType = AnimationType.Present(300)
                 )
@@ -100,11 +101,11 @@ private fun SubScreenView(subScreen: SubScreen, eventListener: EventListener) {
         )
         SubScreen.Tv -> PopularTvView(
             onItemClick = { item ->
-//                rootController.launch(
-//                    "movie",
-//                    params = item,
-//                    animationType = AnimationType.Present(500)
-//                )
+                rootController.launch(
+                    AppScreenName.SeriesInfo.name,
+                    params = item,
+                    animationType = AnimationType.Present(300)
+                )
             },
             onError = { eventListener.onEvent(Event.Error(it)) }
         )

@@ -12,7 +12,6 @@ import org.kodein.di.compose.rememberInstance
 import ru.slartus.moca.`core-ui`.views.VideoCard
 import ru.slartus.moca.core_ui.theme.AppTheme
 import ru.slartus.moca.domain.models.Movie
-import ru.slartus.moca.domain.models.Tv
 import ru.slartus.moca.domain.repositories.MoviesRepository
 
 @OptIn(ExperimentalFoundationApi::class)
