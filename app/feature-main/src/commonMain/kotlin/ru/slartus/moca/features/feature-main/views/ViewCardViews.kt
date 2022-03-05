@@ -62,6 +62,7 @@ internal fun PosterView(posterUrl: String?, year: String?, rates: List<Rate>) {
         BoxWithConstraints(
             modifier = Modifier
                 .fillMaxWidth(fraction = 0.4f)
+
         ) {
             AsyncImage(
                 modifier = Modifier
