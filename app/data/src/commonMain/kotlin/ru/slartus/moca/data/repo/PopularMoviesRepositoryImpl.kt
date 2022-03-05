@@ -6,13 +6,22 @@ import ru.slartus.moca.domain.models.Movie
 import ru.slartus.moca.domain.repositories.PopularMoviesRepository
 
 class PopularMoviesRepositoryImpl(
-    private val catalogApis: List<CatalogApi>
+    catalogApis: List<CatalogApi>
 ) : PopularMoviesRepository {
+    private var page = 1
     private val catalog = catalogApis.first()
-    private val _movies = MutableSharedFlow<List<Movie>>()
-    override val movies: SharedFlow<List<Movie>> = _movies.asSharedFlow()
+    private val _items = MutableStateFlow<List<Movie>>(emptyList())
+    override val items: SharedFlow<List<Movie>> = _items.asStateFlow()
     override suspend fun reload() {
-        val movies = catalog.getPopularMovies()
-        _movies.emit(movies)
+        page = 1
+        val items = catalog.getPopularMovies(page)
+        _items.emit(items)
+    }
+
+    override suspend fun loadMore() {
+        val items = catalog.getPopularMovies(++page)
+        val currentItems = _items.value
+        val newItems = currentItems + items
+        _items.emit(newItems)
     }
 }

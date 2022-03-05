@@ -21,7 +21,7 @@ class PopularMoviesViewModel(
 
     init {
         scope.launch {
-            popularMoviesRepository.movies
+            popularMoviesRepository.items
                 .collect {
                     _state.value = GridViewState(
                         isLoading = false,
@@ -43,6 +43,12 @@ class PopularMoviesViewModel(
                 )
             }
             popularMoviesRepository.reload()
+        }
+    }
+
+    fun loadMore(){
+        scope.launch {
+            popularMoviesRepository.loadMore()
         }
     }
 }

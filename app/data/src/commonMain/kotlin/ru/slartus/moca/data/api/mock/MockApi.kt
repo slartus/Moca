@@ -10,8 +10,8 @@ import ru.slartus.moca.domain.models.Movie as RepositoryMovie
 class MockApi(val client: HttpClient) : CatalogApi {
     override val name = "Mock"
 
-    override suspend fun getPopularMovies(): List<RepositoryMovie> = Movies().getPopular()
-    override suspend fun getPopularTv(): List<Series> {
+    override suspend fun getPopularMovies(page: Int): List<RepositoryMovie> = Movies().getPopular()
+    override suspend fun getPopularTv(page: Int): List<Series> {
         TODO("Not yet implemented")
     }
 
@@ -19,7 +19,7 @@ class MockApi(val client: HttpClient) : CatalogApi {
         suspend fun getPopular(): List<RepositoryMovie> {
             delay(1000)
 
-            val movies = listOf(Movie("0", "Название","Title"))
+            val movies = listOf(Movie("0", "Название", "Title"))
             return movies.mapNotNull {
                 val id = it.id ?: return@mapNotNull null
                 return@mapNotNull RepositoryMovie(

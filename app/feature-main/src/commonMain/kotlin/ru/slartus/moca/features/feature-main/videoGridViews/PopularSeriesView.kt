@@ -32,10 +32,12 @@ internal fun PopularSeriesView(
             .fillMaxSize()
     ) {
         VideoGridView(modifier = Modifier.fillMaxSize(),
-            data = viewState.data.map { VideoCard(it.id, it.title, it.posterUrl) })
-        { card ->
-            onItemClick(viewState.data.single { it.id == card.id })
-        }
+            data = viewState.data.map { VideoCard(it.id, it.title, it.posterUrl) },
+            onCardClick = { card ->
+                onItemClick(viewState.data.single { it.id == card.id })
+            },
+            onLoadMoreEvent = screenViewModel::loadMore
+        )
         if (viewState.isLoading)
             CircularProgressIndicator(
                 modifier = Modifier.align(Alignment.Center),

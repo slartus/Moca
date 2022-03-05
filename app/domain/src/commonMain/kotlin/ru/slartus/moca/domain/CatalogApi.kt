@@ -5,6 +5,6 @@ import ru.slartus.moca.domain.models.Series
 
 interface CatalogApi {
     val name: String
-    suspend fun getPopularMovies():List<Movie>
-    suspend fun getPopularTv():List<Series>
+    suspend fun getPopularMovies(page: Int): List<Movie>
+    suspend fun getPopularTv(page: Int): List<Series>
 }

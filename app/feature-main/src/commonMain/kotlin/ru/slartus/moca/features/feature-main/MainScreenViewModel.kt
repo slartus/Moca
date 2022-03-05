@@ -97,10 +97,10 @@ class MainScreenViewModel(
     fun actionReceived(messageId: String) {
         _stateFlow.update { screenState ->
             ScreenState(
-                title = appResources.strings.movies,
-                subScreen = SubScreen.Movies,
+                title = screenState.title,
+                subScreen = screenState.subScreen,
                 actions = screenState.actions.filterNot { it.id == messageId },
-                drawerOpened = false
+                drawerOpened = screenState.drawerOpened
             )
         }
     }

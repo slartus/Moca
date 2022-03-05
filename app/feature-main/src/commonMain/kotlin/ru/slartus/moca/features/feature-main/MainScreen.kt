@@ -96,7 +96,7 @@ private fun SubScreenView(subScreen: SubScreen, eventListener: EventListener, re
 
     when (subScreen) {
         SubScreen.Movies -> PopularMoviesView(
-            refresh=refresh,
+            refresh = refresh,
             onItemClick = { item ->
                 rootController.launch(
                     AppScreenName.MovieInfo.name,
@@ -109,7 +109,7 @@ private fun SubScreenView(subScreen: SubScreen, eventListener: EventListener, re
             }
         )
         SubScreen.Tv -> PopularSeriesView(
-            refresh=refresh,
+            refresh = refresh,
             onItemClick = { item ->
                 rootController.launch(
                     AppScreenName.SeriesInfo.name,

@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import ru.slartus.moca.domain.models.Series
 
 interface PopularSeriesRepository {
-    val series: SharedFlow<List<Series>>
+    val items: SharedFlow<List<Series>>
     suspend fun reload()
+    suspend fun loadMore()
 }

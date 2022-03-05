@@ -18,7 +18,6 @@ import ru.slartus.moca.core_ui.theme.AppTheme
 import ru.slartus.moca.domain.models.Rate
 
 
-
 @Composable
 internal fun TopBar(title: String) {
     val rootController = LocalRootController.current
@@ -77,9 +76,11 @@ internal fun PosterView(posterUrl: String?, year: String?, rates: List<Rate>) {
             year?.let { year ->
                 CategoryText("Год:", year)
             }
-            rates.forEach { rate ->
-                CategoryText("${rate.title}:", "${rate.rate} (${rate.rateCount})")
-            }
+            rates
+                .filter { it.rateCount > 0 }
+                .forEach { rate ->
+                    CategoryText("${rate.title}:", "${rate.rate} (${rate.rateCount})")
+                }
         }
     }
 }

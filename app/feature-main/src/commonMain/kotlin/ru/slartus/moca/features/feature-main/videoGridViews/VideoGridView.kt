@@ -1,16 +1,12 @@
 package ru.slartus.moca.features.`feature-main`.videoGridViews
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
+import androidx.compose.foundation.lazy.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import io.github.aakira.napier.Napier
 import ru.slartus.moca.`core-ui`.views.VideoCard
 import ru.slartus.moca.`core-ui`.views.VideoCardView
 
@@ -19,23 +15,58 @@ import ru.slartus.moca.`core-ui`.views.VideoCardView
 internal fun VideoGridView(
     modifier: Modifier = Modifier,
     data: List<VideoCard>,
-    onCardClick: (card: VideoCard) -> Unit
+    onCardClick: (card: VideoCard) -> Unit,
+    onLoadMoreEvent: () -> Unit = {}
 ) {
     val state: LazyListState = rememberLazyListState()
-    SideEffect {
-        Napier.e( state.layoutInfo.totalItemsCount.toString())
+    var dataSize by remember { mutableStateOf(0) }
+
+
+
+    LaunchedEffect(dataSize) {
+        if (dataSize > 0) {
+            onLoadMoreEvent()
+        }
     }
-    LazyVerticalGrid(
-        state = state,
-        modifier = modifier.fillMaxSize(),
-        cells = GridCells.Adaptive(128.dp),
+    BoxWithConstraints(
+        modifier = modifier.fillMaxSize()
     ) {
-        data.forEach { card ->
-            item {
-                VideoCardView(modifier = Modifier, card) {
-                    onCardClick(card)
+        val cellsCount = maxOf((maxWidth / 128.dp).toInt(), 1)
+        getLoadMoreKey(data, state.layoutInfo, cellsCount)?.let {
+            dataSize = it
+        }
+        LazyVerticalGrid(
+            state = state,
+            modifier = Modifier.fillMaxSize(),
+            cells = GridCells.Fixed(cellsCount),
+        ) {
+            data.forEach { card ->
+                item {
+                    VideoCardView(modifier = Modifier, card) {
+                        onCardClick(card)
+                    }
                 }
             }
         }
     }
+
+}
+
+private fun getLoadMoreKey(
+    data: List<Any>,
+    listLayoutInfo: LazyListLayoutInfo,
+    columnsCount: Int
+): Int? {
+    if (data.isNotEmpty()) {
+        val lastItemIndex = listLayoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0
+        val screenCount = listLayoutInfo.totalItemsCount
+
+        val needLoadMore =
+            (lastItemIndex + 1) * columnsCount > data.size - screenCount
+        if (needLoadMore) {
+            return data.size
+        }
+
+    }
+    return null
 }

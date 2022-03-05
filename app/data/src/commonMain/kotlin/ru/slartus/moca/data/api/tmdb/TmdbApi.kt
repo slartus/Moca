@@ -15,19 +15,15 @@ import kotlin.jvm.JvmInline
 class TmdbApi(val client: HttpClient) : CatalogApi {
     override val name = "TMDB"
 
-    override suspend fun getPopularMovies(): List<RepositoryMovie> {
+    override suspend fun getPopularMovies(page: Int): List<RepositoryMovie> {
         return withContext(Dispatchers.Default) {
-            val page1 = async { Movies().getPopular(MoviesPage(1)) }
-            val page2 = async { Movies().getPopular(MoviesPage(2)) }
-            page1.await() + page2.await()
+            Movies().getPopular(MoviesPage(page))
         }
     }
 
-    override suspend fun getPopularTv(): List<RepositoryTv> {
+    override suspend fun getPopularTv(page: Int): List<RepositoryTv> {
         return withContext(Dispatchers.Default) {
-            val page1 = async { TV().getPopular(MoviesPage(1)) }
-            val page2 = async { TV().getPopular(MoviesPage(2)) }
-            page1.await() + page2.await()
+            TV().getPopular(MoviesPage(page))
         }
     }
 

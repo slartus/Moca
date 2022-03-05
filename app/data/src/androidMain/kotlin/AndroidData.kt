@@ -15,6 +15,7 @@ object DataAppResolve {
                 prettyPrint = true
                 isLenient = true
                 ignoreUnknownKeys = true
+
             })
         }
         install(Logging) {

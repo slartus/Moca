@@ -3,9 +3,7 @@ package ru.slartus.moca.features.`feature-main`.videoGridViews
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import ru.slartus.moca.domain.models.Movie
 import ru.slartus.moca.domain.models.Series
-import ru.slartus.moca.domain.repositories.PopularMoviesRepository
 import ru.slartus.moca.domain.repositories.PopularSeriesRepository
 
 class PopularSeriesViewModel(
@@ -23,7 +21,7 @@ class PopularSeriesViewModel(
 
     init {
         scope.launch {
-            popularSeriesRepository.series
+            popularSeriesRepository.items
                 .collect {
                     _state.value = GridViewState(
                         isLoading = false,
@@ -45,6 +43,11 @@ class PopularSeriesViewModel(
                 )
             }
             popularSeriesRepository.reload()
+        }
+    }
+    fun loadMore(){
+        scope.launch {
+            popularSeriesRepository.loadMore()
         }
     }
 }
