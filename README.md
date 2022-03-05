@@ -1,5 +1,9 @@
 Compose Multiplatform Application
 
+
+
+![Alt Text](https://github.com/slartus/Moca/blob/master/screenshots/animation.gif?raw=true)
+
 **Desktop**
 - `./gradlew run` - run application
 - `./gradlew package` - package native distribution into `build/compose/binaries`
