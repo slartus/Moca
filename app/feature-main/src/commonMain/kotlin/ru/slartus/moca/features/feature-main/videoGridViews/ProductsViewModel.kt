@@ -1,26 +1,31 @@
 package ru.slartus.moca.features.`feature-main`.videoGridViews
 
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import ru.slartus.moca.domain.models.Movie
-import ru.slartus.moca.domain.repositories.PopularMoviesRepository
+import ru.slartus.moca.domain.repositories.ProductsRepository
 
-class PopularMoviesViewModel(
-    private val popularMoviesRepository: PopularMoviesRepository,
+class ProductsViewModel<T>(
+    private val popularMoviesRepository: ProductsRepository<T>,
     private val scope: CoroutineScope
 ) {
+    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+
+    }
+    private val coroutineContext = exceptionHandler + SupervisorJob()
     private val _state = MutableStateFlow(
         GridViewState(
             isLoading = true,
-            data = emptyList<Movie>()
+            data = emptyList<T>()
         )
     )
 
-    val state: StateFlow<GridViewState<Movie>> = _state.asStateFlow()
+    val state: StateFlow<GridViewState<T>> = _state.asStateFlow()
 
     init {
-        scope.launch {
+        scope.launch(coroutineContext) {
             popularMoviesRepository.items
                 .collect {
                     _state.value = GridViewState(
@@ -35,7 +40,7 @@ class PopularMoviesViewModel(
     }
 
     fun reload() {
-        scope.launch {
+        scope.launch(coroutineContext) {
             _state.update { state ->
                 GridViewState(
                     isLoading = true,
@@ -46,9 +51,11 @@ class PopularMoviesViewModel(
         }
     }
 
-    fun loadMore(){
-        scope.launch {
+    fun loadMore() {
+        scope.launch(coroutineContext) {
             popularMoviesRepository.loadMore()
         }
     }
+
+
 }

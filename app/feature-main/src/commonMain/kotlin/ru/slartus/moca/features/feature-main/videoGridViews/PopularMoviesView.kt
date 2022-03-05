@@ -23,7 +23,7 @@ internal fun PopularMoviesView(
     onError: (ex: Exception) -> Unit = {}
 ) {
 
-    val screenViewModel: PopularMoviesViewModel by rememberInstance(tag)
+    val screenViewModel: ProductsViewModel<Movie> by rememberInstance(tag)
     val viewState by screenViewModel.state.collectAsState()
 
     Box(

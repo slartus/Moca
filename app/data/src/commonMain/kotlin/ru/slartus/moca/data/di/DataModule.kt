@@ -13,8 +13,9 @@ import ru.slartus.moca.data.api.tmdb.TmdbApi
 import ru.slartus.moca.data.repo.*
 import ru.slartus.moca.db.MocaDatabase
 import ru.slartus.moca.domain.TorrentsApi
-import ru.slartus.moca.domain.repositories.PopularMoviesRepository
-import ru.slartus.moca.domain.repositories.PopularSeriesRepository
+import ru.slartus.moca.domain.models.Movie
+import ru.slartus.moca.domain.models.Series
+import ru.slartus.moca.domain.repositories.ProductsRepository
 import ru.slartus.moca.domain.repositories.TorrentsRepository
 
 val dataModule = DI.Module("dataModule") {
@@ -28,23 +29,23 @@ val dataModule = DI.Module("dataModule") {
         MocaDatabase(driver)
     }
 
-    bindSingleton<PopularMoviesRepository>(tag = "movies") {
-        PopularMoviesRepositoryImpl(
+    bindSingleton<ProductsRepository<Movie>>(tag = "movies") {
+        MoviesRepositoryImpl(
             listOf(
                 instance("tmdb"),
                 // instance("mock")
             )
         )
     }
-    bindSingleton<PopularSeriesRepository>(tag = "series") {
-        PopularSeriesRepositoryImpl(
+    bindSingleton<ProductsRepository<Series>>(tag = "series") {
+        SeriesRepositoryImpl(
             listOf(
                 instance("tmdb"),
                 // instance("mock")
             )
         )
     }
-    bindSingleton<PopularMoviesRepository>(tag = "animation.movies") {
+    bindSingleton<ProductsRepository<Movie>>(tag = "animation.movies") {
         PopularAnimationMoviesRepositoryImpl(
             listOf(
                 instance("tmdb"),
@@ -52,7 +53,7 @@ val dataModule = DI.Module("dataModule") {
             )
         )
     }
-    bindSingleton<PopularSeriesRepository>(tag = "animation.series") {
+    bindSingleton<ProductsRepository<Series>>(tag = "animation.series") {
         PopularAnimationSeriesRepositoryImpl(
             listOf(
                 instance("tmdb"),
