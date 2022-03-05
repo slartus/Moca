@@ -1,4 +1,4 @@
-package ru.slartus.moca.features.`feature-main`.videoCardScreens
+package ru.slartus.moca.features.`feature-product-info`
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,12 +11,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import ru.slartus.moca.`core-ui`.theme.LocalAppStrings
 import ru.slartus.moca.core_ui.theme.AppTheme
 import ru.slartus.moca.domain.models.Movie
-import ru.slartus.moca.features.`feature-main`.views.*
+import ru.slartus.moca.features.`feature-product-info`.views.Description
+import ru.slartus.moca.features.`feature-product-info`.views.OriginalTitle
+import ru.slartus.moca.features.`feature-product-info`.views.PosterView
+import ru.slartus.moca.features.`feature-product-info`.views.Title
+import ru.slartus.moca.features.`feature-product-info`.views.TopBar
 
 @Composable
 fun MovieScreen(movie: Movie) {

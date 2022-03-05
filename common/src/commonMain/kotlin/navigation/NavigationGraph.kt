@@ -6,8 +6,8 @@ import ru.slartus.moca.core.AppScreenName
 import ru.slartus.moca.domain.models.Movie
 import ru.slartus.moca.domain.models.Series
 import ru.slartus.moca.features.`feature-main`.MainScreen
-import ru.slartus.moca.features.`feature-main`.videoCardScreens.MovieScreen
-import ru.slartus.moca.features.`feature-main`.videoCardScreens.SeriesScreen
+import ru.slartus.moca.features.`feature-product-info`.MovieScreen
+import ru.slartus.moca.features.`feature-product-info`.SeriesScreen
 
 fun RootComposeBuilder.generateGraph() {
     screen(name = AppScreenName.Main.name) {

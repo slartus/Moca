@@ -1,4 +1,4 @@
-package ru.slartus.moca.features.`feature-main`.views
+package ru.slartus.moca.features.`feature-product-info`.views
 
 import AsyncImage
 import androidx.compose.foundation.layout.*

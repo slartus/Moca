@@ -1,4 +1,4 @@
-package ru.slartus.moca.features.`feature-main`.videoCardScreens
+package ru.slartus.moca.features.`feature-product-info`
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
