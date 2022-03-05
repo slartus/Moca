@@ -18,23 +18,26 @@ internal fun VideoGridView(
     onCardClick: (card: VideoCard) -> Unit,
     onLoadMoreEvent: () -> Unit = {}
 ) {
-    val state: LazyListState = rememberLazyListState()
     var dataSize by remember { mutableStateOf(0) }
 
-
-
-    LaunchedEffect(dataSize) {
+    remember(dataSize) {
         if (dataSize > 0) {
+            println("onLoadMoreEvent")
             onLoadMoreEvent()
         }
     }
     BoxWithConstraints(
         modifier = modifier.fillMaxSize()
     ) {
+        val state: LazyListState = rememberLazyListState()
         val cellsCount = maxOf((maxWidth / 128.dp).toInt(), 1)
-        getLoadMoreKey(data, state.layoutInfo, cellsCount)?.let {
-            dataSize = it
+        val lastItemIndex = state.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0
+        val screenCount = state.layoutInfo.totalItemsCount
+        val scrollInfo = ScrollInfo(data.size, lastItemIndex, screenCount, cellsCount)
+        remember(scrollInfo) {
+            dataSize = if (scrollInfo.needLoadMore) data.size else 0
         }
+
         LazyVerticalGrid(
             state = state,
             modifier = Modifier.fillMaxSize(),
@@ -49,24 +52,13 @@ internal fun VideoGridView(
             }
         }
     }
-
 }
 
-private fun getLoadMoreKey(
-    data: List<Any>,
-    listLayoutInfo: LazyListLayoutInfo,
-    columnsCount: Int
-): Int? {
-    if (data.isNotEmpty()) {
-        val lastItemIndex = listLayoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0
-        val screenCount = listLayoutInfo.totalItemsCount
-
-        val needLoadMore =
-            (lastItemIndex + 1) * columnsCount > data.size - screenCount
-        if (needLoadMore) {
-            return data.size
-        }
-
-    }
-    return null
+private data class ScrollInfo(
+    val dataSize: Int,
+    val lastItemIndex: Int,
+    val screenCount: Int,
+    val columnsCount: Int
+) {
+    val needLoadMore = dataSize > 0 && (lastItemIndex + 1) * columnsCount > dataSize - screenCount
 }
