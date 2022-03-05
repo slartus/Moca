@@ -7,4 +7,6 @@ interface CatalogApi {
     val name: String
     suspend fun getPopularMovies(page: Int): List<Movie>
     suspend fun getPopularTv(page: Int): List<Series>
+    suspend fun getPopularAnimationMovies(page: Int): List<Movie>
+    suspend fun getPopularAnimationTv(page: Int): List<Series>
 }

@@ -96,6 +96,7 @@ private fun SubScreenView(subScreen: SubScreen, eventListener: EventListener, re
 
     when (subScreen) {
         SubScreen.Movies -> PopularMoviesView(
+            tag = "movies",
             refresh = refresh,
             onItemClick = { item ->
                 rootController.launch(
@@ -109,6 +110,33 @@ private fun SubScreenView(subScreen: SubScreen, eventListener: EventListener, re
             }
         )
         SubScreen.Tv -> PopularSeriesView(
+            tag = "series",
+            refresh = refresh,
+            onItemClick = { item ->
+                rootController.launch(
+                    AppScreenName.SeriesInfo.name,
+                    params = item,
+                    animationType = AnimationType.Present(300)
+                )
+            },
+            onError = { eventListener.onEvent(Event.Error(it)) }
+        )
+        SubScreen.AnimationMovies -> PopularMoviesView(
+            tag = "animation.movies",
+            refresh = refresh,
+            onItemClick = { item ->
+                rootController.launch(
+                    AppScreenName.MovieInfo.name,
+                    params = item,
+                    animationType = AnimationType.Present(300)
+                )
+            },
+            onError = {
+                eventListener.onEvent(Event.Error(it))
+            }
+        )
+        SubScreen.AnimationTv -> PopularSeriesView(
+            tag = "animation.series",
             refresh = refresh,
             onItemClick = { item ->
                 rootController.launch(

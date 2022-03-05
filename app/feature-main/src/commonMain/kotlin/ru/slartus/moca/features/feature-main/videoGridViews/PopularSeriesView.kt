@@ -21,11 +21,12 @@ import ru.slartus.moca.features.`feature-main`.Action
 @Composable
 internal fun PopularSeriesView(
     modifier: Modifier = Modifier,
+    tag:String,
     refresh: Boolean,
     onItemClick: (item: Series) -> Unit = {},
     onError: (ex: Exception) -> Unit = {}
 ) {
-    val screenViewModel: PopularSeriesViewModel by rememberInstance()
+    val screenViewModel: PopularSeriesViewModel by rememberInstance(tag)
     val viewState by screenViewModel.state.collectAsState()
     Box(
         modifier = modifier

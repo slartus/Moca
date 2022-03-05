@@ -48,6 +48,26 @@ class MainScreenViewModel(
                         )
                     }
                 }
+                Event.MenuAnimationMoviesClick -> {
+                    _stateFlow.update { screenState ->
+                        ScreenState(
+                            title = appResources.strings.animationMovies,
+                            subScreen = SubScreen.AnimationMovies,
+                            actions = screenState.actions,
+                            drawerOpened = false
+                        )
+                    }
+                }
+                Event.MenuAnimationTvClick -> {
+                    _stateFlow.update { screenState ->
+                        ScreenState(
+                            title = appResources.strings.animationSeries,
+                            subScreen = SubScreen.AnimationTv,
+                            actions = screenState.actions,
+                            drawerOpened = false
+                        )
+                    }
+                }
                 is Event.Error -> {
                     _stateFlow.update { screenState ->
                         ScreenState(
@@ -90,6 +110,7 @@ class MainScreenViewModel(
                         )
                     }
                 }
+
             }
         }
     }
@@ -116,7 +137,7 @@ data class ScreenState(
 
 
 enum class SubScreen {
-    Movies, Tv
+    Movies, Tv, AnimationMovies, AnimationTv
 }
 
 sealed class Action() {

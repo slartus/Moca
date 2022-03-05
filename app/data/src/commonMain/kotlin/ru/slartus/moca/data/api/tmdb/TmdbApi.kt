@@ -16,13 +16,45 @@ class TmdbApi(val client: HttpClient) : CatalogApi {
 
     override suspend fun getPopularMovies(page: Int): List<RepositoryMovie> {
         return withContext(Dispatchers.Default) {
-            Movies().getPopular(MoviesPage(page))
+            val popularParams = FilterParams(
+                sortBy = SortBy.PopularityDesc,
+                includeAdult = false,
+                withoutGenres = listOf(ru.slartus.moca.data.api.tmdb.Genres.Animation)
+            )
+            Discover().getMovies(MoviesPage(page), popularParams)
         }
     }
 
     override suspend fun getPopularTv(page: Int): List<RepositoryTv> {
         return withContext(Dispatchers.Default) {
-            TV().getPopular(MoviesPage(page))
+            val popularParams = FilterParams(
+                sortBy = SortBy.PopularityDesc,
+                includeAdult = false,
+                withoutGenres = listOf(ru.slartus.moca.data.api.tmdb.Genres.Animation)
+            )
+            Discover().getTv(MoviesPage(page), popularParams)
+        }
+    }
+
+    override suspend fun getPopularAnimationMovies(page: Int): List<RepositoryMovie> {
+        return withContext(Dispatchers.Default) {
+            val popularParams = FilterParams(
+                sortBy = SortBy.PopularityDesc,
+                includeAdult = false,
+                withGenres = listOf(ru.slartus.moca.data.api.tmdb.Genres.Animation)
+            )
+            Discover().getMovies(MoviesPage(page), popularParams)
+        }
+    }
+
+    override suspend fun getPopularAnimationTv(page: Int): List<RepositoryTv> {
+        return withContext(Dispatchers.Default) {
+            val popularParams = FilterParams(
+                sortBy = SortBy.PopularityDesc,
+                includeAdult = false,
+                withGenres = listOf(ru.slartus.moca.data.api.tmdb.Genres.Animation)
+            )
+            Discover().getTv(MoviesPage(page), popularParams)
         }
     }
 
@@ -31,6 +63,30 @@ class TmdbApi(val client: HttpClient) : CatalogApi {
             val genresResponse: GenresResponse =
                 client.get("$END_POINT/genre/movie/list?$DEFAULT_PARAMS")
             return genresResponse.genres ?: emptyList()
+        }
+    }
+
+    inner class Discover {
+        suspend fun getMovies(
+            page: MoviesPage = MoviesPage(1),
+            filterParams: FilterParams
+        ): List<RepositoryMovie> {
+            val queryParams = filterParams.toQueryParams()
+            val genresResponse: PagedResponse<Movie> =
+                client.get("$END_POINT/discover/movie?page=${page.page}&$queryParams&$DEFAULT_PARAMS")
+            return (genresResponse.results ?: emptyList())
+                .mapNotNull { it.map() }
+        }
+
+        suspend fun getTv(
+            page: MoviesPage = MoviesPage(1),
+            filterParams: FilterParams
+        ): List<RepositoryTv> {
+            val queryParams = filterParams.toQueryParams()
+            val genresResponse: PagedResponse<Tv> =
+                client.get("$END_POINT/discover/tv?page=${page.page}&$queryParams&$DEFAULT_PARAMS")
+            return (genresResponse.results ?: emptyList())
+                .mapNotNull { it.map() }
         }
     }
 

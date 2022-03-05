@@ -17,12 +17,13 @@ import ru.slartus.moca.domain.models.Movie
 @Composable
 internal fun PopularMoviesView(
     modifier: Modifier = Modifier,
+    tag:String,
     refresh: Boolean,
     onItemClick: (id: Movie) -> Unit = {},
     onError: (ex: Exception) -> Unit = {}
 ) {
 
-    val screenViewModel: PopularMoviesViewModel by rememberInstance()
+    val screenViewModel: PopularMoviesViewModel by rememberInstance(tag)
     val viewState by screenViewModel.state.collectAsState()
 
     Box(

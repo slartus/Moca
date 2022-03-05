@@ -5,6 +5,8 @@ import androidx.compose.runtime.staticCompositionLocalOf
 data class AppStrings(
     val movies: String,
     val series: String,
+    val animationMovies: String,
+    val animationSeries: String,
     val menu: String,
     val refresh: String,
     val description: String,
@@ -14,6 +16,8 @@ data class AppStrings(
 val ruStrings = AppStrings(
     movies = "Фильмы",
     series = "Сериалы",
+    animationMovies = "Мультфильмы",
+    animationSeries = "Мультсериалы",
     menu = "Меню",
     refresh = "Обновить",
     description = "Описание",
@@ -23,6 +27,8 @@ val ruStrings = AppStrings(
 val enStrings = AppStrings(
     movies = "Movies",
     series = "TV",
+    animationMovies = "Cartoons",
+    animationSeries = "TV Cartoons",
     menu = "Menu",
     refresh = "Refresh",
     description = "Description",

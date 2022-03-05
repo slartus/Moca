@@ -14,7 +14,7 @@ import ru.slartus.moca.features.`feature-main`.EventListener
 
 @Composable
 internal fun DrawerView(modifier: Modifier = Modifier, eventListener: EventListener) {
-    val strings= LocalAppStrings.current
+    val strings = LocalAppStrings.current
     Column(
         modifier = modifier
             .background(AppTheme.colors.drawerColor)
@@ -25,6 +25,12 @@ internal fun DrawerView(modifier: Modifier = Modifier, eventListener: EventListe
         }
         DrawerMenuItem(title = strings.series, icon = icTv()) {
             eventListener.onEvent(Event.MenuTvClick)
+        }
+        DrawerMenuItem(title = strings.animationMovies, icon = icMovies()) {
+            eventListener.onEvent(Event.MenuAnimationMoviesClick)
+        }
+        DrawerMenuItem(title = strings.animationSeries, icon = icTv()) {
+            eventListener.onEvent(Event.MenuAnimationTvClick)
         }
     }
 }
