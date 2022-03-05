@@ -3,14 +3,13 @@ package ru.slartus.moca.data.api.tmdb
 import io.ktor.client.*
 import io.ktor.client.request.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import ru.slartus.moca.data.api.tmdb.mappers.map
 import ru.slartus.moca.data.api.tmdb.models.*
 import ru.slartus.moca.domain.CatalogApi
+import kotlin.jvm.JvmInline
 import ru.slartus.moca.domain.models.Movie as RepositoryMovie
 import ru.slartus.moca.domain.models.Series as RepositoryTv
-import kotlin.jvm.JvmInline
 
 class TmdbApi(val client: HttpClient) : CatalogApi {
     override val name = "TMDB"

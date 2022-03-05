@@ -9,4 +9,7 @@ object CoreUiIconsResolve {
 
     @Composable
     fun icTv() = painterResource(R.drawable.ic_series)
+
+    @Composable
+    fun icPlay() = painterResource(R.drawable.ic_play_circle_outline_black_24dp)
 }

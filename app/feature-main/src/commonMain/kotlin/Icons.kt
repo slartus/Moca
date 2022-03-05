@@ -6,3 +6,6 @@ expect fun icMovies(): Painter
 
 @Composable
 expect fun icTv(): Painter
+
+@Composable
+expect fun icPlay(): Painter

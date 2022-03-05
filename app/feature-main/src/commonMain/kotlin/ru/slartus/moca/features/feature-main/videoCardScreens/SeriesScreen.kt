@@ -1,4 +1,4 @@
-package ru.slartus.moca.features.`feature-main`
+package ru.slartus.moca.features.`feature-main`.videoCardScreens
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -11,24 +11,25 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import ru.slartus.moca.core_ui.theme.AppTheme
-import ru.slartus.moca.domain.models.Movie
+import ru.slartus.moca.domain.models.Series
 import ru.slartus.moca.features.`feature-main`.views.*
 
 @Composable
-fun MovieScreen(movie: Movie) {
+fun SeriesScreen(series: Series) {
     val scaffoldState = rememberScaffoldState(
         snackbarHostState = remember { SnackbarHostState() }
     )
     Scaffold(
         scaffoldState = scaffoldState,
         backgroundColor = AppTheme.colors.primaryBackground,
-        topBar = { TopBar(movie.title) }
+        topBar = { TopBar(series.title) }
     ) {
         LazyColumn(modifier = Modifier.padding(10.dp).fillMaxSize()) {
-            item { Title(movie.title) }
-            item { OriginalTitle(movie.originalTitle) }
-            item { PosterView(movie.posterUrl,movie.year, movie.rates) }
-            item { Description(movie.overview) }
+            item { Title(series.title) }
+            item { OriginalTitle(series.originalTitle) }
+            item { PosterView(series.posterUrl, series.year, series.rates) }
+            item { Description(series.overview) }
         }
     }
 }
+

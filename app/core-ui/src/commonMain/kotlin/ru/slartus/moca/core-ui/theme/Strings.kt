@@ -7,20 +7,26 @@ data class AppStrings(
     val series: String,
     val menu: String,
     val refresh: String,
+    val description: String,
+    val torrents: String,
 )
 
 val ruStrings = AppStrings(
     movies = "Фильмы",
     series = "Сериалы",
     menu = "Меню",
-    refresh = "Обновить"
+    refresh = "Обновить",
+    description = "Описание",
+    torrents = "Торренты"
 )
 
 val enStrings = AppStrings(
     movies = "Movies",
     series = "TV",
     menu = "Menu",
-    refresh = "Refresh"
+    refresh = "Refresh",
+    description = "Description",
+    torrents = "Torrents"
 )
 
 
@@ -28,6 +34,6 @@ val LocalAppStrings = staticCompositionLocalOf<AppStrings> {
     error("No strings provided")
 }
 
-enum class Language{
+enum class Language {
     Ru, En
 }
