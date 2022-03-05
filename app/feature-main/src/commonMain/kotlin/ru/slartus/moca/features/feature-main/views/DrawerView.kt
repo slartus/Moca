@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import icCartoonMovies
+import icCartoonTv
 import icMovies
 import icTv
 import ru.slartus.moca.`core-ui`.theme.LocalAppStrings
@@ -26,10 +28,10 @@ internal fun DrawerView(modifier: Modifier = Modifier, eventListener: EventListe
         DrawerMenuItem(title = strings.series, icon = icTv()) {
             eventListener.onEvent(Event.MenuTvClick)
         }
-        DrawerMenuItem(title = strings.animationMovies, icon = icMovies()) {
+        DrawerMenuItem(title = strings.animationMovies, icon = icCartoonMovies()) {
             eventListener.onEvent(Event.MenuAnimationMoviesClick)
         }
-        DrawerMenuItem(title = strings.animationSeries, icon = icTv()) {
+        DrawerMenuItem(title = strings.animationSeries, icon = icCartoonTv()) {
             eventListener.onEvent(Event.MenuAnimationTvClick)
         }
     }

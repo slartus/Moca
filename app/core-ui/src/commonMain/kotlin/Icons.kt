@@ -9,3 +9,9 @@ expect fun icTv(): Painter
 
 @Composable
 expect fun icPlay(): Painter
+
+@Composable
+expect fun icCartoonMovies(): Painter
+
+@Composable
+expect fun icCartoonTv(): Painter
