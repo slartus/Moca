@@ -5,6 +5,7 @@ plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
     kotlin("plugin.serialization") version "1.6.10"
+    id("com.squareup.sqldelight")
 }
 
 kotlin {
@@ -25,6 +26,8 @@ kotlin {
                 implementation(Dependencies.Network.ktorClientLogging)
                 implementation(Dependencies.DI.kodein)
                 implementation(Dependencies.Logging.napier)
+
+                implementation(Dependencies.DB.SqlDelight.sqlite)
             }
         }
         named("androidMain") {
@@ -32,11 +35,13 @@ kotlin {
                 api(Dependencies.AndroidX.appcompat)
                 api(Dependencies.AndroidX.coreKtx)
                 implementation(Dependencies.Network.ktorClientCio)
+                implementation(Dependencies.DB.SqlDelight.android)
             }
         }
         named("desktopMain") {
             dependencies {
                 implementation(Dependencies.Network.ktorClientCio)
+                implementation(Dependencies.DB.SqlDelight.sqlite)
             }
         }
     }
@@ -62,5 +67,11 @@ android {
             manifest.srcFile("src/androidMain/AndroidManifest.xml")
             res.srcDirs("src/androidMain/res")
         }
+    }
+}
+
+sqldelight {
+    database("MocaDatabase") {
+        packageName = "ru.slartus.moca.db"
     }
 }

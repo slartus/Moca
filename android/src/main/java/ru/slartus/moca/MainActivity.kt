@@ -8,12 +8,14 @@ import androidx.compose.runtime.SideEffect
 import appProviders
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import navigation.generateGraph
+import org.kodein.di.DI
 import ru.alexgladkov.odyssey.compose.base.Navigator
 import ru.alexgladkov.odyssey.compose.extensions.setupWithActivity
 import ru.alexgladkov.odyssey.compose.local.LocalRootController
 import ru.alexgladkov.odyssey.compose.navigation.RootComposeBuilder
 import ru.alexgladkov.odyssey.compose.navigation.bottom_sheet_navigation.ModalSheetNavigator
 import ru.slartus.moca.core_ui.theme.AppTheme
+import ru.slartus.moca.di.androidModule
 import withApp
 
 class MainActivity : AppCompatActivity() {
@@ -22,6 +24,7 @@ class MainActivity : AppCompatActivity() {
 
         val rootController = RootComposeBuilder().apply { generateGraph() }.build()
         rootController.setupWithActivity(this)
+
         setContent {
             val providers = arrayOf(
                 *appProviders(),
@@ -45,11 +48,17 @@ class MainActivity : AppCompatActivity() {
                         darkIcons = useDarkIcons
                     )
                 }
-                withApp {
+
+                val di = DI {
+                    import(androidModule)
+                }
+
+                withApp(di) {
                     ModalSheetNavigator {
                         Navigator("main")
                     }
                 }
+
             }
         }
     }

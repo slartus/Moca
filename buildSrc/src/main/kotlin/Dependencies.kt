@@ -18,6 +18,15 @@ object Dependencies {
         const val ktorClientLogging = "io.ktor:ktor-client-logging:$ktor"
     }
 
+    object DB {
+        object SqlDelight {
+            private const val sqlDelight = "1.5.3"
+
+            const val android = "com.squareup.sqldelight:android-driver:$sqlDelight"
+            const val sqlite = "com.squareup.sqldelight:sqlite-driver:$sqlDelight"
+        }
+    }
+
     object AndroidX {
         const val appcompat = "androidx.appcompat:appcompat:1.4.1"
         const val coreKtx = "androidx.core:core-ktx:1.7.0"

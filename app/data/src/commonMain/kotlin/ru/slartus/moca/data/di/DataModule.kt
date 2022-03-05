@@ -1,5 +1,6 @@
 package ru.slartus.moca.data.di
 
+import SqlDelightDriverFactory
 import getHttpClient
 import org.kodein.di.DI
 import org.kodein.di.bindProvider
@@ -10,6 +11,7 @@ import ru.slartus.moca.data.api.mock.MockApi
 import ru.slartus.moca.data.api.sampleTorrentsApi.SampleTorrentsApi
 import ru.slartus.moca.data.api.tmdb.TmdbApi
 import ru.slartus.moca.data.repo.*
+import ru.slartus.moca.db.MocaDatabase
 import ru.slartus.moca.domain.TorrentsApi
 import ru.slartus.moca.domain.repositories.PopularMoviesRepository
 import ru.slartus.moca.domain.repositories.PopularSeriesRepository
@@ -20,6 +22,11 @@ val dataModule = DI.Module("dataModule") {
     bindSingleton<CatalogApi>(tag = "tmdb") { TmdbApi(instance()) }
     bindSingleton<CatalogApi>(tag = "mock") { MockApi(instance()) }
     bindSingleton<TorrentsApi>(tag = "sample") { SampleTorrentsApi(instance()) }
+
+    bindSingleton {
+        val driver = instance<SqlDelightDriverFactory>().createDriver()
+        MocaDatabase(driver)
+    }
 
     bindSingleton<PopularMoviesRepository>(tag = "movies") {
         PopularMoviesRepositoryImpl(

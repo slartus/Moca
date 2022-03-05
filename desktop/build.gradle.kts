@@ -14,11 +14,15 @@ kotlin {
         named("jvmMain") {
             dependencies {
                 implementation(compose.desktop.currentOs)
+                implementation(project(":app:core"))
+                implementation(project(":app:data"))
                 implementation(project(":common"))
                 implementation(project(":app:core-ui"))
                 implementation(Dependencies.Navigation.odysseyCore)
+                implementation(Dependencies.Navigation.odysseyCore)
                 implementation(Dependencies.Navigation.odysseyCompose)
                 implementation(Dependencies.Logging.napier)
+                implementation(Dependencies.DI.kodein)
             }
         }
     }

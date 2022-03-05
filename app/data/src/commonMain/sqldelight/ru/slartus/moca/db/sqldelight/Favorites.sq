@@ -1,0 +1,14 @@
+CREATE TABLE favorites (
+  tmdb_id INTEGER NOT NULL,
+  title TEXT NOT NULL
+);
+
+CREATE INDEX dbFavorites_title ON favorites(title);
+
+INSERT INTO favorites (tmdb_id, title)
+VALUES (60574, 'peaky-blinders');
+
+
+selectAll:
+SELECT *
+FROM favorites;

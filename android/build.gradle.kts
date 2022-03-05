@@ -21,6 +21,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":app:core"))
+    implementation(project(":app:data"))
     implementation(project(":common"))
     implementation(project(":app:core-ui"))
     implementation(Dependencies.AndroidCompose.activity)
@@ -31,4 +33,5 @@ dependencies {
     implementation(Dependencies.Navigation.odysseyCore)
     implementation(Dependencies.Navigation.odysseyCompose)
     implementation(Dependencies.Logging.napier)
+    implementation(Dependencies.DI.kodein)
 }

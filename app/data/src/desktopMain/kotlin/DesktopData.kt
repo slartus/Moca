@@ -1,11 +1,23 @@
+import com.squareup.sqldelight.db.SqlDriver
+import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.features.*
 import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
 import io.ktor.client.features.logging.*
+import ru.slartus.moca.db.MocaDatabase
 
 actual fun getHttpClient() = DataAppResolve.getHttpClient()
+
+actual class SqlDelightDriverFactory {
+    actual fun createDriver(): SqlDriver {
+        val driver: SqlDriver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
+        MocaDatabase.Schema.create(driver)
+        return driver
+    }
+}
+
 object DataAppResolve {
     fun getHttpClient(): HttpClient = HttpClient(CIO) {
         install(JsonFeature) {

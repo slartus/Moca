@@ -3,6 +3,7 @@ buildscript {
     val composeVersion = "1.1.0"
 
     repositories {
+        gradlePluginPortal()
         mavenCentral()
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
         google()
@@ -13,6 +14,8 @@ buildscript {
         classpath("com.android.tools.build:gradle:4.1.3")
         // __KOTLIN_COMPOSE_VERSION__
         classpath(kotlin("gradle-plugin", version = "1.6.10"))
+        classpath("com.android.tools.build:gradle:4.1.3")
+        classpath("com.squareup.sqldelight:gradle-plugin:1.5.3")
     }
 }
 

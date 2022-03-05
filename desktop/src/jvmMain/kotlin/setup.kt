@@ -1,6 +1,7 @@
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ProvidedValue
 import androidx.compose.ui.awt.ComposePanel
+import org.kodein.di.DI
 import ru.alexgladkov.odyssey.compose.base.Navigator
 import ru.alexgladkov.odyssey.compose.local.LocalRootController
 import ru.alexgladkov.odyssey.compose.navigation.RootComposeBuilder
@@ -23,7 +24,10 @@ fun JFrame.setupNavigation(
             *providers,
             LocalRootController provides rootController
         ) {
-            withApp {
+            val di = DI {
+                import(desktopModule)
+            }
+            withApp(di) {
                 Navigator(startScreen)
             }
         }

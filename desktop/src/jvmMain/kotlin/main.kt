@@ -9,7 +9,6 @@ fun main() = SwingUtilities.invokeLater {
     val window = JFrame()
     window.title = "Moca"
     window.setSize(800, 600)
-
     window.setupNavigation(
         "main",
         *appProviders()

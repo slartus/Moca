@@ -12,6 +12,7 @@ class PopularMoviesRepositoryImpl(
         catalog.getPopularMovies(it)
     }
     override val items = pagedRepository.items
+
     override suspend fun reload() = pagedRepository.reload()
     override suspend fun loadMore() = pagedRepository.loadMore()
 }

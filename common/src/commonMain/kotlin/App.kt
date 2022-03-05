@@ -3,6 +3,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import org.kodein.di.DI
 import org.kodein.di.bindSingleton
 import org.kodein.di.compose.withDI
+import org.kodein.di.subDI
 import ru.slartus.moca.`core-ui`.theme.LocalAppStrings
 import ru.slartus.moca.core_ui.Platform
 import ru.slartus.moca.core_ui.theme.AppResources
@@ -13,10 +14,10 @@ import ru.slartus.moca.features.`feature-main`.di.mainScreenModule
 lateinit var appDi: DI
 
 @Composable
-fun withApp(content: @Composable () -> Unit) {
+fun withApp(parentId:DI, content: @Composable () -> Unit) {
     val appResources = AppResources(LocalAppStrings.current)
     val coroutineScope = rememberCoroutineScope()
-    appDi = DI {
+    appDi = subDI(parentId){
         import(dataModule)
         import(domainModule)
         bindSingleton { appResources }
