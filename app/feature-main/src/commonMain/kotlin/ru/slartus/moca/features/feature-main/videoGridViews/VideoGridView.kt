@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import io.github.aakira.napier.Napier
 import ru.slartus.moca.`core-ui`.views.VideoCard
 import ru.slartus.moca.`core-ui`.views.VideoCardView
 
@@ -22,7 +23,7 @@ internal fun VideoGridView(
 
     remember(dataSize) {
         if (dataSize > 0) {
-            println("onLoadMoreEvent")
+            Napier.d("onLoadMoreEvent $dataSize")
             onLoadMoreEvent()
         }
     }
