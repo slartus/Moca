@@ -1,5 +1,7 @@
 package ru.slartus.moca.features.`feature-product-info`
 
+import PlatformListener
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import org.kodein.di.compose.rememberFactory
+import org.kodein.di.compose.rememberInstance
 import ru.slartus.moca.`core-ui`.theme.LocalAppStrings
 import ru.slartus.moca.core_ui.theme.AppTheme
 import ru.slartus.moca.domain.models.Movie
@@ -74,10 +77,17 @@ fun MovieScreen(movie: Movie) {
 
 @Composable
 private fun InfoView(modifier: Modifier = Modifier, viewState: MovieViewState) {
+    val platformListener by rememberInstance<PlatformListener>()
     Box(modifier = modifier.fillMaxSize()) {
         val movieDetails = viewState.data
         LazyColumn(modifier = modifier.padding(10.dp).fillMaxSize()) {
-            item { Title(movieDetails.title) }
+            item {
+                Box(modifier = Modifier.clickable {
+                    platformListener.openUrl(movieDetails.videos.first())
+                }) {
+                    Title(movieDetails.title)
+                }
+            }
             item { OriginalTitle(movieDetails.originalTitle) }
             item { PosterView(movieDetails.posterUrl, movieDetails.year, movieDetails.rates) }
             item { Description(movieDetails.overview) }
