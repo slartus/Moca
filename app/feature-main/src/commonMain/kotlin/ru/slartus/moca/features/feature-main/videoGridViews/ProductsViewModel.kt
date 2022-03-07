@@ -5,9 +5,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import ru.slartus.moca.domain.models.Product
 import ru.slartus.moca.domain.repositories.ProductsRepository
 
-class ProductsViewModel<T>(
+class ProductsViewModel<T : Product>(
     private val popularMoviesRepository: ProductsRepository<T>,
     private val scope: CoroutineScope
 ) {

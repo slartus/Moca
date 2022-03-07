@@ -13,8 +13,8 @@ import ru.slartus.moca.core.AppScreenName
 import ru.slartus.moca.core_ui.ScreenWidth
 import ru.slartus.moca.core_ui.screenWidth
 import ru.slartus.moca.core_ui.theme.AppTheme
-import ru.slartus.moca.features.`feature-main`.videoGridViews.PopularMoviesView
-import ru.slartus.moca.features.`feature-main`.videoGridViews.PopularSeriesView
+import ru.slartus.moca.features.`feature-main`.videoGridViews.MoviesView
+import ru.slartus.moca.features.`feature-main`.videoGridViews.SeriesView
 import ru.slartus.moca.features.`feature-main`.views.DrawerView
 import ru.slartus.moca.features.`feature-main`.views.MainTopBarView
 import ru.slartus.moca.features.`feature-main`.views.customDrawerShape
@@ -95,7 +95,7 @@ private fun SubScreenView(subScreen: SubScreen, eventListener: EventListener, re
     val rootController = LocalRootController.current
 
     when (subScreen) {
-        SubScreen.Movies -> PopularMoviesView(
+        SubScreen.Movies -> MoviesView(
             tag = "movies",
             refresh = refresh,
             onItemClick = { item ->
@@ -109,7 +109,7 @@ private fun SubScreenView(subScreen: SubScreen, eventListener: EventListener, re
                 eventListener.onEvent(Event.Error(it))
             }
         )
-        SubScreen.Tv -> PopularSeriesView(
+        SubScreen.Tv -> SeriesView(
             tag = "series",
             refresh = refresh,
             onItemClick = { item ->
@@ -121,7 +121,7 @@ private fun SubScreenView(subScreen: SubScreen, eventListener: EventListener, re
             },
             onError = { eventListener.onEvent(Event.Error(it)) }
         )
-        SubScreen.AnimationMovies -> PopularMoviesView(
+        SubScreen.AnimationMovies -> MoviesView(
             tag = "animation.movies",
             refresh = refresh,
             onItemClick = { item ->
@@ -135,7 +135,7 @@ private fun SubScreenView(subScreen: SubScreen, eventListener: EventListener, re
                 eventListener.onEvent(Event.Error(it))
             }
         )
-        SubScreen.AnimationTv -> PopularSeriesView(
+        SubScreen.AnimationTv -> SeriesView(
             tag = "animation.series",
             refresh = refresh,
             onItemClick = { item ->

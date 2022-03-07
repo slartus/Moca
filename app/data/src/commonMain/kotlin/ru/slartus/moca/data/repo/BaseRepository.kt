@@ -1,9 +1,10 @@
 package ru.slartus.moca.data.repo
 
 import ru.slartus.moca.domain.CatalogApi
+import ru.slartus.moca.domain.models.Product
 import ru.slartus.moca.domain.repositories.ProductsRepository
 
-abstract class BaseRepository<T>(catalogApis: List<CatalogApi>) : ProductsRepository<T> {
+abstract class BaseRepository<T : Product>(catalogApis: List<CatalogApi>) : ProductsRepository<T> {
     protected val catalog = catalogApis.first()
     private val pagedRepository: PagedRepository<T> = PagedRepository {
         getPageItems(it)
