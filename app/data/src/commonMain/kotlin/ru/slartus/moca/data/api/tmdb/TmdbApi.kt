@@ -10,7 +10,7 @@ import kotlin.jvm.JvmInline
 import ru.slartus.moca.domain.models.MovieDetails as RepositoryMovieDetails
 import ru.slartus.moca.domain.models.Movie as RepositoryMovie
 import ru.slartus.moca.domain.models.Series as RepositoryTv
-
+// https://github.com/MoviebaseApp/tmdb-api
 class TmdbApi(val client: HttpClient) : CatalogApi {
     override val name = "TMDB"
 
