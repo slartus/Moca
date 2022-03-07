@@ -8,6 +8,7 @@ import ru.slartus.moca.data.api.tmdb.mappers.map
 import ru.slartus.moca.data.api.tmdb.models.*
 import ru.slartus.moca.domain.CatalogApi
 import kotlin.jvm.JvmInline
+import ru.slartus.moca.domain.models.MovieDetails as RepositoryMovieDetails
 import ru.slartus.moca.domain.models.Movie as RepositoryMovie
 import ru.slartus.moca.domain.models.Series as RepositoryTv
 
@@ -58,6 +59,12 @@ class TmdbApi(val client: HttpClient) : CatalogApi {
         }
     }
 
+    override suspend fun getMovieDetails(movieId: String): RepositoryMovieDetails {
+        return withContext(Dispatchers.Default) {
+           Movies().getDetails(movieId.toInt())
+        }
+    }
+
     inner class Genres {
         suspend fun getMovieList(): List<Genre> {
             val genresResponse: GenresResponse =
@@ -98,6 +105,11 @@ class TmdbApi(val client: HttpClient) : CatalogApi {
                 .filter { !it.isAnimation }
                 .mapNotNull { it.map() }
         }
+
+        suspend fun getDetails(movieId: Int): RepositoryMovieDetails {
+            val response: MovieDetails = client.get("$END_POINT/movie/$movieId?$DEFAULT_PARAMS")
+            return response.map()
+        }
     }
 
     inner class TV {
@@ -113,7 +125,10 @@ class TmdbApi(val client: HttpClient) : CatalogApi {
         private const val END_POINT = "https://api.themoviedb.org/3"
         private const val API_KEY = "9c97850f98d684bace19186d2979504f"
         private const val LANGUAGE = "ru-RU"
-        private const val DEFAULT_PARAMS = "language=$LANGUAGE&api_key=$API_KEY"
+
+        private const val API_PARAM = "api_key=$API_KEY"
+        private const val LANGUAGE_PARAM = "language=$LANGUAGE"
+        private const val DEFAULT_PARAMS = "$LANGUAGE_PARAM&$API_PARAM"
     }
 }
 

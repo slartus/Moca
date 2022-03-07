@@ -1,20 +1,21 @@
 package ru.slartus.moca.features.`feature-product-info`
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
+import org.kodein.di.compose.rememberFactory
 import ru.slartus.moca.`core-ui`.theme.LocalAppStrings
 import ru.slartus.moca.core_ui.theme.AppTheme
 import ru.slartus.moca.domain.models.Movie
+import ru.slartus.moca.domain.models.MovieDetails
 import ru.slartus.moca.features.`feature-product-info`.views.Description
 import ru.slartus.moca.features.`feature-product-info`.views.OriginalTitle
 import ru.slartus.moca.features.`feature-product-info`.views.PosterView
@@ -23,10 +24,25 @@ import ru.slartus.moca.features.`feature-product-info`.views.TopBar
 
 @Composable
 fun MovieScreen(movie: Movie) {
+    val viewModelFactory by rememberFactory<Movie, MovieScreenViewModel>()
+    val viewModel by remember(movie) { mutableStateOf(viewModelFactory(movie)) }
+    val viewState by viewModel.stateFlow.collectAsState()
+    val coroutineScope = rememberCoroutineScope()
+
     val strings = LocalAppStrings.current
     val scaffoldState = rememberScaffoldState(
         snackbarHostState = remember { SnackbarHostState() }
     )
+
+    viewState.actions.firstOrNull()?.let {
+        viewModel.actionReceived(it.id)
+        when (it) {
+            is Action.Error ->
+                coroutineScope.launch {
+                    scaffoldState.snackbarHostState.showSnackbar(it.message)
+                }
+        }
+    }
     Scaffold(
         scaffoldState = scaffoldState,
         backgroundColor = AppTheme.colors.primaryBackground,
@@ -49,7 +65,7 @@ fun MovieScreen(movie: Movie) {
                 }
             }
             when (tabIndex) {
-                0 -> InfoView(movie = movie)
+                0 -> InfoView(viewState = viewState)
                 1 -> TorrentsListView(movie.title, movie.originalTitle)
             }
         }
@@ -57,11 +73,19 @@ fun MovieScreen(movie: Movie) {
 }
 
 @Composable
-private fun InfoView(modifier: Modifier = Modifier, movie: Movie) {
-    LazyColumn(modifier = modifier.padding(10.dp).fillMaxSize()) {
-        item { Title(movie.title) }
-        item { OriginalTitle(movie.originalTitle) }
-        item { PosterView(movie.posterUrl, movie.year, movie.rates) }
-        item { Description(movie.overview) }
+private fun InfoView(modifier: Modifier = Modifier, viewState: MovieViewState) {
+    Box(modifier = modifier.fillMaxSize()) {
+        val movieDetails = viewState.data
+        LazyColumn(modifier = modifier.padding(10.dp).fillMaxSize()) {
+            item { Title(movieDetails.title) }
+            item { OriginalTitle(movieDetails.originalTitle) }
+            item { PosterView(movieDetails.posterUrl, movieDetails.year, movieDetails.rates) }
+            item { Description(movieDetails.overview) }
+        }
+        if (viewState.isLoading)
+            CircularProgressIndicator(
+                modifier = Modifier.align(Alignment.Center),
+                color = AppTheme.colors.primary,
+            )
     }
 }

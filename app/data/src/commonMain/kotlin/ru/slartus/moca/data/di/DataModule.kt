@@ -15,6 +15,7 @@ import ru.slartus.moca.db.MocaDatabase
 import ru.slartus.moca.domain.TorrentsApi
 import ru.slartus.moca.domain.models.Movie
 import ru.slartus.moca.domain.models.Series
+import ru.slartus.moca.domain.repositories.MovieRepository
 import ru.slartus.moca.domain.repositories.ProductsRepository
 import ru.slartus.moca.domain.repositories.TorrentsRepository
 
@@ -62,6 +63,9 @@ val dataModule = DI.Module("dataModule") {
         )
     }
 
+    bindProvider<MovieRepository> {
+        MovieRepositoryImpl(instance("tmdb"))
+    }
 
     bindProvider<TorrentsRepository> {
         TorrentsRepositoryImpl(
