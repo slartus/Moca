@@ -8,18 +8,19 @@ import kotlinx.coroutines.launch
 import ru.slartus.moca.domain.models.Product
 import ru.slartus.moca.domain.repositories.ProductsRepository
 
-class ProductsViewModel<T : Product>(
+internal class ProductsViewModel<T : Product>(
     private val popularMoviesRepository: ProductsRepository<T>,
     private val scope: CoroutineScope
 ) {
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-
+        onError(throwable)
     }
     private val coroutineContext = exceptionHandler + SupervisorJob()
     private val _state = MutableStateFlow(
         GridViewState(
             isLoading = true,
-            data = emptyList<T>()
+            data = emptyList<T>(),
+            actions = emptyList()
         )
     )
 
@@ -29,13 +30,16 @@ class ProductsViewModel<T : Product>(
         scope.launch(coroutineContext) {
             popularMoviesRepository.items
                 .collect {
-                    _state.value = GridViewState(
-                        isLoading = false,
-                        data = it
-                    )
+                    _state.update { state ->
+                        GridViewState(
+                            isLoading = false,
+                            data = it,
+                            actions = state.actions
+                        )
+                    }
                 }
         }
-        scope.launch {
+        scope.launch(coroutineContext) {
             popularMoviesRepository.reload()
         }
     }
@@ -45,7 +49,8 @@ class ProductsViewModel<T : Product>(
             _state.update { state ->
                 GridViewState(
                     isLoading = true,
-                    data = state.data
+                    data = state.data,
+                    actions = state.actions
                 )
             }
             popularMoviesRepository.reload()
@@ -58,5 +63,28 @@ class ProductsViewModel<T : Product>(
         }
     }
 
+    fun actionReceived(messageId: String) {
+        _state.update { screenState ->
+            GridViewState(
+                isLoading = screenState.isLoading,
+                data = screenState.data,
+                actions = screenState.actions.filterNot { it.id == messageId }
+            )
+        }
+    }
 
+    private fun onError(exception: Throwable) {
+        _state.update { screenState ->
+            GridViewState(
+                isLoading = false,
+                data = screenState.data,
+                actions = screenState.actions + Action.Error(
+                    Exception(
+                        exception.message,
+                        exception
+                    )
+                )
+            )
+        }
+    }
 }

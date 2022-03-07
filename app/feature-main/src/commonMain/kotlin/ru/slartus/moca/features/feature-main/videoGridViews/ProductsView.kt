@@ -8,6 +8,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import kotlinx.coroutines.launch
 import org.kodein.di.compose.rememberInstance
 import ru.slartus.moca.`core-ui`.views.VideoCard
 import ru.slartus.moca.core_ui.theme.AppTheme
@@ -62,6 +63,13 @@ private fun <T : Product> ProductsView(
 ) {
     val viewState by screenViewModel.state.collectAsState()
 
+    viewState.actions.firstOrNull()?.let {
+        screenViewModel.actionReceived(it.id)
+        when (it) {
+            is Action.Error ->
+                onError(it.ex)
+        }
+    }
     Box(modifier = modifier.fillMaxSize()) {
         VideoGridView(
             modifier = Modifier.fillMaxSize(),
