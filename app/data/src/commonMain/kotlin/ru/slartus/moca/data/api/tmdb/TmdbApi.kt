@@ -2,8 +2,7 @@ package ru.slartus.moca.data.api.tmdb
 
 import io.ktor.client.*
 import io.ktor.client.request.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import ru.slartus.moca.data.api.tmdb.mappers.map
 import ru.slartus.moca.data.api.tmdb.models.*
 import ru.slartus.moca.domain.CatalogApi
@@ -61,7 +60,13 @@ class TmdbApi(val client: HttpClient) : CatalogApi {
 
     override suspend fun getMovieDetails(movieId: String): RepositoryMovieDetails {
         return withContext(Dispatchers.Default) {
-           Movies().getDetails(movieId.toInt())
+            val detailsRequest = async { Movies().getDetails(movieId.toInt()) }
+            val videosRequest = async { Movies().getVideos(movieId.toInt()) }
+
+            val details = detailsRequest.await()
+            val videos = videosRequest.await()
+
+            return@withContext details.copy(videos = videos.map { "https://www.youtube.com/watch?v=${it.key}" })
         }
     }
 
@@ -109,6 +114,12 @@ class TmdbApi(val client: HttpClient) : CatalogApi {
         suspend fun getDetails(movieId: Int): RepositoryMovieDetails {
             val response: MovieDetails = client.get("$END_POINT/movie/$movieId?$DEFAULT_PARAMS")
             return response.map()
+        }
+
+        suspend fun getVideos(movieId: Int): List<Video> {
+            val response: VideosResponse =
+                client.get("$END_POINT/movie/$movieId/videos?$DEFAULT_PARAMS")
+            return response.results ?: emptyList()
         }
     }
 

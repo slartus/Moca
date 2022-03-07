@@ -8,5 +8,6 @@ data class MovieDetails(
     val year: String? = null,
     val rates: List<Rate> = emptyList(),
     val overview: String? = null,
-    val genres: List<Genre> = emptyList()
+    val genres: List<Genre> = emptyList(),
+    val videos: List<String> = emptyList(),
 )
