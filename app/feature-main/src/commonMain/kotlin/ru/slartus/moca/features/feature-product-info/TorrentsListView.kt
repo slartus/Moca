@@ -49,7 +49,7 @@ fun TorrentsListView(title: String, originalTitle: String) {
             }
         }
         coroutineScope.launch {
-            repository.find(title)
+            repository.find(title, originalTitle)
         }
     }
 

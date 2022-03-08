@@ -8,7 +8,7 @@ import org.kodein.di.bindSingleton
 import org.kodein.di.instance
 import ru.slartus.moca.domain.CatalogApi
 import ru.slartus.moca.data.api.mock.MockApi
-import ru.slartus.moca.data.api.sampleTorrentsApi.SampleTorrentsApi
+import ru.slartus.moca.data.api.rutor.RutorApi
 import ru.slartus.moca.data.api.tmdb.TmdbApi
 import ru.slartus.moca.data.repo.*
 import ru.slartus.moca.db.MocaDatabase
@@ -23,7 +23,7 @@ val dataModule = DI.Module("dataModule") {
     bindSingleton { getHttpClient() }
     bindSingleton<CatalogApi>(tag = "tmdb") { TmdbApi(instance()) }
     bindSingleton<CatalogApi>(tag = "mock") { MockApi(instance()) }
-    bindSingleton<TorrentsApi>(tag = "sample") { SampleTorrentsApi(instance()) }
+    bindSingleton<TorrentsApi>(tag = "rutor") { RutorApi(instance()) }
 
     bindSingleton {
         val driver = instance<SqlDelightDriverFactory>().createDriver()
@@ -70,7 +70,7 @@ val dataModule = DI.Module("dataModule") {
     bindProvider<TorrentsRepository> {
         TorrentsRepositoryImpl(
             listOf(
-                instance("sample")
+                instance("rutor")
             )
         )
     }

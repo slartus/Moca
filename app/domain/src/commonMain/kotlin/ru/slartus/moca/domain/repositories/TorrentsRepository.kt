@@ -5,5 +5,5 @@ import ru.slartus.moca.domain.models.Torrent
 
 interface TorrentsRepository {
     val items: Flow<List<Torrent>>
-    suspend fun find(title: String)
+    suspend fun find(title: String, originalTitle: String)
 }

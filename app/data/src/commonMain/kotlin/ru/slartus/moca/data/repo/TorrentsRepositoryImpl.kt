@@ -18,11 +18,11 @@ class TorrentsRepositoryImpl(private val apis: List<TorrentsApi>) : TorrentsRepo
     private val _items = MutableSharedFlow<List<Torrent>>()
     override val items = _items.asSharedFlow()
 
-    override suspend fun find(title: String) {
+    override suspend fun find(title: String, originalTitle: String) {
         withContext(Dispatchers.Default) {
             apis.map { api ->
                 launch(SupervisorJob()) {
-                    val items = api.find(title)
+                    val items = api.find(title, originalTitle)
                     mutex.withLock {
                         data = data + items
                         _items.emit(data)

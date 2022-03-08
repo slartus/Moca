@@ -1,4 +1,4 @@
-package ru.slartus.moca.data.api.sampleTorrentsApi.models
+package ru.slartus.moca.data.api.rutor.models
 
 data class Torrent(
     val title: String? = null,
