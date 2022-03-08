@@ -31,21 +31,19 @@ fun VideoCardView(modifier: Modifier = Modifier, tv: VideoCard, onClick: () -> U
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            if (tv.posterUrl != null)
-                AsyncImage(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .weight(weight = 1f),
-                    imageUrl = tv.posterUrl,
-                    contentDescription = tv.title,
-                    contentScale = ContentScale.FillWidth
-                )
-            else {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .weight(weight = 1f)
-                )
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .weight(weight = 1f)
+            ) {
+                if (tv.posterUrl != null)
+                    AsyncImage(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        imageUrl = tv.posterUrl,
+                        contentDescription = tv.title,
+                        contentScale = ContentScale.FillWidth
+                    )
             }
             Text(
                 modifier = Modifier
