@@ -3,6 +3,7 @@ package ru.slartus.moca.data.api.tmdb
 import io.ktor.client.*
 import io.ktor.client.request.*
 import kotlinx.coroutines.*
+import ru.slartus.moca.data.api.tmdb.mappers.buildVideoUrl
 import ru.slartus.moca.data.api.tmdb.mappers.map
 import ru.slartus.moca.data.api.tmdb.models.*
 import ru.slartus.moca.domain.CatalogApi
@@ -10,7 +11,7 @@ import kotlin.jvm.JvmInline
 import ru.slartus.moca.domain.models.MovieDetails as RepositoryMovieDetails
 import ru.slartus.moca.domain.models.Movie as RepositoryMovie
 import ru.slartus.moca.domain.models.Series as RepositoryTv
-// https://github.com/MoviebaseApp/tmdb-api
+
 class TmdbApi(val client: HttpClient) : CatalogApi {
     override val name = "TMDB"
 
@@ -66,7 +67,11 @@ class TmdbApi(val client: HttpClient) : CatalogApi {
             val details = detailsRequest.await()
             val videos = videosRequest.await()
 
-            return@withContext details.copy(videos = videos.map { "https://www.youtube.com/watch?v=${it.key}" })
+            return@withContext details.copy(videos = videos.mapNotNull { video ->
+                val site = video.site ?: return@mapNotNull null
+                val key = video.key ?: return@mapNotNull null
+                buildVideoUrl(site, key)
+            })
         }
     }
 
@@ -116,7 +121,7 @@ class TmdbApi(val client: HttpClient) : CatalogApi {
             return response.map()
         }
 
-        suspend fun getVideos(movieId: Int): List<Video> {
+        internal suspend fun getVideos(movieId: Int): List<Video> {
             val response: VideosResponse =
                 client.get("$END_POINT/movie/$movieId/videos?$DEFAULT_PARAMS")
             return response.results ?: emptyList()

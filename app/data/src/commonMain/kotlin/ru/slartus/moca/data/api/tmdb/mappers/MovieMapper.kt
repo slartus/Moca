@@ -23,8 +23,8 @@ internal fun DataMovie.map(): RepositoryMovie? {
         id = id.toString(),
         title = this.title ?: this.original_title ?: "No title",
         originalTitle = this.original_title ?: this.title ?: "No title",
-        posterUrl = if (posterPath == null) null else getImageUrl(
-            500,
+        posterUrl = if (posterPath == null) null else buildImageUrl(
+            PosterSize.W342,
             posterPath
         ),
         year = this.release_date,
@@ -48,8 +48,8 @@ internal fun DataMovieDetails.map(): RepositoryMovieDetails {
         id = id.toString(),
         title = this.title ?: this.original_title ?: "No title",
         originalTitle = this.original_title ?: this.title ?: "No title",
-        posterUrl = if (posterPath == null) null else getImageUrl(
-            500,
+        posterUrl = if (posterPath == null) null else buildImageUrl(
+            PosterSize.W342,
             posterPath
         ),
         year = this.release_date,

@@ -83,7 +83,9 @@ private fun InfoView(modifier: Modifier = Modifier, viewState: MovieViewState) {
         LazyColumn(modifier = modifier.padding(10.dp).fillMaxSize()) {
             item {
                 Box(modifier = Modifier.clickable {
-                    platformListener.openUrl(movieDetails.videos.first())
+                    movieDetails.videos.firstOrNull()?.let {
+                        platformListener.openUrl(it)
+                    }
                 }) {
                     Title(movieDetails.title)
                 }

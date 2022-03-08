@@ -19,8 +19,8 @@ internal fun DataTv.map(): RepositoryTv? {
         id = id.toString(),
         title = this.name ?: this.original_name ?: "No title",
         originalTitle = this.original_name ?: this.name ?: "No title",
-        posterUrl = if (posterPath == null) null else getImageUrl(
-            500,
+        posterUrl = if (posterPath == null) null else buildImageUrl(
+            PosterSize.W342,
             posterPath
         ),
         year = this.first_air_date,
