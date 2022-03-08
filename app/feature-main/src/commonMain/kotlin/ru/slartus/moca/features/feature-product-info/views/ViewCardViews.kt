@@ -64,14 +64,19 @@ internal fun PosterView(posterUrl: String?, year: String?, rates: List<Rate>) {
                 .fillMaxWidth(fraction = 0.4f)
 
         ) {
-            AsyncImage(
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height((maxWidth.value * 1.5).dp),
-                imageUrl = posterUrl ?: "",
-                contentDescription = "Poster",
-                contentScale = ContentScale.FillWidth
-            )
+                    .height((maxWidth.value * 1.5).dp)
+            ) {
+                AsyncImage(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    imageUrl = posterUrl ?: "",
+                    contentDescription = "Poster",
+                    contentScale = ContentScale.FillWidth
+                )
+            }
         }
         Column(modifier = Modifier.padding(start = 8.dp)) {
             year?.let { year ->
