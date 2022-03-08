@@ -24,7 +24,7 @@ internal fun DataMovie.map(): RepositoryMovie? {
         title = this.title ?: this.original_title ?: "No title",
         originalTitle = this.original_title ?: this.title ?: "No title",
         posterUrl = if (posterPath == null) null else buildImageUrl(
-            PosterSize.W342,
+            PosterSize.W500,
             posterPath
         ),
         year = this.release_date,
