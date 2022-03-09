@@ -12,4 +12,8 @@ interface CatalogApi {
     suspend fun getPopularAnimationTv(page: Int): List<Series>
     suspend fun getMovieDetails(movieId: String): MovieDetails
     suspend fun findMovies(query: String): List<Movie>
+    suspend fun findSeries(query: String): List<Series>
+
+    suspend fun findAnimationMovies(query: String): List<Movie>
+    suspend fun findAnimationSeries(query: String): List<Series>
 }

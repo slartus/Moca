@@ -25,6 +25,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import org.kodein.di.compose.rememberInstance
+import ru.alexgladkov.odyssey.compose.RootController
 import ru.alexgladkov.odyssey.compose.local.LocalRootController
 import ru.alexgladkov.odyssey.core.animations.AnimationType
 import ru.slartus.moca.`core-ui`.theme.LocalAppStrings
@@ -33,16 +34,30 @@ import ru.slartus.moca.`core-ui`.views.TopBarView
 import ru.slartus.moca.core.AppScreenName
 import ru.slartus.moca.core_ui.theme.AppTheme
 import ru.slartus.moca.domain.models.Movie
+import ru.slartus.moca.domain.models.Product
+import ru.slartus.moca.domain.models.ProductType
+import ru.slartus.moca.domain.models.Series
 
 
 @Composable
-fun SearchScreen() {
+fun SearchScreen(productType: ProductType) {
     val strings = LocalAppStrings.current
     val rootController = LocalRootController.current
-    val searchBy = remember { mutableStateOf(TextFieldValue("")) }
 
-    val searchViewModel by rememberInstance<SearchScreenViewModel<Movie>>()
+    val model by when (productType) {
+        ProductType.Movie -> rememberInstance<SearchScreenViewModel<Movie>>(tag = "movies")
+        ProductType.Series -> rememberInstance<SearchScreenViewModel<Series>>(tag = "series")
+        ProductType.AnimationMovie -> rememberInstance<SearchScreenViewModel<Movie>>(tag = "animation.movies")
+        ProductType.AnimationSeries -> rememberInstance<SearchScreenViewModel<Series>>(tag = "animation.series")
+    }
+    val searchViewModel by remember(productType) {
+
+        mutableStateOf(model)
+    }
+
+
     val searchState by searchViewModel.stateFlow.collectAsState()
+    val searchBy = remember { mutableStateOf(TextFieldValue(searchState.query)) }
     searchViewModel.onQueryChanged(searchBy.value.text)
 
     val scaffoldState = rememberScaffoldState(
@@ -62,6 +77,7 @@ fun SearchScreen() {
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = strings.back
                     ) {
+                        //searchViewModel.onQueryChanged("")
                         rootController.popBackStack()
                     }
                 }
@@ -71,62 +87,78 @@ fun SearchScreen() {
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             searchState.data.items.forEach { item ->
                 item {
-                    Row(
-                        modifier = Modifier
-                            .height(128.dp)
-                            .fillMaxWidth()
-                            .clickable {
-                                rootController.launch(
-                                    AppScreenName.MovieInfo.name,
-                                    params = item,
-                                    animationType = AnimationType.Push(300)
-                                )
-                            }
-                            .padding(horizontal = 8.dp, vertical = 4.dp)
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .width(96.dp)
-                        ) {
-                            val poster = item.posterUrl
-                            if (poster != null)
-                                AsyncImage(
-                                    modifier = Modifier
-                                        .fillMaxSize(),
-                                    imageUrl = poster,
-                                    contentDescription = item.title,
-                                    contentScale = ContentScale.FillWidth
-                                )
+                    SearchResultItemView(rootController, item) {
+                        val screenName = when (productType) {
+                            ProductType.Movie, ProductType.AnimationMovie -> AppScreenName.MovieInfo.name
+                            ProductType.AnimationSeries, ProductType.Series -> AppScreenName.SeriesInfo.name
                         }
-
-                        Column(
-                            modifier = Modifier
-                                .padding(horizontal = 4.dp)
-                                .fillMaxWidth(),
-                        ) {
-                            Text(
-                                modifier = Modifier
-                                    .fillMaxWidth(),
-                                text = "${item.title} ${item.year ?: ""}",
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis,
-                                color = AppTheme.colors.primaryText,
-                                fontWeight = FontWeight.Bold,
-                            )
-                            Text(
-                                modifier = Modifier
-                                    .fillMaxWidth(),
-                                text = item.originalTitle,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis,
-                                color = AppTheme.colors.primaryText
-                            )
-                        }
-
+                        rootController.launch(
+                            screenName,
+                            params = item,
+                            animationType = AnimationType.Push(300)
+                        )
                     }
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun <T : Product> SearchResultItemView(
+    rootController: RootController,
+    item: T,
+    onItemClick: (item: T) -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .height(128.dp)
+            .fillMaxWidth()
+            .clickable {
+                onItemClick(item)
+
+            }
+            .padding(horizontal = 8.dp, vertical = 4.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .width(96.dp)
+        ) {
+            val poster = item.posterUrl
+            if (poster != null)
+                AsyncImage(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    imageUrl = poster,
+                    contentDescription = item.title,
+                    contentScale = ContentScale.FillWidth
+                )
+        }
+
+        Column(
+            modifier = Modifier
+                .padding(horizontal = 4.dp)
+                .fillMaxWidth(),
+        ) {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                text = "${item.title} ${item.year ?: ""}",
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                color = AppTheme.colors.primaryText,
+                fontWeight = FontWeight.Bold,
+            )
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                text = item.originalTitle,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                color = AppTheme.colors.primaryText
+            )
+        }
+
     }
 }
 

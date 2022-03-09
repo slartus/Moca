@@ -32,36 +32,16 @@ val dataModule = DI.Module("dataModule") {
     }
 
     bindSingleton<ProductsRepository<Movie>>(tag = "movies") {
-        MoviesRepositoryImpl(
-            listOf(
-                instance("tmdb"),
-                // instance("mock")
-            )
-        )
+        MoviesRepositoryImpl(listOf(instance("tmdb")))
     }
     bindSingleton<ProductsRepository<Series>>(tag = "series") {
-        SeriesRepositoryImpl(
-            listOf(
-                instance("tmdb"),
-                // instance("mock")
-            )
-        )
+        SeriesRepositoryImpl(listOf(instance("tmdb")))
     }
     bindSingleton<ProductsRepository<Movie>>(tag = "animation.movies") {
-        PopularAnimationMoviesRepositoryImpl(
-            listOf(
-                instance("tmdb"),
-                // instance("mock")
-            )
-        )
+        PopularAnimationMoviesRepositoryImpl(listOf(instance("tmdb")))
     }
     bindSingleton<ProductsRepository<Series>>(tag = "animation.series") {
-        PopularAnimationSeriesRepositoryImpl(
-            listOf(
-                instance("tmdb"),
-                // instance("mock")
-            )
-        )
+        PopularAnimationSeriesRepositoryImpl(listOf(instance("tmdb")))
     }
 
     bindProvider<MovieRepository> {
@@ -77,12 +57,19 @@ val dataModule = DI.Module("dataModule") {
     }
 
     bindSingleton<SearchRepository<Movie>>(tag = "movies") {
-        MoviesSearchRepositoryImpl(
-            listOf(
-                instance("tmdb"),
-                // instance("mock")
-            )
-        )
+        MoviesSearchRepositoryImpl(listOf(instance("tmdb")))
+    }
+
+    bindSingleton<SearchRepository<Series>>(tag = "series") {
+        SeriesSearchRepositoryImpl(listOf(instance("tmdb")))
+    }
+
+    bindSingleton<SearchRepository<Movie>>(tag = "animation.movies") {
+        AnimationMoviesSearchRepositoryImpl(listOf(instance("tmdb")))
+    }
+
+    bindSingleton<SearchRepository<Series>>(tag = "animation.series") {
+        AnimationSeriesSearchRepositoryImpl(listOf(instance("tmdb")))
     }
 }
 

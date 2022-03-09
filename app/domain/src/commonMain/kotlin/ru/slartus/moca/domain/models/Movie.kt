@@ -3,9 +3,9 @@ package ru.slartus.moca.domain.models
 data class Movie(
     override val id: String,
     override val title: String,
-    val originalTitle: String,
+    override val originalTitle: String,
     override val posterUrl: String? = null,
-    val year: String? = null,
+    override val year: String? = null,
     val rates: List<Rate> = emptyList(),
     val overview: String? = null
 ) : Product

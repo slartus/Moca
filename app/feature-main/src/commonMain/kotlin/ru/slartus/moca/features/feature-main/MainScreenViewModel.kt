@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import ru.slartus.moca.core_ui.theme.AppResources
+import ru.slartus.moca.domain.models.ProductType
 
 
 class MainScreenViewModel(
@@ -17,7 +18,7 @@ class MainScreenViewModel(
     private val _stateFlow = MutableStateFlow(
         ScreenState(
             title = appResources.strings.movies,
-            subScreen = SubScreen.Movies,
+            subScreen = ProductType.Movie,
             drawerOpened = false,
             actions = emptyList(),
         )
@@ -32,7 +33,7 @@ class MainScreenViewModel(
                     _stateFlow.update { screenState ->
                         ScreenState(
                             title = appResources.strings.movies,
-                            subScreen = SubScreen.Movies,
+                            subScreen = ProductType.Movie,
                             actions = screenState.actions,
                             drawerOpened = false
                         )
@@ -42,7 +43,7 @@ class MainScreenViewModel(
                     _stateFlow.update { screenState ->
                         ScreenState(
                             title = appResources.strings.series,
-                            subScreen = SubScreen.Tv,
+                            subScreen = ProductType.Series,
                             actions = screenState.actions,
                             drawerOpened = false
                         )
@@ -52,7 +53,7 @@ class MainScreenViewModel(
                     _stateFlow.update { screenState ->
                         ScreenState(
                             title = appResources.strings.animationMovies,
-                            subScreen = SubScreen.AnimationMovies,
+                            subScreen = ProductType.AnimationMovie,
                             actions = screenState.actions,
                             drawerOpened = false
                         )
@@ -62,7 +63,7 @@ class MainScreenViewModel(
                     _stateFlow.update { screenState ->
                         ScreenState(
                             title = appResources.strings.animationSeries,
-                            subScreen = SubScreen.AnimationTv,
+                            subScreen = ProductType.AnimationSeries,
                             actions = screenState.actions,
                             drawerOpened = false
                         )
@@ -139,17 +140,12 @@ class MainScreenViewModel(
 
 data class ScreenState(
     val title: String,
-    val subScreen: SubScreen,
+    val subScreen: ProductType,
     val actions: List<Action>,
     val drawerOpened: Boolean
 )
 
-
-enum class SubScreen {
-    Movies, Tv, AnimationMovies, AnimationTv
-}
-
-sealed class Action() {
+sealed class Action {
     val id: String = uuid4().toString()
 
     data class Error(val message: String) : Action()

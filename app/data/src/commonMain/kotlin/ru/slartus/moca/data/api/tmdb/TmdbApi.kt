@@ -69,7 +69,19 @@ class TmdbApi(val client: HttpClient) : CatalogApi {
         }
 
     override suspend fun findMovies(query: String): List<ru.slartus.moca.domain.models.Movie> {
-        return Search().searchMovies(query)
+        return Search().searchMovies(query, false)
+    }
+
+    override suspend fun findSeries(query: String): List<ru.slartus.moca.domain.models.Series> {
+        return Search().searchSeries(query, false)
+    }
+
+    override suspend fun findAnimationMovies(query: String): List<ru.slartus.moca.domain.models.Movie> {
+        return Search().searchMovies(query, true)
+    }
+
+    override suspend fun findAnimationSeries(query: String): List<ru.slartus.moca.domain.models.Series> {
+        return Search().searchSeries(query, true)
     }
 
     inner class Genres {
@@ -127,20 +139,52 @@ class TmdbApi(val client: HttpClient) : CatalogApi {
 
     inner class TV {
         suspend fun getPopular(page: MoviesPage = MoviesPage(1)): List<RepositoryTv> {
-            val genresResponse: PagedResponse<Tv> =
+            val response: PagedResponse<Tv> =
                 client.get("$END_POINT/tv/popular?page=${page.page}&$DEFAULT_PARAMS")
-            return (genresResponse.results ?: emptyList()).mapNotNull { it.map() }
+            return (response.results ?: emptyList()).mapNotNull { it.map() }
         }
     }
 
     inner class Search {
-        suspend fun searchMovies(query: String): List<RepositoryMovie> {
+        suspend fun searchMovies(
+            query: String,
+            animation: Boolean,
+            page: MoviesPage = MoviesPage(1)
+        ): List<RepositoryMovie> {
             val searchParams = SearchParams(query = query).toQueryParams()
-            val genresResponse: PagedResponse<Movie> =
-                client.get("$END_POINT/search/movie?$searchParams&$DEFAULT_PARAMS")
-            return (genresResponse.results ?: emptyList())
-                .filter { !it.isAnimation }
-                .mapNotNull { it.map() }
+
+            val result = mutableListOf<RepositoryMovie>()
+            while (true) {
+                val response: PagedResponse<Movie> =
+                    client.get("$END_POINT/search/movie?page=${page.page}&$searchParams&$DEFAULT_PARAMS")
+                val items = (response.results ?: emptyList())
+                    .filter { (animation && it.isAnimation) || (!animation && !it.isAnimation) }
+                    .mapNotNull { it.map() }
+                result.addAll(items)
+                if (result.size > 0 || page.page >= response.totalPages ?: 0)
+                    break
+            }
+            return result
+        }
+
+        suspend fun searchSeries(
+            query: String,
+            animation: Boolean,
+            page: MoviesPage = MoviesPage(1)
+        ): List<RepositoryTv> {
+            val result = mutableListOf<RepositoryTv>()
+            while (true) {
+                val searchParams = SearchParams(query = query).toQueryParams()
+                val response: PagedResponse<Tv> =
+                    client.get("$END_POINT/search/tv?page=${page.page}&$searchParams&$DEFAULT_PARAMS")
+                val items = (response.results ?: emptyList())
+                    .filter { (animation && it.isAnimation) || (!animation && !it.isAnimation) }
+                    .mapNotNull { it.map() }
+                result.addAll(items)
+                if (result.size > 0 || page.page >= response.totalPages ?: 0)
+                    break
+            }
+            return result
         }
     }
 

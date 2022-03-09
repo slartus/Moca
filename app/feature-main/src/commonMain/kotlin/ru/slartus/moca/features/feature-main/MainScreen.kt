@@ -13,6 +13,7 @@ import ru.slartus.moca.core.AppScreenName
 import ru.slartus.moca.core_ui.ScreenWidth
 import ru.slartus.moca.core_ui.screenWidth
 import ru.slartus.moca.core_ui.theme.AppTheme
+import ru.slartus.moca.domain.models.ProductType
 import ru.slartus.moca.features.`feature-main`.videoGridViews.MoviesView
 import ru.slartus.moca.features.`feature-main`.videoGridViews.SeriesView
 import ru.slartus.moca.features.`feature-main`.views.DrawerView
@@ -57,6 +58,7 @@ fun MainScreen() {
             Action.OpenSearchScreen -> {
                 rootController.launch(
                     AppScreenName.Search.name,
+                    params = viewState.subScreen,
                     animationType = AnimationType.Present(300)
                 )
             }
@@ -99,11 +101,11 @@ fun MainScreen() {
 }
 
 @Composable
-private fun SubScreenView(subScreen: SubScreen, eventListener: EventListener, refresh: Boolean) {
+private fun SubScreenView(subScreen: ProductType, eventListener: EventListener, refresh: Boolean) {
     val rootController = LocalRootController.current
 
     when (subScreen) {
-        SubScreen.Movies -> MoviesView(
+        ProductType.Movie -> MoviesView(
             tag = "movies",
             refresh = refresh,
             onItemClick = { item ->
@@ -117,7 +119,7 @@ private fun SubScreenView(subScreen: SubScreen, eventListener: EventListener, re
                 eventListener.onEvent(Event.Error(it))
             }
         )
-        SubScreen.Tv -> SeriesView(
+        ProductType.Series -> SeriesView(
             tag = "series",
             refresh = refresh,
             onItemClick = { item ->
@@ -129,7 +131,7 @@ private fun SubScreenView(subScreen: SubScreen, eventListener: EventListener, re
             },
             onError = { eventListener.onEvent(Event.Error(it)) }
         )
-        SubScreen.AnimationMovies -> MoviesView(
+        ProductType.AnimationMovie -> MoviesView(
             tag = "animation.movies",
             refresh = refresh,
             onItemClick = { item ->
@@ -143,7 +145,7 @@ private fun SubScreenView(subScreen: SubScreen, eventListener: EventListener, re
                 eventListener.onEvent(Event.Error(it))
             }
         )
-        SubScreen.AnimationTv -> SeriesView(
+        ProductType.AnimationSeries -> SeriesView(
             tag = "animation.series",
             refresh = refresh,
             onItemClick = { item ->

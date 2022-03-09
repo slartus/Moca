@@ -19,6 +19,7 @@ internal class SearchScreenViewModel<T : Product>(
     private val _state = MutableStateFlow(
         SearchViewState(
             isLoading = true,
+            query = "",
             data = SearchResult<T>(emptyList()),
             actions = emptyList()
         )
@@ -34,6 +35,7 @@ internal class SearchScreenViewModel<T : Product>(
             _state.update { state ->
                 SearchViewState(
                     isLoading = false,
+                    query = query,
                     data = SearchResult(emptyList()),
                     actions = state.actions
                 )
@@ -46,6 +48,7 @@ internal class SearchScreenViewModel<T : Product>(
                     _state.update { state ->
                         SearchViewState(
                             isLoading = false,
+                            query = query,
                             data = SearchResult(items),
                             actions = state.actions
                         )
@@ -60,6 +63,7 @@ internal class SearchScreenViewModel<T : Product>(
             SearchViewState(
                 isLoading = false,
                 data = screenState.data,
+                query = screenState.query,
                 actions = screenState.actions + Action.Error(
                     exception.message ?: exception.toString()
                 )
@@ -74,6 +78,7 @@ internal data class SearchResult<T : Product>(
 
 internal data class SearchViewState<T : Product>(
     val isLoading: Boolean,
+    val query: String,
     val data: SearchResult<T>,
     val actions: List<Action>
 )

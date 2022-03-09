@@ -4,6 +4,7 @@ import ru.alexgladkov.odyssey.compose.extensions.screen
 import ru.alexgladkov.odyssey.compose.navigation.RootComposeBuilder
 import ru.slartus.moca.core.AppScreenName
 import ru.slartus.moca.domain.models.Movie
+import ru.slartus.moca.domain.models.ProductType
 import ru.slartus.moca.domain.models.Series
 import ru.slartus.moca.features.`feature-main`.MainScreen
 import ru.slartus.moca.features.`feature-product-info`.MovieScreen
@@ -17,7 +18,7 @@ fun RootComposeBuilder.generateGraph() {
     }
 
     screen(name = AppScreenName.Search.name) {
-        SearchScreen()
+        SearchScreen(it as ProductType)
     }
 
     screen(name = AppScreenName.MovieInfo.name) {
