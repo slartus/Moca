@@ -51,7 +51,7 @@ fun MovieScreen(movie: Movie) {
         topBar = { TopBar(movie.title) }
     ) {
         var tabIndex by remember { mutableStateOf(0) }
-        val tabTitles = listOf(strings.description, strings.torrents).map { it.uppercase() }
+        val tabTitles = listOf(strings.description).map { it.uppercase() }
         Column {
             TabRow(
                 backgroundColor = AppTheme.colors.actionBarColor,
