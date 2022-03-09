@@ -45,9 +45,13 @@ object Dependencies {
         const val activity = "androidx.activity:activity-compose:1.4.0"
 
         object Accompanist {
-            const val accompanist = "0.23.0"
+            private const val accompanist = "0.23.0"
             const val systemuicontroller =
                 "com.google.accompanist:accompanist-systemuicontroller:$accompanist"
+            const val insets =
+                "com.google.accompanist:accompanist-insets:$accompanist"
+            const val insetsUi =
+                "com.google.accompanist:accompanist-insets-ui:$accompanist"
         }
     }
 }

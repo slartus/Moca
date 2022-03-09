@@ -19,12 +19,12 @@ internal class SearchScreenViewModel<T : Product>(
     private val _state = MutableStateFlow(
         SearchViewState(
             isLoading = true,
-            data = SearchResult(emptyList()),
+            data = SearchResult<T>(emptyList()),
             actions = emptyList()
         )
     )
 
-    val stateFlow: StateFlow<SearchViewState> = _state.asStateFlow()
+    val stateFlow: StateFlow<SearchViewState<T>> = _state.asStateFlow()
 
 
     private var searchJob: Job = Job()
@@ -68,13 +68,13 @@ internal class SearchScreenViewModel<T : Product>(
     }
 }
 
-internal data class SearchResult(
-    val items: List<Product>
+internal data class SearchResult<T : Product>(
+    val items: List<T>
 )
 
-internal data class SearchViewState(
+internal data class SearchViewState<T : Product>(
     val isLoading: Boolean,
-    val data: SearchResult,
+    val data: SearchResult<T>,
     val actions: List<Action>
 )
 

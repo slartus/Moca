@@ -11,6 +11,7 @@ import ru.slartus.moca.features.`feature-product-info`.SeriesScreen
 import ru.slartus.moca.features.`feature-search`.SearchScreen
 
 fun RootComposeBuilder.generateGraph() {
+
     screen(name = AppScreenName.Main.name) {
         MainScreen()
     }
@@ -18,7 +19,6 @@ fun RootComposeBuilder.generateGraph() {
     screen(name = AppScreenName.Search.name) {
         SearchScreen()
     }
-
 
     screen(name = AppScreenName.MovieInfo.name) {
         MovieScreen(it as Movie)
