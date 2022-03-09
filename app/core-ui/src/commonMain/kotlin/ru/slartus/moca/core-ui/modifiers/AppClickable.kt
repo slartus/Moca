@@ -21,7 +21,7 @@ fun Modifier.appClickable(
             onClickLabel = onClickLabel,
             role = role,
             interactionSource = remember { MutableInteractionSource() },
-            indication = rememberRipple(color = AppTheme.colors.primary),
+            indication = rememberRipple(color = AppTheme.colors.highLight),
             onClick = onClick
         )
     }

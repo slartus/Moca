@@ -8,7 +8,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import kotlinx.coroutines.launch
 import org.kodein.di.compose.rememberInstance
 import ru.slartus.moca.`core-ui`.views.VideoCard
 import ru.slartus.moca.core_ui.theme.AppTheme
@@ -83,7 +82,7 @@ private fun <T : Product> ProductsView(
         if (viewState.isLoading)
             CircularProgressIndicator(
                 modifier = Modifier.align(Alignment.Center),
-                color = AppTheme.colors.primary,
+                color = AppTheme.colors.highLight,
             )
         else if (viewState.data.isEmpty())
             Text(

@@ -105,7 +105,17 @@ class MainScreenViewModel(
                         ScreenState(
                             title = screenState.title,
                             subScreen = screenState.subScreen,
-                            actions = screenState.actions + Action.Refresh(),
+                            actions = screenState.actions + Action.Refresh,
+                            drawerOpened = screenState.drawerOpened
+                        )
+                    }
+                }
+                Event.SearchClick -> {
+                    _stateFlow.update { screenState ->
+                        ScreenState(
+                            title = screenState.title,
+                            subScreen = screenState.subScreen,
+                            actions = screenState.actions + Action.OpenSearchScreen,
                             drawerOpened = screenState.drawerOpened
                         )
                     }
@@ -142,6 +152,7 @@ enum class SubScreen {
 sealed class Action() {
     val id: String = uuid4().toString()
 
-    class Error(val message: String) : Action()
-    class Refresh() : Action()
+    data class Error(val message: String) : Action()
+    object OpenSearchScreen : Action()
+    object Refresh : Action()
 }

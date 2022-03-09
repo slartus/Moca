@@ -5,7 +5,7 @@ import androidx.compose.ui.graphics.Color
 
 data class AppColors(
     val darkTheme: Boolean,
-    val primary: Color,
+    val highLight: Color,
     val primaryText: Color,
     val primaryBackground: Color,
     val actionBarColor: Color,
@@ -28,7 +28,7 @@ val lightPalette = AppColors(
     secondaryBackground = Color(0xFFCCCCCC),
     primarySurface = Color(0xFF0F9D58),
     drawerColor = Palette.white,
-    primary = Color.Green,
+    highLight = Color.Green,
     statusBarColor = Palette.white,
     navigationBarColor = Palette.white,
     strongText = Palette.black,
@@ -44,7 +44,7 @@ val darkPalette = AppColors(
     secondaryBackground = Palette.nero29,
     primarySurface = Palette.nero21,
     drawerColor = Palette.nero1B,
-    primary = Palette.bermuda,
+    highLight = Palette.bermuda,
     statusBarColor = Palette.nero21,
     navigationBarColor = Color.Black,
     strongText = Palette.white,

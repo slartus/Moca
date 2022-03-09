@@ -10,7 +10,6 @@ import javax.swing.JFrame
 import javax.swing.WindowConstants
 
 fun JFrame.setupNavigation(
-    startScreen: String,
     vararg providers: ProvidedValue<*>,
     navigationGraph: RootComposeBuilder.() -> Unit
 ) {
@@ -28,7 +27,7 @@ fun JFrame.setupNavigation(
                 import(desktopModule)
             }
             withApp(di) {
-                Navigator(startScreen)
+                Navigator()
             }
         }
     }

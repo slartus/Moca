@@ -10,7 +10,6 @@ fun main() = SwingUtilities.invokeLater {
     window.title = "Moca"
     window.setSize(800, 600)
     window.setupNavigation(
-        "main",
         *appProviders()
     ) {
         generateGraph()

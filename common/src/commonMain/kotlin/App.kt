@@ -10,6 +10,8 @@ import ru.slartus.moca.core_ui.theme.AppResources
 import ru.slartus.moca.data.di.dataModule
 import ru.slartus.moca.domain.di.domainModule
 import ru.slartus.moca.features.`feature-main`.di.mainScreenModule
+import ru.slartus.moca.features.`feature-product-info`.di.productInfoModule
+import ru.slartus.moca.features.`feature-search`.di.searchScreenModule
 
 lateinit var appDi: DI
 
@@ -24,6 +26,8 @@ fun withApp(parentId:DI, content: @Composable () -> Unit) {
         bindSingleton { coroutineScope }
 
         import(mainScreenModule)
+        import(productInfoModule)
+        import(searchScreenModule)
     }
     withDI(appDi) {
         content()

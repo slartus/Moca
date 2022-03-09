@@ -28,6 +28,10 @@ class MockApi(val client: HttpClient) : CatalogApi {
         TODO("Not yet implemented")
     }
 
+    override suspend fun findMovies(query: String): List<ru.slartus.moca.domain.models.Movie> {
+        TODO("Not yet implemented")
+    }
+
     inner class Movies {
         suspend fun getPopular(): List<RepositoryMovie> {
             delay(1000)

@@ -11,6 +11,9 @@ data class AppStrings(
     val refresh: String,
     val description: String,
     val torrents: String,
+    val search: String,
+    val back:String,
+    val clear: String,
 )
 
 val ruStrings = AppStrings(
@@ -21,7 +24,10 @@ val ruStrings = AppStrings(
     menu = "Меню",
     refresh = "Обновить",
     description = "Описание",
-    torrents = "Торренты"
+    torrents = "Торренты",
+    search = "Поиск",
+    back = "Назад",
+    clear = "Очистить"
 )
 
 val enStrings = AppStrings(
@@ -32,7 +38,10 @@ val enStrings = AppStrings(
     menu = "Menu",
     refresh = "Refresh",
     description = "Description",
-    torrents = "Torrents"
+    torrents = "Torrents",
+    search = "Search",
+    back = "Back",
+    clear = "Clear"
 )
 
 

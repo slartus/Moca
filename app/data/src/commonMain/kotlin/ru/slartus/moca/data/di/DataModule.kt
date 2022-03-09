@@ -17,6 +17,7 @@ import ru.slartus.moca.domain.models.Movie
 import ru.slartus.moca.domain.models.Series
 import ru.slartus.moca.domain.repositories.MovieRepository
 import ru.slartus.moca.domain.repositories.ProductsRepository
+import ru.slartus.moca.domain.repositories.SearchRepository
 import ru.slartus.moca.domain.repositories.TorrentsRepository
 
 val dataModule = DI.Module("dataModule") {
@@ -71,6 +72,15 @@ val dataModule = DI.Module("dataModule") {
         TorrentsRepositoryImpl(
             listOf(
                 instance("sample")
+            )
+        )
+    }
+
+    bindSingleton<SearchRepository<Movie>>(tag = "movies") {
+        MoviesSearchRepositoryImpl(
+            listOf(
+                instance("tmdb"),
+                // instance("mock")
             )
         )
     }

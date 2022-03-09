@@ -68,6 +68,10 @@ class TmdbApi(val client: HttpClient) : CatalogApi {
             })
         }
 
+    override suspend fun findMovies(query: String): List<ru.slartus.moca.domain.models.Movie> {
+        return Search().searchMovies(query)
+    }
+
     inner class Genres {
         suspend fun getMovieList(): List<Genre> {
             val genresResponse: GenresResponse =
@@ -126,6 +130,17 @@ class TmdbApi(val client: HttpClient) : CatalogApi {
             val genresResponse: PagedResponse<Tv> =
                 client.get("$END_POINT/tv/popular?page=${page.page}&$DEFAULT_PARAMS")
             return (genresResponse.results ?: emptyList()).mapNotNull { it.map() }
+        }
+    }
+
+    inner class Search {
+        suspend fun searchMovies(query: String): List<RepositoryMovie> {
+            val searchParams = SearchParams(query = query).toQueryParams()
+            val genresResponse: PagedResponse<Movie> =
+                client.get("$END_POINT/search/movie?$searchParams&$DEFAULT_PARAMS")
+            return (genresResponse.results ?: emptyList())
+                .filter { !it.isAnimation }
+                .mapNotNull { it.map() }
         }
     }
 

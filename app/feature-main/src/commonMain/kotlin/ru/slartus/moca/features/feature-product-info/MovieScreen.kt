@@ -18,7 +18,6 @@ import org.kodein.di.compose.rememberInstance
 import ru.slartus.moca.`core-ui`.theme.LocalAppStrings
 import ru.slartus.moca.core_ui.theme.AppTheme
 import ru.slartus.moca.domain.models.Movie
-import ru.slartus.moca.domain.models.MovieDetails
 import ru.slartus.moca.features.`feature-product-info`.views.Description
 import ru.slartus.moca.features.`feature-product-info`.views.OriginalTitle
 import ru.slartus.moca.features.`feature-product-info`.views.PosterView
@@ -97,7 +96,7 @@ private fun InfoView(modifier: Modifier = Modifier, viewState: MovieViewState) {
         if (viewState.isLoading)
             CircularProgressIndicator(
                 modifier = Modifier.align(Alignment.Center),
-                color = AppTheme.colors.primary,
+                color = AppTheme.colors.highLight,
             )
     }
 }

@@ -12,6 +12,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.alexgladkov.odyssey.compose.local.LocalRootController
+import ru.slartus.moca.`core-ui`.theme.LocalAppStrings
 import ru.slartus.moca.`core-ui`.views.AppNavigationIcon
 import ru.slartus.moca.`core-ui`.views.TopBarView
 import ru.slartus.moca.core_ui.theme.AppTheme
@@ -21,12 +22,13 @@ import ru.slartus.moca.domain.models.Rate
 @Composable
 internal fun TopBar(title: String) {
     val rootController = LocalRootController.current
+    val strings = LocalAppStrings.current
     TopBarView(
         title = title,
         navigationIcon = {
             AppNavigationIcon(
                 imageVector = Icons.Default.ArrowBack,
-                contentDescription = "Back"
+                contentDescription = strings.back
             ) {
                 rootController.popBackStack()
             }

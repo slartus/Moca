@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
 
                 withApp(di) {
                     ModalSheetNavigator {
-                        Navigator("main")
+                        Navigator()
                     }
                 }
 

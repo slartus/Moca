@@ -23,6 +23,5 @@ val mainScreenModule = DI.Module("mainScreenModule") {
             instance()
         )
     }
-    bindFactory { movie: Movie -> MovieScreenViewModel(movie, instance(), instance()) }
 }
 

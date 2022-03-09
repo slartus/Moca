@@ -36,7 +36,6 @@ data class FilterParams(
     }
 }
 
-
 enum class SortBy(val param: String) {
     PopularityAsc("popularity.asc"),
     PopularityDesc("popularity.desc"),

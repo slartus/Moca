@@ -13,5 +13,6 @@ sealed class Event {
     object MenuAnimationTvClick : Event()
     object OnDrawerClosed : Event()
     object RefreshClick : Event()
+    object SearchClick : Event()
     data class Error(val error: Exception) : Event()
 }

@@ -21,6 +21,7 @@ import ru.slartus.moca.features.`feature-main`.views.customDrawerShape
 
 @Composable
 fun MainScreen() {
+    val rootController = LocalRootController.current
     val coroutineScope = rememberCoroutineScope()
     val screenViewModel: MainScreenViewModel by rememberInstance()
     val viewState by screenViewModel.stateFlow.collectAsState()
@@ -53,6 +54,12 @@ fun MainScreen() {
             is Action.Refresh -> {
                 refresh = true
             }
+            Action.OpenSearchScreen -> {
+                rootController.launch(
+                    AppScreenName.Search.name,
+                    animationType = AnimationType.Present(300)
+                )
+            }
         }
     }
     BoxWithConstraints {
@@ -74,7 +81,8 @@ fun MainScreen() {
                     title = viewState.title,
                     screenWidth = screenWidth,
                     onMenuClick = { screenViewModel.onEvent(Event.MenuClick) },
-                    onRefreshClick = { screenViewModel.onEvent(Event.RefreshClick) }
+                    onRefreshClick = { screenViewModel.onEvent(Event.RefreshClick) },
+                    onSearchClick = { screenViewModel.onEvent(Event.SearchClick) },
                 )
             },
             drawerShape = customDrawerShape(250.dp),
