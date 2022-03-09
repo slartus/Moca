@@ -2,65 +2,59 @@ package ru.slartus.moca.data.api.tmdb
 
 import io.ktor.client.*
 import io.ktor.client.request.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.withContext
 import ru.slartus.moca.data.api.tmdb.mappers.buildVideoUrl
 import ru.slartus.moca.data.api.tmdb.mappers.map
 import ru.slartus.moca.data.api.tmdb.models.*
 import ru.slartus.moca.domain.CatalogApi
 import kotlin.jvm.JvmInline
-import ru.slartus.moca.domain.models.MovieDetails as RepositoryMovieDetails
 import ru.slartus.moca.domain.models.Movie as RepositoryMovie
+import ru.slartus.moca.domain.models.MovieDetails as RepositoryMovieDetails
 import ru.slartus.moca.domain.models.Series as RepositoryTv
 
 class TmdbApi(val client: HttpClient) : CatalogApi {
     override val name = "TMDB"
 
     override suspend fun getPopularMovies(page: Int): List<RepositoryMovie> {
-        return withContext(Dispatchers.Default) {
-            val popularParams = FilterParams(
-                sortBy = SortBy.PopularityDesc,
-                includeAdult = false,
-                withoutGenres = listOf(ru.slartus.moca.data.api.tmdb.Genres.Animation)
-            )
-            Discover().getMovies(MoviesPage(page), popularParams)
-        }
+        val popularParams = FilterParams(
+            sortBy = SortBy.PopularityDesc,
+            includeAdult = false,
+            withoutGenres = listOf(ru.slartus.moca.data.api.tmdb.Genres.Animation)
+        )
+        return Discover().getMovies(MoviesPage(page), popularParams)
     }
 
     override suspend fun getPopularTv(page: Int): List<RepositoryTv> {
-        return withContext(Dispatchers.Default) {
-            val popularParams = FilterParams(
-                sortBy = SortBy.PopularityDesc,
-                includeAdult = false,
-                withoutGenres = listOf(ru.slartus.moca.data.api.tmdb.Genres.Animation)
-            )
-            Discover().getTv(MoviesPage(page), popularParams)
-        }
+        val popularParams = FilterParams(
+            sortBy = SortBy.PopularityDesc,
+            includeAdult = false,
+            withoutGenres = listOf(ru.slartus.moca.data.api.tmdb.Genres.Animation)
+        )
+        return Discover().getTv(MoviesPage(page), popularParams)
     }
 
     override suspend fun getPopularAnimationMovies(page: Int): List<RepositoryMovie> {
-        return withContext(Dispatchers.Default) {
-            val popularParams = FilterParams(
-                sortBy = SortBy.PopularityDesc,
-                includeAdult = false,
-                withGenres = listOf(ru.slartus.moca.data.api.tmdb.Genres.Animation)
-            )
-            Discover().getMovies(MoviesPage(page), popularParams)
-        }
+        val popularParams = FilterParams(
+            sortBy = SortBy.PopularityDesc,
+            includeAdult = false,
+            withGenres = listOf(ru.slartus.moca.data.api.tmdb.Genres.Animation)
+        )
+        return Discover().getMovies(MoviesPage(page), popularParams)
     }
 
     override suspend fun getPopularAnimationTv(page: Int): List<RepositoryTv> {
-        return withContext(Dispatchers.Default) {
-            val popularParams = FilterParams(
-                sortBy = SortBy.PopularityDesc,
-                includeAdult = false,
-                withGenres = listOf(ru.slartus.moca.data.api.tmdb.Genres.Animation)
-            )
-            Discover().getTv(MoviesPage(page), popularParams)
-        }
+        val popularParams = FilterParams(
+            sortBy = SortBy.PopularityDesc,
+            includeAdult = false,
+            withGenres = listOf(ru.slartus.moca.data.api.tmdb.Genres.Animation)
+        )
+        return Discover().getTv(MoviesPage(page), popularParams)
     }
 
-    override suspend fun getMovieDetails(movieId: String): RepositoryMovieDetails {
-        return withContext(Dispatchers.Default) {
+    override suspend fun getMovieDetails(movieId: String): RepositoryMovieDetails =
+        withContext(Dispatchers.Default) {
             val detailsRequest = async { Movies().getDetails(movieId.toInt()) }
             val videosRequest = async { Movies().getVideos(movieId.toInt()) }
 
@@ -73,7 +67,6 @@ class TmdbApi(val client: HttpClient) : CatalogApi {
                 buildVideoUrl(site, key)
             })
         }
-    }
 
     inner class Genres {
         suspend fun getMovieList(): List<Genre> {
