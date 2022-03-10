@@ -18,7 +18,7 @@ internal class SearchScreenViewModel<T : Product>(
     private val coroutineContext = exceptionHandler + SupervisorJob()
     private val _state = MutableStateFlow(
         SearchViewState(
-            isLoading = true,
+            isLoading = false,
             query = "",
             data = SearchResult<T>(emptyList()),
             actions = emptyList()
@@ -43,6 +43,15 @@ internal class SearchScreenViewModel<T : Product>(
         } else {
             searchJob = scope.launch(coroutineContext) {
                 delay(300)
+
+                _state.update { state ->
+                    SearchViewState(
+                        isLoading = true,
+                        query = state.query,
+                        data = state.data,
+                        actions = state.actions
+                    )
+                }
                 val items = repository.search(query)
                 if (isActive) {
                     _state.update { state ->
@@ -53,6 +62,7 @@ internal class SearchScreenViewModel<T : Product>(
                             actions = state.actions
                         )
                     }
+
                 }
             }
         }
