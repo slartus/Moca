@@ -2,7 +2,10 @@ package ru.slartus.moca.features.`feature-search`
 
 import com.benasher44.uuid.uuid4
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import ru.slartus.moca.domain.models.Product
 import ru.slartus.moca.domain.repositories.SearchRepository
 
@@ -29,7 +32,8 @@ internal class SearchScreenViewModel<T : Product>(
 
 
     private var searchJob: Job = Job()
-    fun onQueryChanged(query: String) {
+    fun onQueryChanged(oldQuery: String, query: String) {
+        if (oldQuery == query) return
         searchJob.cancel()
         if (query.isEmpty()) {
             _state.update { state ->
@@ -42,7 +46,7 @@ internal class SearchScreenViewModel<T : Product>(
             }
         } else {
             searchJob = scope.launch(coroutineContext) {
-                delay(300)
+                delay(500)
 
                 _state.update { state ->
                     SearchViewState(
@@ -65,6 +69,17 @@ internal class SearchScreenViewModel<T : Product>(
 
                 }
             }
+        }
+    }
+
+    fun actionReceived(messageId: String) {
+        _state.update { screenState ->
+            SearchViewState(
+                isLoading = false,
+                data = screenState.data,
+                query = screenState.query,
+                actions = screenState.actions.filterNot { it.id == messageId },
+            )
         }
     }
 

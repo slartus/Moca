@@ -24,10 +24,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 import org.kodein.di.compose.rememberInstance
 import ru.alexgladkov.odyssey.compose.RootController
 import ru.alexgladkov.odyssey.compose.local.LocalRootController
 import ru.alexgladkov.odyssey.core.animations.AnimationType
+import ru.slartus.moca.`core-ui`.theme.AppStrings
 import ru.slartus.moca.`core-ui`.theme.LocalAppStrings
 import ru.slartus.moca.`core-ui`.views.AppNavigationIcon
 import ru.slartus.moca.`core-ui`.views.TopBarView
@@ -43,7 +45,7 @@ import ru.slartus.moca.domain.models.Series
 fun SearchScreen(productType: ProductType) {
     val strings = LocalAppStrings.current
     val rootController = LocalRootController.current
-
+    val coroutineScope = rememberCoroutineScope()
     val model by when (productType) {
         ProductType.Movie -> rememberInstance<SearchScreenViewModel<Movie>>(tag = "movies")
         ProductType.Series -> rememberInstance<SearchScreenViewModel<Series>>(tag = "series")
@@ -51,53 +53,90 @@ fun SearchScreen(productType: ProductType) {
         ProductType.AnimationSeries -> rememberInstance<SearchScreenViewModel<Series>>(tag = "animation.series")
     }
     val searchViewModel by remember(productType) {
-
         mutableStateOf(model)
     }
 
-
     val searchState by searchViewModel.stateFlow.collectAsState()
     val searchBy = remember { mutableStateOf(TextFieldValue(searchState.query)) }
-    searchViewModel.onQueryChanged(searchBy.value.text)
+    searchViewModel.onQueryChanged(searchState.query, searchBy.value.text)
 
     val scaffoldState = rememberScaffoldState(
         snackbarHostState = remember { SnackbarHostState() }
     )
+    searchState.actions.firstOrNull()?.let {
+        searchViewModel.actionReceived(it.id)
+        when (it) {
+            is Action.Error ->
+                coroutineScope.launch {
+                    scaffoldState.snackbarHostState.showSnackbar(it.message)
+                }
+        }
+    }
     Scaffold(
         scaffoldState = scaffoldState,
         backgroundColor = AppTheme.colors.primaryBackground,
         topBar = {
-            TopBarView(
-                modifier = Modifier,
-                title = {
-                    SearchViewTextField(searchBy)
-                },
-                navigationIcon = {
-                    AppNavigationIcon(
-                        imageVector = Icons.Default.ArrowBack,
-                        contentDescription = strings.back
-                    ) {
-                        //searchViewModel.onQueryChanged("")
-                        rootController.popBackStack()
-                    }
-                }
-            )
+            ScreenTopBarView(searchBy, strings, rootController)
         }
     ) {
-        LazyColumn(modifier = Modifier.fillMaxSize()) {
-            searchState.data.items.forEach { item ->
-                item {
-                    SearchResultItemView(rootController, item) {
-                        val screenName = when (productType) {
-                            ProductType.Movie, ProductType.AnimationMovie -> AppScreenName.MovieInfo.name
-                            ProductType.AnimationSeries, ProductType.Series -> AppScreenName.SeriesInfo.name
-                        }
-                        rootController.launch(
-                            screenName,
-                            params = item,
-                            animationType = AnimationType.Push(300)
-                        )
+        if (searchState.isLoading)
+            ProgressView()
+        SearchResultView(searchState.data.items, productType, rootController)
+    }
+}
+
+@Composable
+private fun ScreenTopBarView(
+    searchBy: MutableState<TextFieldValue>,
+    strings: AppStrings,
+    rootController: RootController
+) {
+    TopBarView(
+        modifier = Modifier,
+        title = {
+            SearchViewTextField(searchBy)
+        },
+        navigationIcon = {
+            AppNavigationIcon(
+                imageVector = Icons.Default.ArrowBack,
+                contentDescription = strings.back
+            ) {
+                //searchViewModel.onQueryChanged("")
+                rootController.popBackStack()
+            }
+        }
+    )
+}
+
+@Composable
+private fun ProgressView() {
+    Box(modifier = Modifier.fillMaxWidth()) {
+        CircularProgressIndicator(
+            modifier = Modifier.align(Alignment.Center),
+            color = AppTheme.colors.highLight,
+        )
+    }
+}
+
+@Composable
+private fun <T : Product> SearchResultView(
+    items: List<T>,
+    productType: ProductType,
+    rootController: RootController
+) {
+    LazyColumn(modifier = Modifier.fillMaxSize()) {
+        items.forEach { item ->
+            item {
+                SearchResultItemView(item) {
+                    val screenName = when (productType) {
+                        ProductType.Movie, ProductType.AnimationMovie -> AppScreenName.MovieInfo.name
+                        ProductType.AnimationSeries, ProductType.Series -> AppScreenName.SeriesInfo.name
                     }
+                    rootController.launch(
+                        screenName,
+                        params = item,
+                        animationType = AnimationType.Push(300)
+                    )
                 }
             }
         }
@@ -106,7 +145,6 @@ fun SearchScreen(productType: ProductType) {
 
 @Composable
 private fun <T : Product> SearchResultItemView(
-    rootController: RootController,
     item: T,
     onItemClick: (item: T) -> Unit
 ) {
