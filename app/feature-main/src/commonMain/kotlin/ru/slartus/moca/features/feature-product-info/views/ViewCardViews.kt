@@ -15,6 +15,7 @@ import ru.alexgladkov.odyssey.compose.local.LocalRootController
 import ru.slartus.moca.`core-ui`.theme.LocalAppStrings
 import ru.slartus.moca.`core-ui`.views.AppNavigationIcon
 import ru.slartus.moca.`core-ui`.views.TopBarView
+import ru.slartus.moca.`core-ui`.views.posterHeightWeightOfWidth
 import ru.slartus.moca.core_ui.theme.AppTheme
 import ru.slartus.moca.domain.models.Rate
 
@@ -69,7 +70,7 @@ internal fun PosterView(posterUrl: String?, year: String?, rates: List<Rate>) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height((maxWidth.value * 1.5).dp)
+                    .height((maxWidth.value * posterHeightWeightOfWidth).dp)
             ) {
                 AsyncImage(
                     modifier = Modifier

@@ -10,17 +10,24 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import ru.slartus.moca.`core-ui`.modifiers.appClickable
 import ru.slartus.moca.core_ui.theme.AppTheme
 
+const val posterHeightWeightOfWidth = 1.4
+
 @Composable
-fun VideoCardView(modifier: Modifier = Modifier, tv: VideoCard, onClick: () -> Unit) {
+fun VideoCardView(
+    modifier: Modifier = Modifier,
+    card: VideoCard,
+    cellWidth: Dp,
+    onClick: () -> Unit
+) {
     Card(
         modifier = modifier
-            .fillMaxWidth()
-            .height(200.dp)
             .padding(horizontal = 5.dp, vertical = 5.dp)
+            .fillMaxWidth()
             .appClickable {
                 onClick.invoke()
             },
@@ -29,19 +36,19 @@ fun VideoCardView(modifier: Modifier = Modifier, tv: VideoCard, onClick: () -> U
     ) {
         Column(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
         ) {
             Box(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .weight(weight = 1f)
+                    .fillMaxWidth()
+                    .height((cellWidth.value * posterHeightWeightOfWidth).dp)
             ) {
-                if (tv.posterUrl != null)
+                if (card.posterUrl != null)
                     AsyncImage(
                         modifier = Modifier
                             .fillMaxSize(),
-                        imageUrl = tv.posterUrl,
-                        contentDescription = tv.title,
+                        imageUrl = card.posterUrl,
+                        contentDescription = card.title,
                         contentScale = ContentScale.FillWidth
                     )
             }
@@ -51,7 +58,7 @@ fun VideoCardView(modifier: Modifier = Modifier, tv: VideoCard, onClick: () -> U
                     .height(44.dp)
                     .padding(start = 4.dp, top = 4.dp, end = 4.dp),
                 maxLines = 2,
-                text = tv.title,
+                text = card.title,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
                 color = AppTheme.colors.primaryText,

@@ -7,9 +7,12 @@ import androidx.compose.foundation.lazy.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
 import io.github.aakira.napier.Napier
 import ru.slartus.moca.`core-ui`.views.VideoCard
 import ru.slartus.moca.`core-ui`.views.VideoCardView
+
+private val minCardWidth = 128.dp
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -31,7 +34,9 @@ internal fun VideoGridView(
         modifier = modifier.fillMaxSize()
     ) {
         val state: LazyListState = rememberLazyListState()
-        val cellsCount = maxOf((maxWidth / 128.dp).toInt(), 1)
+
+        val cellsCount = maxOf((maxWidth / minCardWidth).toInt(), 1)
+        val cellWidth = maxWidth / cellsCount
         val lastItemIndex = state.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0
         val screenCount = state.layoutInfo.totalItemsCount
         val scrollInfo = ScrollInfo(data.size, lastItemIndex, screenCount, cellsCount)
@@ -46,7 +51,11 @@ internal fun VideoGridView(
         ) {
             data.forEach { card ->
                 item {
-                    VideoCardView(modifier = Modifier, card) {
+                    VideoCardView(
+                        modifier = Modifier,
+                        card = card,
+                        cellWidth = cellWidth
+                    ) {
                         onCardClick(card)
                     }
                 }
