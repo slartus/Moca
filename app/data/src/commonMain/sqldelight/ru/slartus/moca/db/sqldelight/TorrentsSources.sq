@@ -1,0 +1,10 @@
+CREATE TABLE torrents_sources (
+  title TEXT NOT NULL,
+  url TEXT NOT NULL
+);
+
+CREATE INDEX dbtorrents_sources_title ON torrents_sources(title);
+
+selectAll:
+SELECT *
+FROM torrents_sources;

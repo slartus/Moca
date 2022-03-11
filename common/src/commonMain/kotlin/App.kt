@@ -12,6 +12,7 @@ import ru.slartus.moca.domain.di.domainModule
 import ru.slartus.moca.features.`feature-main`.di.mainScreenModule
 import ru.slartus.moca.features.`feature-product-info`.di.productInfoModule
 import ru.slartus.moca.features.`feature-search`.di.searchScreenModule
+import ru.slartus.moca.features.`feature-settings`.di.settingsModule
 
 lateinit var appDi: DI
 
@@ -28,6 +29,7 @@ fun withApp(parentId:DI, content: @Composable () -> Unit) {
         import(mainScreenModule)
         import(productInfoModule)
         import(searchScreenModule)
+        import(settingsModule)
     }
     withDI(appDi) {
         content()

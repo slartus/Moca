@@ -13,13 +13,13 @@ import ru.slartus.moca.features.`feature-search`.SearchScreen
 import ru.slartus.moca.features.`feature-settings`.SettingsScreen
 
 fun RootComposeBuilder.generateGraph() {
-
-    screen(name = AppScreenName.Settings.name) {
-        SettingsScreen()
-    }
     screen(name = AppScreenName.Main.name) {
         MainScreen()
     }
+    screen(name = AppScreenName.Settings.name) {
+        SettingsScreen()
+    }
+
 
     screen(name = AppScreenName.Search.name) {
         SearchScreen(it as ProductType)

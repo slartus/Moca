@@ -27,7 +27,7 @@ object DataAppResolve {
                 ignoreUnknownKeys = true
             })
         }
-        install(Logging){
+        install(Logging) {
             logger = Logger.DEFAULT
             level = LogLevel.HEADERS
         }

@@ -15,10 +15,7 @@ import ru.slartus.moca.db.MocaDatabase
 import ru.slartus.moca.domain.TorrentsApi
 import ru.slartus.moca.domain.models.Movie
 import ru.slartus.moca.domain.models.Series
-import ru.slartus.moca.domain.repositories.MovieRepository
-import ru.slartus.moca.domain.repositories.ProductsRepository
-import ru.slartus.moca.domain.repositories.SearchRepository
-import ru.slartus.moca.domain.repositories.TorrentsRepository
+import ru.slartus.moca.domain.repositories.*
 
 val dataModule = DI.Module("dataModule") {
     bindSingleton { getHttpClient() }
@@ -70,6 +67,10 @@ val dataModule = DI.Module("dataModule") {
 
     bindSingleton<SearchRepository<Series>>(tag = "animation.series") {
         AnimationSeriesSearchRepositoryImpl(listOf(instance("tmdb")))
+    }
+
+    bindSingleton<TorrentsSourcesRepository> {
+        TorrentsSourcesRepositoryImpl(database = instance(), client = instance())
     }
 }
 

@@ -1,5 +1,6 @@
 package ru.slartus.moca.features.`feature-product-info`
 
+import PlatformListener
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,19 +13,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import icPlay
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.kodein.di.compose.rememberInstance
 import ru.slartus.moca.core_ui.theme.AppTheme
+import ru.slartus.moca.domain.models.Product
 import ru.slartus.moca.domain.models.Torrent
 import ru.slartus.moca.domain.repositories.TorrentsRepository
+import ru.slartus.moca.domain.repositories.TorrentsSourcesRepository
 
 
 @Composable
-fun TorrentsListView(title: String, originalTitle: String) {
-    val repository: TorrentsRepository by rememberInstance()
+fun <T : Product> TorrentsListView(product: T) {
+    val repository: TorrentsSourcesRepository by rememberInstance()
     val coroutineScope = rememberCoroutineScope()
-
+    val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        if (throwable.cause !is CancellationException) {
+            println(throwable)
+        }
+    }
     var torrents: List<Torrent> by remember { mutableStateOf(emptyList()) }
 
     LazyColumn {
@@ -33,7 +43,7 @@ fun TorrentsListView(title: String, originalTitle: String) {
                 Column {
                     TorrentView(torrent)
                     Box(
-                        modifier=Modifier.height(0.5.dp).fillMaxWidth()
+                        modifier = Modifier.height(1.dp).fillMaxWidth()
                             .background(color = AppTheme.colors.secondaryText)
 
                     )
@@ -43,13 +53,13 @@ fun TorrentsListView(title: String, originalTitle: String) {
     }
 
     LaunchedEffect(Unit) {
-        coroutineScope.launch {
-            repository.items.collect {
-                torrents = it
+
+        coroutineScope.launch(SupervisorJob() + exceptionHandler) {
+            repository.getSources().forEach { source ->
+                coroutineScope.launch(SupervisorJob() + exceptionHandler) {
+                    torrents = torrents + repository.findIn(source, product)
+                }
             }
-        }
-        coroutineScope.launch {
-            repository.find(title)
         }
     }
 
@@ -57,11 +67,12 @@ fun TorrentsListView(title: String, originalTitle: String) {
 
 @Composable
 private fun TorrentView(torrent: Torrent) {
+    val platformListener by rememberInstance<PlatformListener>()
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .clickable {
-
+                platformListener.openUrl(torrent.url)
             }
             .padding(start = 10.dp)
             .padding(5.dp)

@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html prefix="og: https://ogp.me/ns#" xml:lang="ru" lang="ru" dir="ltr">
+<head>
+        <title>Торрент трекер PiratBit PB Пиратбит lazy.piratbit.fun</title>        <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="lazy.piratbit.fun, скачать торрент, смотреть фильмы и сериалы онлайн, тысячи бесплатных торрент фильмов и фильмов онлайн, торрент игр для pc, repack, сериалы. Самые ожидаемые новинки фильмов, игр, сериалов которые уже можно скачать с нашего торрента.">
+    <link rel="canonical" href="http://lazy.piratbit.fun">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://lazy.piratbit.fun">
+    <meta property="og:image" content="https://lazy.piratbit.fun/favicons/logo_new1.png">
+    <meta property="og:description" content="Крупнейший торрент трекер lazy.piratbit.fun, скачать торрент, смотреть фильмы и сериалы онлайн, тысячи бесплатных торрент фильмов и фильмов онлайн, торрент игр для pc, repack, сериалы. Самые ожидаемые новинки фильмов, игр, сериалов которые уже можно скачать с нашего торрента.">
+                
+        <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png?v=2">
+    <link rel="icon" type="image/png" href="/favicons/favicon-32x32.png?v=2" sizes="32x32">
+    <link rel="icon" type="image/png" href="/favicons/favicon-16x16.png?v=2" sizes="16x16">
+    
+    <!--[if IE]><link rel="icon" href="/favicon.ico?v=11"><![endif]-->
+    <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/favicons/mstile-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="alternate" type="application/rss+xml" title="rss лента" href="/rssd.xml">
+        <link rel="stylesheet" href="/assets/css/site-light.css?v=35794">
+    
+    <script src="/assets/js/site.js?v=35794"></script>
+    <script async src="/assets/js/bootstrap.min.js"></script>
+    <script>
+        $(function(){
+            function get_cookie(cookie_name){
+                var results = document.cookie.match ('(^|;) ?' + cookie_name + '=([^;]*)(;|$)');
+                if (results)
+                    return (unescape (results[2]));
+                else
+                    return null;
+            }
+
+            function check_cookie(){
+                var textCookie = get_cookie('messagetext1'),
+                    currentText = $('.message-box1 p').text();
+                if (textCookie == currentText) {
+                    $('.message-box1').hide(0);
+                }
+            }
+
+            check_cookie();
+
+            $('.close-button1').click(function(){
+                var currentText = $('.message-box1 p').text(),
+                    date = new Date();
+                date.setTime(date.getTime() + (10 * 24 * 60 * 60 * 1000));
+                document.cookie = "messagetext1="+currentText+"; expires="+date.toGMTString()+"; path=/";
+                $('.message-box1').fadeOut(200);
+            });
+        })
+    </script>
+    <style type="text/css">
+        .init { display: none; }
+.message-box1{
+            font: 12px/18px normal Arial, sans-serif;
+            background: #FFF;
+            color: #000;
+            padding: 10px;
+            border: 1px #CCC solid;
+            border-radius: 5px;
+            margin: 10px;
+            position: relative;
+        }
+        .message-box1:hover .close-button1{
+            opacity: 1;
+        }
+
+        .message-box1 p{
+            margin: 0;
+            padding: 0;
+        }
+
+        .close-button1{
+            position: absolute;
+            right: 5px;
+            top: 2px;
+            font-size: 20px;
+            font-weight: bold;
+            opacity: 0;
+            -webkit-transition: .3s opacity, .15s color;
+            -moz-transition: .3s opacity, .15s color;
+            -ms-transition: .3s opacity, .15s color;
+            -o-transition: .3s opacity, .15s color;
+            transition: .3s opacity, .15s color;
+            color: #990000;
+        }
+
+        .close-button1:hover{
+            cursor: pointer;
+            color: #cc0000;
+        }
+
+        .close-button1:active{
+            top: 3px;
+        }
+    </style>
+
+        
+    </head>
+
+<body>
+<style>
+    .close-button2 {
+        position: absolute;
+        right: 5px;
+        top: 2px;
+        font-size: 20px;
+        font-weight: bold;
+        opacity: 0;
+        -webkit-transition: .3s opacity, .15s color;
+        -moz-transition: .3s opacity, .15s color;
+        -ms-transition: .3s opacity, .15s color;
+        -o-transition: .3s opacity, .15s color;
+        transition: .3s opacity, .15s color;
+        color: #990000;
+    }
+</style>
+<div class="subsc" style="background: #f44336; padding: 5px;">
+   <center><p style="color: white; font-size: 15px;">Всегда рабочее зеркало без VPN и Proxy просто перед .vidak.icu напиши любое слово или цифру, Пример <a style="color: wheat;" href="http://gzx.vidak.icu/" target="_blank">http://gzx.vidak.icu</a></p></center>
+    <div  class="material-switch pull-right" style="top: -15px; position: relative;">
+        <input id="h_subsc" name="h_subsc" type="checkbox"  onclick="user.set('h_subsc', this.checked ? 1 : 0);">
+        <label for="h_subsc" class="label-danger" title="Спрятать это сообщение"></label>
+    </div>
+</div>
+<div class="animenu" role="navigation">
+    <ul>
+        <li><a class="brand_logo" href="/"></a>
+            <span class="brand"></span>
+        </li>
+        <li><a href="/tracker/"><span class="top_menu">Трекер</span></a>
+            <ul>
+                                                <li><a href="/forum/309/">Новости трекера</a></li>
+                            </ul>
+        </li>
+        <li><a href="https://gold.bihan.site/4mgr3z" target="_blank"><span class="top_menu" style="color: aliceblue;">Акки PORNHUB+</span></a></li>
+        <li><a href="#"><span class="top_menu">Новое на сайте</span></a>
+            <ul>
+                <li><a href="/films/">Фильмы</a></li>
+                <li><a href="/forum/1842/">Фильмы 4К</a></li>
+                <li><a href="/game/">Игры PC</a></li>
+                <li><a href="/serials/">Cериалы</a></li>
+                <li><a href="/pron/">18+ для взрослых</a></li>
+                <li><a href="/cat/32/">Мультфильмы</a></li>
+                <li><a href="/forum/1674/">Книги fb2</a></li>
+                <li><a href="/forum/677/">Книги</a></li>
+                <li><a href="/cat/31/">Игры для консолей</a></li>
+                <li><a href="/cat/4/">Музыка</a></li>
+                <li><a href="/cat/14/">Рок-музыка</a></li>
+                <li><a href="/cat/10/">Документалистика</a></li>
+                <li><a href="/cat/6/">Программы, Дизайн, ОС</a></li>
+            </ul>
+        </li>
+                <li><a href="/groupcp.php"><span class="top_menu">Группы</span></a>
+            <ul>
+                <li><a href="/mytop.php">Топ 30 пользователей</a></li></ul>
+        </li>
+                            <!--noindex--><li><a href="https://pic1.kartinco.top/new/" rel="nofollow" title='Фотохостинг' target="_blank"><span class="top_menu">Фотохостинг</span></a></li><!--/noindex-->
+        <li><a href="https://pbgame.exaccess.com" target="_blank"><span class="top_menu" style="color: #00ee00">Магазин игр</span></a>
+            <ul style="color: white;">
+                                <li><a target="_blank" href="https://pbgame.exaccess.com/#!digiseller/detail/2755978"><b style="color: #77ee00">Ссылка на приватное зеркало 1$</b></a></li>
+                                <li><a target="_blank" href="https://pbgame.exaccess.com/digiseller/detail/3231748">Marvels Guardians of the Galaxy Deluxe</a></li>
+                <li><a target="_blank" href="https://pbgame.exaccess.com/digiseller/detail/3139380">Resident Evil Village 8 Deluxe+RE7</a></li>
+                <li><a target="_blank" href="https://pbgame.exaccess.com/digiseller/detail/3221146">FIFA 22+АККАУНТ+ЛИЦЕНЗИЯ</a></li>
+                <li><a target="_blank" href="https://pbgame.exaccess.com/digiseller/detail/3201029">Kings Bounty II - Duke's Edition</a></li>
+                <li><a target="_blank" href="https://pbgame.exaccess.com/digiseller/detail/3209233">DEATHLOOP - Deluxe</a></li>
+                <li><a target="_blank" href="https://pbgame.exaccess.com/digiseller/articles/94691">RANDOM STEAM KEY+ПОДАРОК всего за 15 руб.</a></li>
+            </ul>
+        </li>
+        <!--noindex--><li><a onclick="window.open('/radio/', 'hello', 'width=500,height=400,left=700,top=400')" style="cursor: pointer;"  rel="nofollow" title='Радио' target="_blank"><span class="top_menu">Radio Box</span></a></li><!--/noindex-->
+        <li><a href="/forum/74/"><span class="top_menu">FAQ</span></a>
+            <ul>
+                <li><a  href="/topic/26/">Как качать?</a></li>
+                <li><a href="/topic/130958/">Как создать РАЗДАЧУ</a></li>
+            </ul>
+        </li>
+        <li><a href="/tracker/#results"><span class="top_menu">Новые торренты</span></a></li>
+        <li><a href="/topic/116846/"><span class="top_menu">Стол заказов</span></a></li>
+        <li><a href="#"><span class="top_menu">Залить</span></a>
+            <ul>
+                <li><a href="/posting.php?mode=newtopic&f=1700&tpl=1#newrelise">Фильм</a></li>
+                <li><a href="/posting.php?mode=newtopic&f=1318&tpl=1#newrelise">Игру</a></li>
+                <li><a href="/posting.php?mode=newtopic&f=1391&tpl=1#newrelise">Сериал</a></li>
+                <li><a href="/posting.php?mode=newtopic&f=1807&tpl=1#newrelise">Музыку</a></li>
+                <li><a href="/posting.php?mode=newtopic&f=1808&tpl=1#newrelise">Софт</a></li>
+                <li><a href="/posting.php?mode=newtopic&f=19&tpl=1#newrelise">Мультфильм</a></li>
+                <li><a href="/posting.php?mode=newtopic&f=1615">18+</a></li>
+            </ul>
+        </li>        <li><a href="https://t.me/piratbit" target="_blank"><span class="top_menu"><img src="/images/poster_relise/Telegram_Messenger.png" border="0" title="теперь наша основная группа поддержки в телеге" style="position: relative;top: -6px;"></span></a>
+            <ul>
+                <li><a href="https://t.me/s/piratbit_tracker" target="_blank">TelegramBot раздачи</a></li>
+                <li><a href="https://vk.com/public187721476" target="_blank">Контакт</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+
+
+<div id="jssor_1" class="raleas-navbars" style="background-color: #2a2730;">
+    <span date-u="arrowleft" class="jssora03l" style="top:0px;left:8px;width:55px;height:55px;" data-autocenter="2"></span>
+    <div date-u="loading" style="position: absolute; top: 0px; left: 0px;"></div>
+    <div date-u="slodesr" class="release-block-img1">
+        <style>p.rating {
+        text-align: center;
+        position: absolute;
+        top: 4px;
+        background: #000;
+        width: 25%;
+        left: 76px;
+        opacity: 0.7;
+        color: wheat;
+    }</style>>
+<!-- 1 -->
+<div>
+    <p class="rating">6.9</p>
+    <p class="relise">Пифагор</p><a href="/tracker/?ss=Дом%20Gucci%20#results"><img
+            src="/images/poster_relise/148548.webp" alt="" title=""></a>
+</div>
+<!-- 2 -->
+<div>
+    <p class="rating">7.4</p>
+    <p class="relise">2 сезон</p><a href="/tracker/?ss=Ведьмак%202%20%20сезон#results"><img
+       src="/images/poster_relise/vedmak2.webp" alt="" title="скачать торрент"></a>
+</div>
+<!-- 3 -->
+<div>
+    <p class="rating">8.5</p>
+    <p class="relise">Лицензия</p><a href="/tracker/?ss=Техасская%20резня%20бензопилой%20+2022#results"><img
+            src="/images/poster_relise/liverface.webp" alt="1" title="1"></a>
+</div>
+<!-- 4-->
+<div>
+    <p class="rating">8.1</p>
+    <p class="relise">1 сезон</p><a href="/tracker/?ss=5:32%20алишер#results"><img
+            src="/images/poster_relise/532.webp" alt="" title=""></a>
+</div>
+<!-- 5 -->
+<!-- 6 -->
+<div>
+    <p class="rating">7.2</p>
+    <p class="relise">iTunes</p><a href="/tracker/?ss=Шан-Чи%20и%20легенда%20десяти%20колец%20#results"><img src="/images/poster_relise/sanchi.webp" alt="" title=""></a>
+</div>
+
+<!-- 7 -->
+<div>
+    <p class="rating">5.9</p>
+    <p class="relise">iTunes</p><a
+        href="/tracker/?ss=Последний%20богатырь:%20Посланник%20Тьмы%20#results"><img
+            src="/images/poster_relise/bogatir.webp" alt="13" title="скачать торрент"></a>
+</div>
+<!-- 8 -->
+<div>
+    <p class="rating">6.1</p>
+    <p class="relise">iTunes</p><a href="/tracker/?ss=Веном%202%20#results"><img src="/images/poster_relise/venom-2.webp" alt="" title="торрент"></a>
+
+</div>
+<div>
+    <p class="rating">8.3</p>
+    <p class="relise">Пиратка</p>
+    <a href="/topic/377147/"><img
+            src="/images/poster_relise/halo1.webp"  alt="30" title="30 torrent"></a>
+</div>
+
+<!-- 9 -->
+
+
+<div>
+    <p class="relise">Deluxe</p><a href="https://pbgame.exaccess.com/digiseller/detail/3293584" target="_blank"><img src="/t4zet/Elden_Ring.webp" title="Офлайн активация игр с защитой DENUVO"></a>
+</div>
+<!-- 10 -->
+<div>
+    <a href="/oxita/eF7LKCkpKLbS10/Pz0nRS8rMSMzTK84sSdU3SSk0TosAAKlrCq4=&/topic/" title="Безопасность в интернете,
+с любимым VPN-сервисом." target="_blank"><img alt="pack" src="/images/poster_relise/VPN.webp"></a> 
+    <p class="rating">9.9</p>
+    <p class="relise"><b style="font-size: 11px">Рекомендуем</b></p>
+</div>
+<div>
+<p class="relise">ВАЖНО</p><a href="https://vk.com/@-187721476-obhod-blokirovki" target="_blank"><img src="/images/poster_relise/3322.webp" alt="" title=""></a>
+</div>
+<!-- 11 -->
+
+<div>
+    <p class="relise"><b>ИГРА 18+</b></p><a href="/oxita/eF7LKCkpKLbS10/Pz0nRS8rMSMzTK84sSdXP9SgJy6oCAKrUCxc=/topic/" title="Самая пошлая игра в рунете." target="_blank"><img alt="pack" src="/images/poster_relise/rade33.webp"></a></div>
+<!-- 11 -->
+<div>
+    <p class="rating">7.3</p>
+    <p class="relise">RePack</p><a href="tracker/?ss=Diablo%20II:%20Resurrected%20#results"><img
+            src="/images/poster_relise/diablo3.webp" alt="MK11" title="MK11 скачать торрент"></a>
+</div>
+<!-- 12 -->
+<div>
+    <p class="rating">7.7</p>
+    <p class="relise">RePack</p><a href="/tracker/?ss=Immortals%20Fenyx%20Rising%20#results"><img
+            src="/images/poster_relise/rising.webp?v=2" alt="jed" title="jed скачать торрент"></a>
+</div>
+<!-- 14 -->
+<div>
+    <p class="rating">7.8</p>
+    <p class="relise">RePack</p><a href="/topic/368279/"><img
+            src="/images/poster_relise/nioh2.webp" alt="fifa19" title="nioh2 скачать торрент"></a>
+</div>
+<div>
+    <p class="rating">8.5</p>
+    <p class="relise">RePack</p><a href="/tracker/?ss=Red%20Dead%20Redemption%202%20#results"><img
+            src="/images/poster_relise/rdr2.webp" alt="RDR2" title="RDR2 скачать торрент"></a>
+</div>
+<!-- 15 -->
+<div>
+    <p class="relise">RePack</p><a href="tracker/?ss=Resident%20Evil%20Village%20Deluxe%20#results"><img
+            src="/images/poster_relise/DGW5xHgDXbWaEvssZRG0QeCl.webp" alt="NEED FOR SPEED™ PAYBACK" title="NEED FOR SPEED™ PAYBACK скачать торрент"></a>
+</div>
+<!-- 16 -->
+
+<!-- 17 -->
+<!-- 18 -->
+<div>
+    <p class="relise">1 сезон</p><a
+        href="/tracker/?ss=Универ.%2010%20лет%20спустя%20#results"><img
+            src="/images/poster_relise/univer10.webp" alt="" title="скачать торрент"></a>
+</div>
+<!-- 19 -->
+<div>
+    <p class="relise">9 сезон</p><a href="/tracker/?ss=Бесстыжие%20#results"><img src="/images/poster_relise/0e92256c965254ca7d1eeffcaf520b6d.webp" alt="Бесстыжие 9 сезон" title="Бесстыжие 9 сезон торрент"></a>
+</div>
+<!-- 20 -->
+<div>
+    <p class="relise">Все сериалы</p><a href="/serials/"><img src="/images/poster_relise/serial.webp" alt="все сериалы на PB.wtf" title="Все сериалы на нашем сайте"></a>
+</div>
+<!-- 20 -->
+<div>
+    <p class="relise">RePack</p><a href="/tracker/?ss=FAR%20CRY%205%20#results"><img
+            src="/images/poster_relise/FAR_CRY_5_repack.webp" alt="FAR CRY 5" title="FAR CRY 5 скачать торрент22"></a>
+</div>
+
+    </div>
+</div>
+<div style="background: #a94442;" class="message-box1">
+    <a href="/oxita/eF7LKCkpKLbS10/Pz0nRS8rMSMzTK84sSdVPyc9LLAEAoDoKyg==" target="_blank"><center><p style="font-size: 15px; color: white;">slartus, по возможности подкинь деньжат, нам заблокировали счета с донатами нечем платить за сервера!</p></center></a>
+    <span class="close-button1">&#215;</span></div>
+
+<!--logout-->
+<table class="table table-condensed">
+    <tbody>
+    <tr class="active">
+        <td><div class="btn-group">
+                <div class="btn-group">
+                    <button class="btn btn-outline-dark btn-sm dropdown-toggle a59e9e" type="button" data-toggle="dropdown">slartus                        <span class="caret"></span></button>
+                    <ul class="dropdown-menu tLeft">
+                        <li><a href="/user/1208752/">Профиль</a></li>
+                                                <style>.need_vip
+                            {       position: absolute;
+                                top: 34px;
+                                left: 3px;
+                                width: 20px;
+                                height: 20px;
+                                background-repeat: no-repeat;
+                                background-position: 50% 50%;
+                                -webkit-background-size: 1.30em 1.30em;
+                                -moz-background-size: 1.30em;
+                                -o-background-size: 1.30em;
+                                background-size: 12px;
+                                background-color: #2e7d32;
+                                -webkit-border-radius: 100%;
+                                -moz-border-radius: 100%;
+                                border-radius: 100%;
+                                border: 2px solid #64d267;
+                                font-size: 13px;
+                                background-image: url(/images/poster_relise/diamond.svg);
+                            }</style>
+                        <li><a href="/topic/324655/"><span class="need_vip"></span>&nbsp;Отключить всю рекламу</a></li>                        <li><a href="/profile.php?mode=editprofile#color">Сменить фон</a></li>
+                        <li><a href="/search/?dlu=1208752&dlw=1">Отложенные закачки</a></li>
+                        <li><a href="/profile.php?mode=editprofile">Настройки</a></li>
+                        <li><a href="/bookmarks.php">Закладки</a></li>
+                        <li><a href="/user/1208752/#torrent">Закачки</a></li>
+                        <li><a href="/mytorrents.php?u=1208752">Мои релизы</a></li>
+                        <li><a href="/search/?uid=1208752&amp;o=5">Мои посты</a></li>
+                                                <li><a href="/login.php?logout=1"
+                               onclick="return confirm('Вы уверены, что хотите выйти?');">Выход</a></li>
+                    </ul>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-outline-dark btn-sm dropdown-toggle a59e9e" type="button" data-toggle="dropdown"><span class="glyphicons glyphicons-eye-close fs16"></span>
+                        <span class="caret"></span></button>
+                    <ul class="dropdown-menu" style="width: 325px;">
+                        <!-- Default panel contents -->
+                        <!--<div class="panel-heading">Скрыть блоки</div>-->
+                        <!-- List group -->
+                        <li class="list-group-item">
+                            Скрыть Новогодний декор
+                            <div  class="material-switch pull-right">
+                                <input id="h_ny" name="h_ny" type="checkbox"  onclick="user.set('h_ny', this.checked ? 1 : 0);">
+                                <label for="h_ny" class="label-primary"></label>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            Скрыть легенды
+                            <div  class="material-switch pull-right">
+                                <input id="h_legend" name="h_legend" type="checkbox"  onclick="user.set('h_legend', this.checked ? 1 : 0);">
+                                <label for="h_legend" class="label-primary"></label>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            Скрыть статистику торрентов
+                            <div  class="material-switch pull-right">
+                                <input id="h_stat" name="h_stat" type="checkbox"  onclick="user.set('h_stat', this.checked ? 1 : 0);">
+                                <label for="h_stat" class="label-primary"></label>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            Скрыть <span title="Левый блок">«Фильмы»</span>
+                            <div class="material-switch pull-right">
+                                <input id="h_film" name="h_film" type="checkbox"  onclick="user.set('h_film', this.checked ? 1 : 0);">
+                                <label for="h_film" class="label-primary"></label>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            Скрыть <span title="Левый блок">«Фильмы со спонсором»</span>
+                            <div class="material-switch pull-right">
+                                <input id="h_film_rekl" name="h_film_rekl" type="checkbox"  onclick="user.set('h_film_rekl', this.checked ? 1 : 0);">
+                                <label for="h_film_rekl" class="label-primary"></label>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            Скрыть <span title="Левый блок">«Фильмы Экранки»</span>
+                            <div class="material-switch pull-right">
+                                <input id="h_film_ts" name="h_film_ts" type="checkbox"  onclick="user.set('h_film_ts', this.checked ? 1 : 0);">
+                                <label for="h_film_ts" class="label-primary"></label>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            Скрыть <span title="Левый блок">«Музыка»</span>
+                            <div class="material-switch pull-right">
+                                <input id="h_music" name="h_music" type="checkbox"  onclick="user.set('h_music', this.checked ? 1 : 0);">
+                                <label for="h_music" class="label-primary"></label>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            Скрыть <span title="Левый блок">«Фильмы HD»</span>
+                            <div class="material-switch pull-right">
+                                <input id="h_film_hd" name="h_film_hd" type="checkbox"  onclick="user.set('h_film_hd', this.checked ? 1 : 0);">
+                                <label for="h_film_hd" class="label-primary"></label>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            Скрыть <span title="Левый блок">«Мультфильмы»</span>
+                            <div class="material-switch pull-right">
+                                <input id="h_multfilm" name="h_multfilm" type="checkbox"  onclick="user.set('h_multfilm', this.checked ? 1 : 0);">
+                                <label for="h_multfilm" class="label-primary"></label>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            Скрыть <span title="Левый блок">«Игры PC»</span>
+                            <div class="material-switch pull-right">
+                                <input id="h_game" name="h_game" type="checkbox"  onclick="user.set('h_game', this.checked ? 1 : 0);">
+                                <label for="h_game" class="label-primary"></label>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            Скрыть <span title="Левый блок">«Сериалы»</span>
+                            <div class="material-switch pull-right">
+                                <input id="h_serials" name="h_serials" type="checkbox"  onclick="user.set('h_serials', this.checked ? 1 : 0);">
+                                <label for="h_serials" class="label-primary"></label>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            Скрыть <span title="Левый блок">«Консольные игры»</span>
+                            <div class="material-switch pull-right">
+                                <input id="h_consol" name="h_consol" type="checkbox"  onclick="user.set('h_consol', this.checked ? 1 : 0);">
+                                <label for="h_consol" class="label-primary"></label>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            Скрывать «ЧАТ»
+                            <div class="material-switch pull-right">
+                                <input id="h_chat" name="h_chat" type="checkbox"  onclick="user.set('h_chat', this.checked ? 1 : 0);">
+                                <label for="h_chat" class="label-primary"></label>
+                            </div>
+                        </li>
+
+                        <li class="list-group-item">
+                            <input class="btn btn-outline-secondary btn-sm fs17" type="submit" value="Сохранить" style="float: right;" onclick="window.location.reload(); return false;">
+                        </li>
+                    </ul>
+                </div>
+                <div class="btn-group">
+                    
+
+                                        <a class="btn btn-outline-dark btn-sm dropdown-toggle a59e9e" href="/privmsg/?folder=inbox" style="position: relative; left: 0px;"><span class="glyphicons glyphicons-envelope fs17"></span>&nbsp;0&nbsp;</a>
+                                    </div>
+            </div>
+            <span>
+	<!--Поиск-->
+        <td class="text-right">
+            <form style="color: black;" id="quick-search" method="post" role="search" onsubmit="$(this).attr('action', $('#search-action').val()); var txt=$('#search-txt').val(); return !(txt=='поиск...' || !txt);">
+                <input type="hidden" name="max" value="1">
+                <input type="hidden" name="to" value="1">
+                <input class="lst lst-tbb" id="search-txt" type="search" name="ss" placeholder="Искать" value="">
+                <input type="hidden" name="nm" value="">
+                <label for="search-action"></label><select id="search-action">
+                    <option value="cse">Расширенный</option>
+                    <option value="/tracker/#results" selected="selected">Раздачи</option>
+                    <option value="/search.php">По форуму</option>
+                </select>
+                <input class="btn btn-warning btn-sm" type="submit" value="Поиск">
+            </form>
+            <a style="display: none;" id="cse-search-btn-top" href="search-txt" rel="nofollow" >&nbsp;</a>
+            <!--Конец Поиск-->
+        </td>
+        </td>
+    </tr>
+</table>
+<!--/logout-->
+<div class="menu-sub" id="dls-menu">
+    <div class="menu-a bold nowrap">
+        <a class="med" href="/tracker/?rid=1208752#results">Текущие раздачи</a>
+        <a class="med" href="/search/?dlu=1208752&amp;dlc=1">Прошлые закачки</a>
+        <a class="med" href="/search/?dlu=1208752&amp;dlw=1">Будущие закачки</a>
+    </div>
+</div>
+</div>
+<!--page-content-->
+<div id="page_contents">
+    <table class="w100">
+        <tr>
+                                                <td id="main_content">
+
+                
+                
+
+                
+                
+                <!-- page_header.tpl END -->
+                <!-- module_xx.tpl START -->
+
+<!--========================================================================-->
+
+	<div class="spacer_10"></div>
+	<table class="forumline message">
+		<tr><th>Информация</th></tr>
+		<tr><td>Выделенных вложений больше не существует.</td></tr>
+	</table>
+
+	<div class="spacer_10"></div>
+<!--========================================================================-->
+
+
+<!--/main_content_wrap-->
+</td>
+
+</tr></table>
+</div>
+<!--/page-content-->
+<script type="text/javascript" src="/assets/js/slider.js?v=35794"></script>
+
+<script>
+    var postImg_MaxWidth = Math.round(document.documentElement.clientWidth / 2)
+    var postImgAligned_MaxWidth = Math.round(document.documentElement.clientWidth / 3)
+    var attachImg_MaxWidth = document.documentElement.clientWidth - '280'
+    var ExternalLinks_InNewWindow = '1'
+    var hidePostImg = false
+    function initPostBBCode (context) {
+        initSpoilers(context)
+        initExternalLinks(context)
+        initPostImages(context)
+    }
+    function initPostImages (context) {
+        var context = context || 'body'
+        if (hidePostImg) {
+            return
+        }
+        var $in_spoilers = $('div.sp-body var.postImg', context);
+        $('var.postImg', context).not($in_spoilers).each(function () {
+            var $v = $(this)
+            var src = $v.prop('title')
+            var $img = $('<img src="' + src + '" class="' + $v.prop('className') + '" alt="через торрент lazy.piratbit.fun" title="Постер к  lazy.piratbit.fun">')
+            $img = fixPostImage($img)
+            var maxW = $v.hasClass('postImgAligned') ? postImgAligned_MaxWidth : postImg_MaxWidth
+            $img.bind('click', function () {
+                return imgFit(this, maxW)
+            })
+            if (user.opt_js.i_aft_l) {
+                $('#preload').append($img)
+                var loading_icon = '<a href="' + src + '" target="_blank"><img src="images/pic_loading.gif" alt="loading"></a>'
+                $v.html(loading_icon)
+                $img.one('load', function () {
+                    imgFit(this, maxW)
+                    $v.empty().append(this)
+                })
+            } else {
+                $img.one('load', function () {
+                    imgFit(this, maxW)
+                })
+                $v.empty().append($img)
+            }
+        })
+    }
+
+    /*Spoilers details*/
+    /*  function initSpoilers (context) {
+     if (!$('details > summary', context).length) {
+     $('details', context).prepend('<summary>скрытый текст</summary>')
+     }
+     $('details', context).removeAttr('open').find('.sp-body').css('display', 'none')
+     $('details summary', context).click(function (e) {
+     initPostImages(this)
+     e.preventDefault()
+     $(this).siblings('div.sp-body').slideToggle('fast', function () {
+     $(this).parent('details').toggleClass('open')
+     if ($(this).parent('details').attr('open')) {
+     $(this).parent('details').removeAttr('open')
+     } else {
+     $(this).parent('details').attr('open', 'open')
+     }
+     })
+     })
+     }*/
+
+
+    function initSpoilers(context) {
+        $('div.sp-body', context).each(function () {
+            var $sp_body = $(this);
+            var name = this.title || 'скрытый текст';
+            this.title = '';
+            $('<div class="sp-head folded clickable"></div>').text(name).insertBefore($sp_body).click(function (e) {
+                if (!$sp_body.hasClass('inited')) {
+                    initPostImages($sp_body);
+                    $sp_body.prepend('<div class="clear"></div>').append('<div class="clear"></div>').addClass('inited');
+                    $sp_body.after('<div class="sp-head clickable unfolded"  style="display:none" onclick="spoilerHide($(this));">Закрыть</div>')
+                }
+                if (e.shiftKey) {
+                    e.stopPropagation();
+                    e.shiftKey = false;
+                    var fold = $(this).hasClass('unfolded');
+                    $('div.sp-head', $($sp_body.parents('td')[0])).filter(function () {
+                        return $(this).hasClass('unfolded') ? fold : !fold
+                    }).click()
+                } else {
+                    $(this).toggleClass('unfolded');
+                    $sp_body.slideToggle('fast');
+                    $sp_body.next().slideToggle('fast')
+                }
+            })
+        })
+    }
+    function spoilerHide($sp_body) {
+        if ($(document).scrollTop() > $sp_body.prev().offset().top) {
+            $(document).scrollTop($sp_body.prev().offset().top - 200)
+        }
+        $sp_body.slideToggle('fast');
+        $sp_body.prev().slideToggle('fast');
+        $sp_body.prev().prev().toggleClass('unfolded')
+    }
+    function initExternalLinks (context) {
+        var context = context || 'body'
+        if (ExternalLinks_InNewWindow) {
+            $("a.postLink:not([href*='" + window.location.hostname + "/'])", context).attr({ target: '_blank' })
+        }
+    }
+    function fixPostImage (a) {
+        var d = /ipicture|pictraff|galhost|pic4you|exclusivefaile|piccash|pix-x/i, c = a[0].src, f = 0
+        f += 1
+        f += 1
+        if (c.match(/keep4u/i)) {
+            var d = c.replace(/http:\/\/keep4u.ru\/imgs\/\w\/(.*)\/(.*)\.(.*)/, 'http://keep4u.ru/torrents/$1/$2.$3'), b = c.replace(/http:\/\/keep4u.ru\/imgs\/\w\/(.*)\/(.*)\.(.*)/, 'http://keep4u.ru/full/$1/$2/$3')
+            a.attr('src', d).addClass('clickable').bind('click', function () {
+                return !window.open(b)
+            })
+        } else {
+            c.match(d) && a.attr({
+                src: '/assets/images/blokhost.jpg',
+                title: 'Прочтите правила выкладывания скриншотов!'
+            }).addClass('clickable').bind('click', function () {
+                return !window.open('https://pic1.kartinco.top/new/')
+            })
+        }
+        return a
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+        $('#cse-search-btn, #cse-search-btn-top').click(function () {
+            var a = $(this).attr('href'),
+                b = $('#' + a).val()
+            if ('' == b) return $('#' + a).addClass('hl-err-input').focus(), !1
+            $('#cse-text-match').val(b)
+            $('#cse-submit-btn').click()
+            return !1
+        })
+        $('#quick-search').submit(function () {
+            var a = $('#search-action').val(),
+                b = $('#search-text').val()
+            if ('4' == b || '' == b) return $('#search-text').val('').addClass('hl-err-input').focus(), !1
+            if ('cse' == a) return $('#cse-search-btn-top').click(), !1
+            $(this).attr('action', a)
+        })
+        $('#quick-search_1').submit(function () {
+            var a = $('#search-action_1').val(),
+                b = $('#search-txt_1').val()
+            if ('4' == b || '' == b) return $('#search-txt_1').val('').addClass('hl-err-input').focus(), !1
+            $(this).attr('action', a)
+        })
+        $('#quick-search1').submit(function () {
+            var a = $('#search-action').val(),
+                b = $('#search-text').val()
+            if ('4' == b || '' == b) return $('#search-text').val('').addClass('hl-err-input').focus(), !1
+            $(this).attr('action', a)
+        })
+    })
+    $(document).ready(function () {
+        $('div.post_wp, div.signature').each(function () {
+            initPostBBCode($(this))
+        })
+    })
+    $(window).on('load', function () {
+        imgFit('body')
+    })
+    $('.dropdown-menu li.list-group-item, .dropdown-menu .panel-heading').click(function( event ) {
+        event.stopPropagation();
+    });
+</script>
+<script>
+    var BB_ROOT       = "./";
+    var cookieDomain  = "lazy.piratbit.fun";
+    var cookiePath    = "/";
+    var cookieSecure  = 0;
+    var LOGGED_IN     = 1;
+    var InfoWinParams = "HEIGHT=510,resizable=yes,WIDTH=780";
+    var user = {
+        opt_js: {"only_new":0,"h_av":0,"h_rnk_i":0,"h_post_i":0,"h_smile":0,"h_sig":0,"sp_op":0,"tr_t_ax":0,"tr_t_t":0,"hl_tr":1,"i_aft_l":0,"h_tsp":0,"h_flag":0},
+        set: function(opt, val, days, reload) {
+            this.opt_js[opt] = val;
+            if (undefined !== days) {
+                Cookie('opt_js', this.opt_js, { expires: days });
+            } else {
+                Cookie('opt_js', this.opt_js);
+            }
+            if (reload) {
+                window.location.reload();
+            }
+        }
+    }
+            $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+    var pass = $('#password-show');
+    $('button.show-password').click(function() {
+        pass.attr('type', pass.attr('type') === 'password' ? 'text' : 'password');
+    });
+</script>
+
+<!--[if IE]><style>.code-copy { display: block }.post-hr { margin: 2px auto }</style><![endif]-->
+<!--[if gte IE 9]><style>.gradient { filter: none; }</style><![endif]-->
+<!--[if lte IE 6]><style>.forumline th { height: 24px; padding: 2px 4px; }</style><![endif]-->
+<!--[if gte IE 7]><style>input[type="checkbox"] { margin-bottom: -1px; }</style><![endif]-->
+<!--page_footer-->
+<div id="cse-form-holder1" style="display: none;" class="ya-site-form ya-site-form_inited_no" onclick="return {'bg': 'transparent', 'target': '_self', 'language': 'ru', 'suggest': true, 'tld': 'ru', 'site_suggest': true, 'action': '/search_cse.php', 'webopt': false, 'fontsize': 16, 'arrow': false, 'fg': '#000000', 'searchid': '2425472', 'logo': 'rb', 'websearch': false, 'type': 2}">
+    <form action="/search_real.php" id="cse-search-box1" method="get" target="_self">
+        <input type="hidden" name="searchid" value="2425472" />
+        <input type="hidden" name="l10n" value="ru" />
+        <input type="hidden" name="reqenc" value="" />
+        <input type="text" name="text" value="" id="cse-text-match" />
+        <input type="submit" value="Найти" id="cse-submit-btn"/>
+    </form>
+</div>
+<footer class="bs-docs-footer"> <div class="container">
+
+        <ul class="bs-docs-footer-links">
+            <li><a href="/misc.php?do=info&amp;show=copyright_holders" onclick="window.open(this.href, '', InfoWinParams); return false;" rel="nofollow noopener">Сopyright</a></li>
+            <li><a href="/rssd.xml" target="_blank">RSS</a></li>
+                                </ul>
+        <p>Мы в соц.сетях <a href="/out/eF7LKCkpKLbS1y/Ry03VL8gsSixJyiyJz09Ly0zOTMwBAKx8C2o=" target="_blank">Телеграм</a>
+                  </div>
+    <p></p></footer>
+
+
+<div class="tiny tCenter">
+    <table class="foot">
+        <tr>
+            <td>
+                <div class="go-up" id='ToTop'>&#8679;</div>
+                <div class="go-down" id='OnBottom'>&#8681;</div>
+            </td>
+        </tr>
+    </table>
+</div>
+<div id="script_ad" class="script_ad" style="display:none;"></div>
+<!--/page_footer -->
+<script type="text/javascript" src="/assets/js/lity.min.js?v=35794"></script>
+<link rel="stylesheet" href="/assets/css/lity.css">
+<script type="text/javascript" src="/assets/js/jquery.fancybox.pack.js"></script>
+<script type="text/javascript" src="/assets/js/jquery.fancybox-media.js"></script>
+<script>
+    $('.fancybox').attr('rel', 'gallery').fancybox({
+        beforeLoad: function () {
+            this.title = $(this.element).attr('caption')
+        }
+    });
+    $('.fancybox').fancybox({
+        helpers: {
+            overlay: {
+                locked: false
+            }
+        }
+    });
+    $('.fancybox-media').attr('rel', 'media-gallery').fancybox({
+        openEffect: 'none',
+        closeEffect: 'none',
+        prevEffect: 'none',
+        nextEffect: 'none',
+        arrows: false,
+        helpers: {
+            media: {},
+            buttons: {}
+        }
+    })</script>
+
+<script  type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+        if ($(window).scrollTop() >= '250') {
+            $('#ToTop').fadeIn('slow')
+        }
+        $(window).scroll(function () {
+            if ($(window).scrollTop() <= '250') {
+                $('#ToTop').fadeOut('slow')
+            } else {
+                $('#ToTop').fadeIn('slow')
+            }
+        });
+        if ($(window).scrollTop() <= $(document).height() - '999') {
+            $('#OnBottom').fadeIn('slow')
+        }
+        $(window).scroll(function () {
+            if ($(window).scrollTop() >= $(document).height() - '999') {
+                $('#OnBottom').fadeOut('slow')
+            } else {
+                $('#OnBottom').fadeIn('slow')
+            }
+        });
+        $('#ToTop').click(function () {
+            $('html,body').animate({ scrollTop: 0 }, 'slow')
+        });
+        $('#OnBottom').click(function () {
+            $('html,body').animate({ scrollTop: $(document).height() }, 'slow')
+        })
+    })
+</script>
+
+<!-- hit.ua -->
+<a href='http://hit.ua/?x=28635' target='_blank'>
+    <script language="javascript" type="text/javascript"><!--
+        Cd=document;Cr="&"+Math.random();Cp="&s=1";
+        Cd.cookie="b=b";if(Cd.cookie)Cp+="&c=1";
+        Cp+="&t="+(new Date()).getTimezoneOffset();
+        if(self!=top)Cp+="&f=1";
+        //--></script>
+    <script language="javascript1.1" type="text/javascript"><!--
+        if(navigator.javaEnabled())Cp+="&j=1";
+        //--></script>
+    <script language="javascript1.2" type="text/javascript"><!--
+        if(typeof(screen)!='undefined')Cp+="&w="+screen.width+"&h="+
+            screen.height+"&d="+(screen.colorDepth?screen.colorDepth:screen.pixelDepth);
+        //--></script>
+    <script language="javascript" type="text/javascript"><!--
+        Cd.write("<img src='//c.hit.ua/hit?i=28635&g=0&x=2"+Cp+Cr+
+            "&r="+escape(Cd.referrer)+"&u="+escape(window.location.href)+
+            "' border='0' wi"+"dth='1' he"+"ight='1'/>");
+        //--></script>
+    <noscript>
+        <img src='//c.hit.ua/hit?i=28635&amp;g=0&amp;x=2' border='0'/>
+    </noscript></a>
+<!-- / hit.ua -->
+
+
+<!--/body_container-->
+</body>
+</html>

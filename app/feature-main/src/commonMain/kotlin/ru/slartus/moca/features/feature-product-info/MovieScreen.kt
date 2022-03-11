@@ -51,7 +51,13 @@ fun MovieScreen(movie: Movie) {
         topBar = { TopBar(movie.title) }
     ) {
         var tabIndex by remember { mutableStateOf(0) }
-        val tabTitles = listOf(strings.description).map { it.uppercase() }
+        val tabTitles by remember(viewState.hasTorrentsSources) {
+            val titles = (listOf(strings.description) +
+                if (viewState.hasTorrentsSources) listOf(strings.torrents) else emptyList()
+                )
+                .map { it.uppercase() }
+            mutableStateOf(titles)
+        }
         Column {
             TabRow(
                 backgroundColor = AppTheme.colors.actionBarColor,
@@ -68,7 +74,7 @@ fun MovieScreen(movie: Movie) {
             }
             when (tabIndex) {
                 0 -> InfoView(viewState = viewState)
-                1 -> TorrentsListView(movie.title, movie.originalTitle)
+                1 -> TorrentsListView(movie)
             }
         }
     }
