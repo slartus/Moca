@@ -16,3 +16,6 @@ actual fun icCartoonMovies() = painterResource(R.drawable.ic_cartoons)
 
 @Composable
 actual fun icCartoonTv() = painterResource(R.drawable.ic_cartoonseries)
+
+@Composable
+actual fun icSettings() = painterResource(R.drawable.ic_settings_24dp)

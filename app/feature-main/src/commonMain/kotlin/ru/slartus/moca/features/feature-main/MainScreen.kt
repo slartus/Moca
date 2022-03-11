@@ -48,20 +48,19 @@ fun MainScreen() {
     viewState.actions.firstOrNull()?.let {
         screenViewModel.actionReceived(it.id)
         when (it) {
-            is Action.Error ->
-                coroutineScope.launch {
-                    scaffoldState.snackbarHostState.showSnackbar(it.message)
-                }
-            is Action.Refresh -> {
-                refresh = true
+            is Action.Error -> coroutineScope.launch {
+                scaffoldState.snackbarHostState.showSnackbar(it.message)
             }
-            Action.OpenSearchScreen -> {
-                rootController.launch(
-                    AppScreenName.Search.name,
-                    params = viewState.subScreen,
-                    animationType = AnimationType.Present(300)
-                )
-            }
+            is Action.Refresh -> refresh = true
+            Action.OpenSearchScreen -> rootController.launch(
+                AppScreenName.Search.name,
+                params = viewState.subScreen,
+                animationType = AnimationType.Present(300)
+            )
+            Action.OpenSettingsScreen -> rootController.launch(
+                AppScreenName.Settings.name,
+                animationType = AnimationType.Present(300)
+            )
         }
     }
     BoxWithConstraints {

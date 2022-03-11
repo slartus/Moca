@@ -10,9 +10,13 @@ import ru.slartus.moca.features.`feature-main`.MainScreen
 import ru.slartus.moca.features.`feature-product-info`.MovieScreen
 import ru.slartus.moca.features.`feature-product-info`.SeriesScreen
 import ru.slartus.moca.features.`feature-search`.SearchScreen
+import ru.slartus.moca.features.`feature-settings`.SettingsScreen
 
 fun RootComposeBuilder.generateGraph() {
 
+    screen(name = AppScreenName.Settings.name) {
+        SettingsScreen()
+    }
     screen(name = AppScreenName.Main.name) {
         MainScreen()
     }

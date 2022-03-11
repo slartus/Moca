@@ -69,18 +69,11 @@ class MainScreenViewModel(
                         )
                     }
                 }
-                is Event.Error -> {
-                    _stateFlow.update { screenState ->
-                        ScreenState(
-                            title = screenState.title,
-                            subScreen = screenState.subScreen,
-                            actions = screenState.actions + Action.Error(
-                                message = event.error.message ?: event.error.toString()
-                            ),
-                            drawerOpened = screenState.drawerOpened
-                        )
-                    }
-                }
+                is Event.Error -> addAction(
+                    Action.Error(
+                        message = event.error.message ?: event.error.toString()
+                    )
+                )
                 Event.MenuClick -> {
                     _stateFlow.update { screenState ->
                         ScreenState(
@@ -101,27 +94,21 @@ class MainScreenViewModel(
                         )
                     }
                 }
-                Event.RefreshClick -> {
-                    _stateFlow.update { screenState ->
-                        ScreenState(
-                            title = screenState.title,
-                            subScreen = screenState.subScreen,
-                            actions = screenState.actions + Action.Refresh,
-                            drawerOpened = screenState.drawerOpened
-                        )
-                    }
-                }
-                Event.SearchClick -> {
-                    _stateFlow.update { screenState ->
-                        ScreenState(
-                            title = screenState.title,
-                            subScreen = screenState.subScreen,
-                            actions = screenState.actions + Action.OpenSearchScreen,
-                            drawerOpened = screenState.drawerOpened
-                        )
-                    }
-                }
+                Event.RefreshClick -> addAction(Action.Refresh)
+                Event.SearchClick -> addAction(Action.OpenSearchScreen)
+                Event.MenuSettingsClick -> addAction(Action.OpenSettingsScreen)
             }
+        }
+    }
+
+    private fun addAction(action: Action) {
+        _stateFlow.update { screenState ->
+            ScreenState(
+                title = screenState.title,
+                subScreen = screenState.subScreen,
+                actions = screenState.actions + action,
+                drawerOpened = screenState.drawerOpened
+            )
         }
     }
 
@@ -151,4 +138,5 @@ sealed class Action {
     data class Error(val message: String) : Action()
     object OpenSearchScreen : Action()
     object Refresh : Action()
+    object OpenSettingsScreen : Action()
 }

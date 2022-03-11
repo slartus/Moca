@@ -108,8 +108,8 @@ private fun TorrentView(torrent: Torrent) {
 
                     )
 
-                val peersDown = torrent.peersDown
-                val peersUp = torrent.peersUp
+                val peersDown = torrent.peers
+                val peersUp = torrent.seeds
                 if (peersDown != null && peersUp != null) {
                     Text(
                         modifier = Modifier,

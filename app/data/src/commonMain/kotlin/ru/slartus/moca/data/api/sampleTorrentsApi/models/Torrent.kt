@@ -4,6 +4,8 @@ data class Torrent(
     val title: String? = null,
     val url: String? = null,
     val size: String? = null,
-    val peersUp: Int? = null,
-    val peersDown: Int? = null,
+    val seeds: Int? = null,
+    val peers: Int? = null,
+    val downloads: Int? = null,
+    val date: String? = null,
 )

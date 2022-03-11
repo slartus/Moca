@@ -15,3 +15,6 @@ actual fun icCartoonMovies() = painterResource("images/ic_cartoons.svg")
 
 @Composable
 actual fun icCartoonTv() = painterResource("images/ic_cartoonseries.svg")
+
+@Composable
+actual fun icSettings() = painterResource("images/ic_settings.svg")

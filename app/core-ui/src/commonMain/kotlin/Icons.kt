@@ -15,3 +15,6 @@ expect fun icCartoonMovies(): Painter
 
 @Composable
 expect fun icCartoonTv(): Painter
+
+@Composable
+expect fun icSettings(): Painter

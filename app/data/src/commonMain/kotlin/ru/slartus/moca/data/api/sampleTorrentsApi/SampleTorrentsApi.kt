@@ -38,8 +38,8 @@ class SampleTorrentsApi(val client: HttpClient) : TorrentsApi {
                         title = it.title!!,
                         url = it.url!!,
                         size = it.size,
-                        peersUp = it.peersUp,
-                        peersDown = it.peersDown
+                        seeds = it.seeds,
+                        peers = it.peers
                     )
                 }
         }

@@ -11,6 +11,7 @@ sealed class Event {
     object MenuTvClick : Event()
     object MenuAnimationMoviesClick : Event()
     object MenuAnimationTvClick : Event()
+    object MenuSettingsClick : Event()
     object OnDrawerClosed : Event()
     object RefreshClick : Event()
     object SearchClick : Event()
