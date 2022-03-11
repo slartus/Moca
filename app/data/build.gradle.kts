@@ -15,6 +15,7 @@ kotlin {
     sourceSets {
         named("commonMain") {
             dependencies {
+                implementation(project(":app:core"))
                 implementation(project(":app:domain"))
                 api(compose.runtime)
                 api(compose.foundation)

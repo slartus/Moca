@@ -74,7 +74,11 @@ fun MovieScreen(movie: Movie) {
             }
             when (tabIndex) {
                 0 -> InfoView(viewState = viewState)
-                1 -> TorrentsListView(movie)
+                1 -> TorrentsListView(movie){
+                    coroutineScope.launch {
+                        scaffoldState.snackbarHostState.showSnackbar(it)
+                    }
+                }
             }
         }
     }

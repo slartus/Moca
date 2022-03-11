@@ -12,6 +12,10 @@ actual class PlatformListener {
         } catch (e: URISyntaxException) {
             e.printStackTrace()
         }
-
     }
+
+    actual fun openFile(appFile: AppFile) {
+    }
+
+
 }

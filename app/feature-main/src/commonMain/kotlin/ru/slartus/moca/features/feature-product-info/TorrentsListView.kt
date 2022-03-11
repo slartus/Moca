@@ -5,74 +5,71 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import icPlay
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
+import org.kodein.di.compose.rememberFactory
 import org.kodein.di.compose.rememberInstance
 import ru.slartus.moca.core_ui.theme.AppTheme
 import ru.slartus.moca.domain.models.Product
 import ru.slartus.moca.domain.models.Torrent
-import ru.slartus.moca.domain.repositories.TorrentsRepository
-import ru.slartus.moca.domain.repositories.TorrentsSourcesRepository
 
 
 @Composable
-fun <T : Product> TorrentsListView(product: T) {
-    val repository: TorrentsSourcesRepository by rememberInstance()
-    val coroutineScope = rememberCoroutineScope()
-    val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        if (throwable.cause !is CancellationException) {
-            println(throwable)
+fun <T : Product> TorrentsListView(product: T, onError: (message: String) -> Unit) {
+    val viewModelFactory by rememberFactory<Product, TorrentsListViewModel>()
+    val viewModel by remember(product) { mutableStateOf(viewModelFactory(product)) }
+    val viewState by viewModel.stateFlow.collectAsState()
+    val platformListener by rememberInstance<PlatformListener>()
+
+    viewState.actions.firstOrNull()?.let {
+        viewModel.actionReceived(it.id)
+        when (it) {
+            is TorrentsAction.Error -> onError(it.message)
+            is TorrentsAction.OpenFile -> platformListener.openFile(it.appFile)
         }
     }
-    var torrents: List<Torrent> by remember { mutableStateOf(emptyList()) }
 
-    LazyColumn {
-        torrents.forEach { torrent ->
-            item {
-                Column {
-                    TorrentView(torrent)
-                    Box(
-                        modifier = Modifier.height(1.dp).fillMaxWidth()
-                            .background(color = AppTheme.colors.secondaryText)
+    Box(modifier = Modifier.fillMaxSize()) {
+        if (viewState.isLoading)
+            CircularProgressIndicator(
+                modifier = Modifier.align(Alignment.TopEnd).size(15.dp),
+                color = AppTheme.colors.highLight,
+                strokeWidth = 1.dp
+            )
+        LazyColumn(modifier = Modifier.fillMaxSize()) {
+            viewState.data.forEach { torrent ->
+                item {
+                    Column {
+                        TorrentView(torrent) {
+                            viewModel.onTorrentClick(it)
+                        }
+                        Box(
+                            modifier = Modifier.height(1.dp).fillMaxWidth()
+                                .background(color = AppTheme.colors.secondaryText)
 
-                    )
+                        )
+                    }
                 }
             }
         }
     }
-
-    LaunchedEffect(Unit) {
-
-        coroutineScope.launch(SupervisorJob() + exceptionHandler) {
-            repository.getSources().forEach { source ->
-                coroutineScope.launch(SupervisorJob() + exceptionHandler) {
-                    torrents = torrents + repository.findIn(source, product)
-                }
-            }
-        }
-    }
-
 }
 
 @Composable
-private fun TorrentView(torrent: Torrent) {
-    val platformListener by rememberInstance<PlatformListener>()
+private fun TorrentView(torrent: Torrent, onClick: (torrent: Torrent) -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .clickable {
-                platformListener.openUrl(torrent.url)
+                onClick(torrent)
             }
             .padding(start = 10.dp)
             .padding(5.dp)
