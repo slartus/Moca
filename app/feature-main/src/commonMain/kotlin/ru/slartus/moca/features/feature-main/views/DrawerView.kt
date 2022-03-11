@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import icCartoonMovies
 import icCartoonTv
 import icMovies
+import icSettings
 import icTv
 import ru.slartus.moca.`core-ui`.theme.LocalAppStrings
 import ru.slartus.moca.core_ui.theme.AppTheme
@@ -33,6 +34,10 @@ internal fun DrawerView(modifier: Modifier = Modifier, eventListener: EventListe
         }
         DrawerMenuItem(title = strings.animationSeries, icon = icCartoonTv()) {
             eventListener.onEvent(Event.MenuAnimationTvClick)
+        }
+
+        DrawerMenuItem(title = strings.settings, icon = icSettings()) {
+            eventListener.onEvent(Event.MenuSettingsClick)
         }
     }
 }
