@@ -26,6 +26,12 @@ class Piratbit
     private const ENDPOINT = "http://lazy.piratbit.fun";
     private const LOGIN = "";
     private const PASS = "";
+    private $accessPassword = "";
+
+    public function __construct(string $accessPassword)
+    {
+        $this->accessPassword = $accessPassword;
+    }
 
     private function login()
     {
@@ -74,6 +80,7 @@ class Piratbit
         $html = str_get_html($response);
         $trs = $html->find("tr.hl-tr");
 
+        $currentUrl = $this->getCurrentUrl();
         $torrents = array();
         foreach ($trs as $tr) {
 
@@ -99,7 +106,8 @@ class Piratbit
             $dateTd = $tds[7];
             $date = date('d.m.Y H:i:s', html_entity_decode(trim($dateTd->find("u", 0)->plaintext)));
 
-            $torrentUrl = "/torrents.php?action=torrent&provider=piratbit&id=$id";
+
+            $torrentUrl = "$currentUrl?action=torrent&provider=piratbit&id=$id&password=" . $this->accessPassword;;
 
             $torrent = array(
                 "title" => $title,
@@ -155,6 +163,30 @@ class Piratbit
         curl_close($curl);
         return $response;
     }
+
+    private function getCurrentUrl()
+    {
+        if (isset($_SERVER['HTTPS']) &&
+            $_SERVER['HTTPS'] === 'on')
+            $uLink = "https";
+        else
+            $uLink = "http";
+
+// Here append the common URL
+// characters.
+        $uLink .= "://";
+
+// Append the host(domain name,
+// ip) to the URL.
+        $uLink .= $_SERVER['HTTP_HOST'];
+
+// Append the requested resource
+// location to the URL
+        $uLink .= $_SERVER['PHP_SELF'];
+
+// Display the uLink
+        return $uLink;
+    }
 }
 
 class Kinozal
@@ -162,8 +194,13 @@ class Kinozal
     private const ENDPOINT = "http://kinozal.tv";
     private const LOGIN = "";
     private const PASS = "";
-
     private $cookies = array();
+    private $accessPassword = "";
+
+    public function __construct(string $accessPassword)
+    {
+        $this->accessPassword = $accessPassword;
+    }
 
     private function getCookieHeader(): string
     {
@@ -228,6 +265,8 @@ class Kinozal
         $page = $this->get("$endPoint/browse.php?s=$query&c=$cat");
         $html = str_get_html($page);
         $trs = $html->find("tr.bg");
+
+        $currentUrl = $this->getCurrentUrl();
         $torrents = array();
         foreach ($trs as $tr) {
             $titleTd = $tr->find("td.nam", 0);
@@ -249,7 +288,7 @@ class Kinozal
             $dateTd = $tds[6];
             $date = $dateTd->plaintext;
 
-            $torrentUrl = "/torrents.php?action=torrent&provider=kinozal&id=$id";
+            $torrentUrl = "$currentUrl?action=torrent&provider=kinozal&id=$id&password=" . $this->accessPassword;
             $torrent = array(
                 "title" => $title,
                 "size" => $size,
@@ -297,7 +336,32 @@ class Kinozal
         curl_close($curl);
         return $response;
     }
+
+    private function getCurrentUrl()
+    {
+        if (isset($_SERVER['HTTPS']) &&
+            $_SERVER['HTTPS'] === 'on')
+            $uLink = "https";
+        else
+            $uLink = "http";
+
+// Here append the common URL
+// characters.
+        $uLink .= "://";
+
+// Append the host(domain name,
+// ip) to the URL.
+        $uLink .= $_SERVER['HTTP_HOST'];
+
+// Append the requested resource
+// location to the URL
+        $uLink .= $_SERVER['PHP_SELF'];
+
+// Display the uLink
+        return $uLink;
+    }
 }
+
 
 switch ($action) {
     case "search":
@@ -308,11 +372,11 @@ switch ($action) {
         $type = $_GET["type"] ?? null;
         switch ($provider) {
             case PIRATBIT:
-                $client = new Piratbit();
+                $client = new Piratbit($password);
                 $client->search($query);
                 break;
             case KINOZAL:
-                $client = new Kinozal();
+                $client = new Kinozal($password);
                 $client->search($query, $type);
                 break;
         }
@@ -323,11 +387,11 @@ switch ($action) {
         $id = $_GET["id"];
         switch ($provider) {
             case PIRATBIT:
-                $client = new Piratbit();
+                $client = new Piratbit($password);
                 $client->torrent($id);
                 break;
             case KINOZAL:
-                $client = new Kinozal();
+                $client = new Kinozal($password);
                 $client->torrent($id);
                 break;
         }
