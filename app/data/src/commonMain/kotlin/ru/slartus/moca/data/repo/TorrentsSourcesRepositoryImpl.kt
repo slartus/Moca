@@ -37,6 +37,7 @@ class TorrentsSourcesRepositoryImpl(
             .replace("\$title", product.title)
             .replace("\$original_title", product.originalTitle)
             .replace("\$year", product.year ?: "")
+            .replace("\$type", "")// TODO: прописывать тип поиска
         val response: List<DataTorrent> = client.get(url)
         return response.map {
             Torrent(

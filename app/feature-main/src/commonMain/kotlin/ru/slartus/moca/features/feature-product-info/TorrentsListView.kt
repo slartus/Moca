@@ -8,24 +8,30 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import icPlay
-import org.kodein.di.compose.rememberFactory
 import org.kodein.di.compose.rememberInstance
 import ru.slartus.moca.core_ui.theme.AppTheme
 import ru.slartus.moca.domain.models.Product
-import ru.slartus.moca.domain.models.Torrent
 
 
 @Composable
-internal fun <T : Product> TorrentsListView(product: T, onError: (message: String) -> Unit) {
-    val viewModelFactory by rememberFactory<Product, TorrentsListViewModel>()
-    val viewModel by remember(product) { mutableStateOf(viewModelFactory(product)) }
+internal fun <T : Product> TorrentsListView(
+    product: T,
+    onError: (message: String) -> Unit
+) {
+    val viewModel by rememberInstance<TorrentsListViewModel>()
+    remember(product) {
+        viewModel.setProduct(product)
+    }
     val viewState by viewModel.stateFlow.collectAsState()
     val platformListener by rememberInstance<PlatformListener>()
 

@@ -13,8 +13,7 @@ import ru.slartus.moca.domain.repositories.TorrentsSourcesRepository
 
 internal class TorrentsListViewModel(
     scope: CoroutineScope,
-    private val repository: TorrentsSourcesRepository,
-    private val product: Product
+    private val repository: TorrentsSourcesRepository
 ) {
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         if (throwable.cause !is CancellationException) {
@@ -29,11 +28,23 @@ internal class TorrentsListViewModel(
             actions = emptyList()
         )
     )
+    private var product: Product = Product()
 
     val stateFlow: StateFlow<TorrentsViewState> = _state.asStateFlow()
 
-    init {
-        reload()
+    fun setProduct(product: Product) {
+        if (this.product != product) {
+            this.product = product
+            _state.update { state ->
+                TorrentsViewState(
+                    isLoading = state.isLoading,
+                    data = emptyList(),
+                    actions = emptyList()
+                )
+            }
+
+            reload()
+        }
     }
 
     private fun reload() {

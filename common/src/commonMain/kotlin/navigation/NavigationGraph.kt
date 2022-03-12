@@ -20,7 +20,6 @@ fun RootComposeBuilder.generateGraph() {
         SettingsScreen()
     }
 
-
     screen(name = AppScreenName.Search.name) {
         SearchScreen(it as ProductType)
     }
