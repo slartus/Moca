@@ -21,5 +21,5 @@ class ProductEmpty(
 ) : Product
 
 enum class ProductType {
-    Movie, Series, AnimationMovie, AnimationSeries, Empty
+    Movie, Series, AnimationMovie, AnimationSeries
 }

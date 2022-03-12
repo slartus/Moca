@@ -11,6 +11,8 @@ import ru.slartus.moca.data.api.mock.MockApi
 import ru.slartus.moca.data.api.sampleTorrentsApi.SampleTorrentsApi
 import ru.slartus.moca.data.api.tmdb.TmdbApi
 import ru.slartus.moca.data.repo.*
+import ru.slartus.moca.data.utils.DownloadManager
+import ru.slartus.moca.data.utils.DownloadManagerImpl
 import ru.slartus.moca.db.MocaDatabase
 import ru.slartus.moca.domain.TorrentsApi
 import ru.slartus.moca.domain.models.Movie
@@ -69,8 +71,17 @@ val dataModule = DI.Module("dataModule") {
         AnimationSeriesSearchRepositoryImpl(listOf(instance("tmdb")))
     }
 
-    bindSingleton<TorrentsSourcesRepository> {
-        TorrentsSourcesRepositoryImpl(database = instance(), client = instance())
+    bindProvider<DownloadManager> {
+        DownloadManagerImpl(client = instance())
     }
+
+    bindSingleton<TorrentsSourcesRepository> {
+        TorrentsSourcesRepositoryImpl(
+            database = instance(),
+            client = instance(),
+            downloadManager = instance()
+        )
+    }
+
 }
 

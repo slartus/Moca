@@ -8,3 +8,7 @@ CREATE INDEX dbtorrents_sources_title ON torrents_sources(title);
 selectAll:
 SELECT *
 FROM torrents_sources;
+
+insert:
+INSERT INTO torrents_sources(title, url)
+VALUES (?, ?);

@@ -10,6 +10,7 @@ import io.ktor.utils.io.*
 import io.ktor.utils.io.core.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import ru.slartus.moca.data.utils.DownloadManager
 import ru.slartus.moca.db.MocaDatabase
 import ru.slartus.moca.domain.models.Product
 import ru.slartus.moca.domain.models.Torrent
@@ -20,7 +21,8 @@ import kotlin.math.min
 
 class TorrentsSourcesRepositoryImpl(
     private val client: HttpClient,
-    private val database: MocaDatabase
+    private val database: MocaDatabase,
+    private val downloadManager: DownloadManager
 ) :
     TorrentsSourcesRepository {
     override suspend fun getSources(): List<TorrentsSource> = withContext(Dispatchers.Default) {
@@ -54,18 +56,11 @@ class TorrentsSourcesRepositoryImpl(
     }
 
     override suspend fun download(torrent: Torrent, output: AppFile) {
-        client.get<HttpStatement>(torrent.url).execute { httpResponse ->
-            val channel: ByteReadChannel = httpResponse.receive()
-            val DEFAULT_BUFFER_SIZE = 1024
-            while (!channel.isClosedForRead) {
-                val packet = channel.readRemaining(DEFAULT_BUFFER_SIZE.toLong())
-                while (!packet.isEmpty) {
-                    val bytes = packet.readBytes()
-                    output.appendBytes(bytes)
-                    println("Received ${output.length()} bytes from ${httpResponse.contentLength()}")
-                }
-            }
-            println("A file saved to ${output.path}")
-        }
+        downloadManager.download(torrent.url, output)
     }
+
+    override suspend fun addSource(torrentsSource: TorrentsSource) =
+        withContext(Dispatchers.Default) {
+            database.torrentsSourcesQueries.insert(torrentsSource.title, torrentsSource.title)
+        }
 }

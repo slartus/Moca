@@ -75,6 +75,14 @@ internal class TorrentsSourcesScreenViewModel(
             )
         }
     }
+
+    fun addTorrentSource(title: String, query: String) {
+        scope.launch {
+            repository.addSource(TorrentsSource(title, query))
+
+            reload()
+        }
+    }
 }
 
 
