@@ -2,6 +2,7 @@ package ru.slartus.moca.features.`feature-main`.views
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -36,6 +37,7 @@ internal fun DrawerView(modifier: Modifier = Modifier, eventListener: EventListe
             eventListener.onEvent(Event.MenuAnimationTvClick)
         }
 
+        Spacer(modifier = Modifier.weight(1f))
         DrawerMenuItem(title = strings.settings, icon = icSettings()) {
             eventListener.onEvent(Event.MenuSettingsClick)
         }

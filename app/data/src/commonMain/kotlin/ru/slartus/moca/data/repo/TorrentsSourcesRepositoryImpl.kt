@@ -61,6 +61,6 @@ class TorrentsSourcesRepositoryImpl(
 
     override suspend fun addSource(torrentsSource: TorrentsSource) =
         withContext(Dispatchers.Default) {
-            database.torrentsSourcesQueries.insert(torrentsSource.title, torrentsSource.title)
+            database.torrentsSourcesQueries.insert(torrentsSource.title, torrentsSource.url)
         }
 }
