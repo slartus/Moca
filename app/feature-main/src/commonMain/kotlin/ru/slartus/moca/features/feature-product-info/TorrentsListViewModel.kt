@@ -53,7 +53,7 @@ internal class TorrentsListViewModel(
                     _state.update { state ->
                         TorrentsViewState(
                             isLoading = state.isLoading,
-                            data = state.data + torrents,
+                            data = state.data + torrents.map { it.map() },
                             actions = state.actions
                         )
                     }
@@ -92,17 +92,34 @@ internal class TorrentsListViewModel(
         }
     }
 
-    fun onTorrentClick(torrent: Torrent) {
+    fun onTorrentClick(torrent: TorrentItem) {
         scope.launch {
-            val appFile = AppFile.createTempFile("tmp_", ".torrent")
-            repository.download(torrent, appFile)
+            try {
+                _state.update { screenState ->
+                    TorrentsViewState(
+                        isLoading = screenState.isLoading,
+                        data = screenState.data.map { if (torrent.id == it.id) it.copy(isLoading = true) else it },
+                        actions = screenState.actions
+                    )
+                }
 
-            _state.update { screenState ->
-                TorrentsViewState(
-                    isLoading = screenState.isLoading,
-                    data = screenState.data,
-                    actions = screenState.actions + TorrentsAction.OpenFile(appFile)
-                )
+                val appFile = AppFile.createTempFile("tmp_", ".torrent")
+                repository.download(torrent.map(), appFile)
+                _state.update { screenState ->
+                    TorrentsViewState(
+                        isLoading = screenState.isLoading,
+                        data = screenState.data,
+                        actions = screenState.actions + TorrentsAction.OpenFile(appFile)
+                    )
+                }
+            } finally {
+                _state.update { screenState ->
+                    TorrentsViewState(
+                        isLoading = screenState.isLoading,
+                        data = screenState.data.map { if (torrent.id == it.id) it.copy(isLoading = false) else it },
+                        actions = screenState.actions
+                    )
+                }
             }
         }
     }
@@ -111,13 +128,49 @@ internal class TorrentsListViewModel(
 
 internal data class TorrentsViewState(
     val isLoading: Boolean,
-    val data: List<Torrent>,
+    val data: List<TorrentItem>,
     val actions: List<TorrentsAction>
 )
 
-internal sealed class TorrentsAction() {
+internal sealed class TorrentsAction {
     val id: String = uuid4().toString()
 
     class OpenFile(val appFile: AppFile) : TorrentsAction()
     class Error(val message: String) : TorrentsAction()
 }
+
+internal data class TorrentItem(
+    val id: String = uuid4().toString(),
+    val source: String,
+    val title: String,
+    val url: String,
+    val size: String?,
+    val seeds: Int?,
+    val peers: Int?,
+    val downloads: Int? = null,
+    val date: String? = null,
+    val isLoading: Boolean
+)
+
+private fun Torrent.map() = TorrentItem(
+    source = this.source,
+    title = this.title,
+    url = this.url,
+    size = this.size,
+    seeds = this.seeds,
+    peers = this.peers,
+    downloads = this.downloads,
+    date = this.date,
+    isLoading = false
+)
+
+private fun TorrentItem.map() = Torrent(
+    source = this.source,
+    title = this.title,
+    url = this.url,
+    size = this.size,
+    seeds = this.seeds,
+    peers = this.peers,
+    downloads = this.downloads,
+    date = this.date
+)

@@ -23,7 +23,7 @@ import ru.slartus.moca.domain.models.Torrent
 
 
 @Composable
-fun <T : Product> TorrentsListView(product: T, onError: (message: String) -> Unit) {
+internal fun <T : Product> TorrentsListView(product: T, onError: (message: String) -> Unit) {
     val viewModelFactory by rememberFactory<Product, TorrentsListViewModel>()
     val viewModel by remember(product) { mutableStateOf(viewModelFactory(product)) }
     val viewState by viewModel.stateFlow.collectAsState()
@@ -49,7 +49,7 @@ fun <T : Product> TorrentsListView(product: T, onError: (message: String) -> Uni
                 item {
                     Column {
                         TorrentView(torrent) {
-                            viewModel.onTorrentClick(it)
+                            viewModel.onTorrentClick(torrent)
                         }
                         Box(
                             modifier = Modifier.height(1.dp).fillMaxWidth()
@@ -64,12 +64,13 @@ fun <T : Product> TorrentsListView(product: T, onError: (message: String) -> Uni
 }
 
 @Composable
-private fun TorrentView(torrent: Torrent, onClick: (torrent: Torrent) -> Unit) {
+private fun TorrentView(torrent: TorrentItem, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .clickable {
-                onClick(torrent)
+                if (!torrent.isLoading)
+                    onClick()
             }
             .padding(start = 10.dp)
             .padding(5.dp)
@@ -87,6 +88,12 @@ private fun TorrentView(torrent: Torrent, onClick: (torrent: Torrent) -> Unit) {
                 contentDescription = "play",
                 tint = AppTheme.colors.actionBarContentColor
             )
+            if (torrent.isLoading)
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.Center).size(25.dp),
+                    color = AppTheme.colors.highLight,
+                    strokeWidth = 2.dp
+                )
         }
 
         Column(modifier = Modifier.fillMaxSize()) {
