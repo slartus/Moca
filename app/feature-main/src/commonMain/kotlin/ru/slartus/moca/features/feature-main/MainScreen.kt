@@ -76,7 +76,6 @@ fun MainScreen() {
         }
         Scaffold(
             scaffoldState = scaffoldState,
-            backgroundColor = AppTheme.colors.background,
             topBar = {
                 MainTopBarView(
                     title = viewState.title,
