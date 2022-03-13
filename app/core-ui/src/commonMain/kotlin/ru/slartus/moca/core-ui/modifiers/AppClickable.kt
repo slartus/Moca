@@ -7,7 +7,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.semantics.Role
-import ru.slartus.moca.core_ui.theme.AppTheme
+import ru.slartus.moca.`core-ui`.theme.AppTheme
 
 fun Modifier.appClickable(
     enabled: Boolean = true,

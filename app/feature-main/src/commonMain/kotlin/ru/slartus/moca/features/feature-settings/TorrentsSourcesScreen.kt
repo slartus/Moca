@@ -9,11 +9,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
@@ -25,7 +23,7 @@ import ru.alexgladkov.odyssey.compose.navigation.bottom_sheet_navigation.ModalSh
 import ru.slartus.moca.`core-ui`.theme.LocalAppStrings
 import ru.slartus.moca.`core-ui`.views.AppNavigationIcon
 import ru.slartus.moca.`core-ui`.views.TopBarView
-import ru.slartus.moca.core_ui.theme.AppTheme
+import ru.slartus.moca.`core-ui`.theme.AppTheme
 
 @Composable
 fun TorrentsSourcesScreen() {
@@ -44,7 +42,7 @@ fun TorrentsSourcesScreen() {
 
     Scaffold(
         scaffoldState = scaffoldState,
-        backgroundColor = AppTheme.colors.primaryBackground,
+        backgroundColor = AppTheme.colors.background,
         topBar = { ScreenTopBar(strings.settings) },
         floatingActionButton = {
             FloatingActionButton(
@@ -69,13 +67,13 @@ fun TorrentsSourcesScreen() {
                             .padding(2.dp)
                             .fillMaxWidth()
                             .defaultMinSize(minHeight = 38.dp)
-                            .background(AppTheme.colors.secondaryBackground)
+                            .background(AppTheme.colors.secondary)
                             .padding(2.dp)
                     ) {
                         Text(
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier.fillMaxWidth().align(Alignment.CenterStart),
                             text = torrentSource.title,
-                            color = AppTheme.colors.primaryText
+                            color = AppTheme.colors.secondaryVariant
                         )
                     }
                 }
@@ -94,7 +92,7 @@ private fun AddSourceView(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = AppTheme.colors.secondaryBackground)
+            .background(color = AppTheme.colors.secondary)
             .padding(4.dp),
     ) {
         val title = remember { mutableStateOf(TextFieldValue("")) }
@@ -111,6 +109,7 @@ private fun AddSourceView(
         )
         Button(
             modifier = Modifier,
+            colors = AppTheme.buttonColors,
             onClick = {
                 if (!title.value.text.isEmpty() && !url.value.text.isEmpty()) {
                     viewModel.addTorrentSource(title.value.text, url.value.text)
@@ -118,7 +117,7 @@ private fun AddSourceView(
                 }
             }
         ) {
-            Text(text = "Добавить", color = AppTheme.colors.primaryText)
+            Text(text = "Добавить", color = AppTheme.colors.secondaryVariant)
         }
     }
 
@@ -132,15 +131,15 @@ private fun TextFieldView(
     val strings = LocalAppStrings.current
     BasicTextField(
         modifier = modifier
-            .background(AppTheme.colors.primaryBackground)
+            .background(AppTheme.colors.background)
             .height(38.dp),
         value = textFieldValue.value,
-        textStyle = TextStyle(color = AppTheme.colors.primaryText),
+        textStyle = TextStyle(color = AppTheme.colors.secondaryVariant),
         onValueChange = {
             textFieldValue.value = it
         },
         singleLine = true,
-        cursorBrush = SolidColor(AppTheme.colors.primaryText),
+        cursorBrush = SolidColor(AppTheme.colors.secondaryVariant),
         decorationBox = { innerTextField ->
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -151,7 +150,7 @@ private fun TextFieldView(
                     contentAlignment = Alignment.CenterStart
                 ) {
                     if (textFieldValue.value == TextFieldValue(""))
-                        Text(hint, color = AppTheme.colors.secondaryText)
+                        Text(hint, color = AppTheme.colors.secondaryVariant)
                     innerTextField()
                 }
                 if (textFieldValue.value != TextFieldValue("")) {

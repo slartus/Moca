@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 import org.kodein.di.compose.rememberFactory
 import org.kodein.di.compose.rememberInstance
 import ru.slartus.moca.`core-ui`.theme.LocalAppStrings
-import ru.slartus.moca.core_ui.theme.AppTheme
+import ru.slartus.moca.`core-ui`.theme.AppTheme
 import ru.slartus.moca.domain.models.Movie
 import ru.slartus.moca.features.`feature-product-info`.views.Description
 import ru.slartus.moca.features.`feature-product-info`.views.OriginalTitle
@@ -47,7 +47,7 @@ fun MovieScreen(movie: Movie) {
     }
     Scaffold(
         scaffoldState = scaffoldState,
-        backgroundColor = AppTheme.colors.primaryBackground,
+        backgroundColor = AppTheme.colors.background,
         topBar = { TopBar(movie.title) }
     ) {
         var tabIndex by remember { mutableStateOf(0) }
@@ -60,8 +60,8 @@ fun MovieScreen(movie: Movie) {
         }
         Column {
             TabRow(
-                backgroundColor = AppTheme.colors.actionBarColor,
-                contentColor = AppTheme.colors.primaryText,
+                backgroundColor = AppTheme.colors.primary,
+                contentColor = AppTheme.colors.secondaryVariant,
                 selectedTabIndex = tabIndex
             ) {
                 tabTitles.forEachIndexed { index, title ->

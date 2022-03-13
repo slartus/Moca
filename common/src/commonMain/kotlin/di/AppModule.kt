@@ -2,9 +2,7 @@ package di
 
 import kotlinx.coroutines.CoroutineScope
 import org.kodein.di.DI
-import org.kodein.di.bindSingleton
-import ru.slartus.moca.core_ui.theme.AppResources
-import ru.slartus.moca.features.`feature-main`.MainScreenViewModel
+import ru.slartus.moca.`core-ui`.theme.AppResources
 
 fun AppModule(
     appResources: AppResources,

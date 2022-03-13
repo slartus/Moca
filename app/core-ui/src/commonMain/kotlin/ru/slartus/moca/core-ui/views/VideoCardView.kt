@@ -12,8 +12,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import ru.slartus.moca.`core-ui`.modifiers.appClickable
-import ru.slartus.moca.core_ui.theme.AppTheme
+import ru.slartus.moca.`core-ui`.theme.AppTheme
 
 const val posterHeightWeightOfWidth = 1.4
 
@@ -31,7 +32,7 @@ fun VideoCardView(
             .appClickable {
                 onClick.invoke()
             },
-        backgroundColor = AppTheme.colors.secondaryBackground,
+        backgroundColor = AppTheme.colors.secondary,
         elevation = 4.dp
     ) {
         Column(
@@ -56,12 +57,13 @@ fun VideoCardView(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(44.dp)
-                    .padding(start = 4.dp, top = 4.dp, end = 4.dp),
+                    .padding(start = 4.dp, top = 6.dp, end = 4.dp),
                 maxLines = 2,
                 text = card.title,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
-                color = AppTheme.colors.primaryText,
+                fontSize = 14.sp,
+                color = AppTheme.colors.secondaryVariant,
                 overflow = TextOverflow.Ellipsis
             )
         }

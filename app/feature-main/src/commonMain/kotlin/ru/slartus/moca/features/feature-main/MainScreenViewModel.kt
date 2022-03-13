@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import ru.slartus.moca.core_ui.theme.AppResources
+import ru.slartus.moca.`core-ui`.theme.AppResources
 import ru.slartus.moca.domain.models.ProductType
 
 

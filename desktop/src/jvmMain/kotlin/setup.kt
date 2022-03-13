@@ -5,6 +5,8 @@ import org.kodein.di.DI
 import ru.alexgladkov.odyssey.compose.base.Navigator
 import ru.alexgladkov.odyssey.compose.local.LocalRootController
 import ru.alexgladkov.odyssey.compose.navigation.RootComposeBuilder
+import ru.alexgladkov.odyssey.compose.navigation.bottom_sheet_navigation.ModalSheetNavigator
+import ru.slartus.moca.`core-ui`.theme.AppTheme
 import java.awt.BorderLayout
 import javax.swing.JFrame
 import javax.swing.WindowConstants
@@ -26,8 +28,12 @@ fun JFrame.setupNavigation(
             val di = DI {
                 import(desktopModule)
             }
-            withApp(di) {
-                Navigator()
+            AppTheme(darkTheme = true) {
+                withApp(di) {
+                    ModalSheetNavigator {
+                        Navigator()
+                    }
+                }
             }
         }
     }

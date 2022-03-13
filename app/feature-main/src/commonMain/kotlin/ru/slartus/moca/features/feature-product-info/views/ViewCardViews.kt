@@ -16,7 +16,7 @@ import ru.slartus.moca.`core-ui`.theme.LocalAppStrings
 import ru.slartus.moca.`core-ui`.views.AppNavigationIcon
 import ru.slartus.moca.`core-ui`.views.TopBarView
 import ru.slartus.moca.`core-ui`.views.posterHeightWeightOfWidth
-import ru.slartus.moca.core_ui.theme.AppTheme
+import ru.slartus.moca.`core-ui`.theme.AppTheme
 import ru.slartus.moca.domain.models.Rate
 
 
@@ -42,9 +42,9 @@ internal fun Title(title: String) {
     Text(
         modifier = Modifier.padding(top = 4.dp).fillMaxWidth(),
         text = title,
-        fontSize = 25.sp,
+        fontSize = 22.sp,
         fontWeight = FontWeight.Bold,
-        color = AppTheme.colors.strongText
+        color = AppTheme.colors.secondaryVariant
     )
 }
 
@@ -53,9 +53,9 @@ internal fun OriginalTitle(originalTitle: String) {
     Text(
         modifier = Modifier.fillMaxWidth(),
         text = originalTitle,
-        fontSize = 25.sp,
+        fontSize = 22.sp,
         fontWeight = FontWeight.Bold,
-        color = AppTheme.colors.secondaryText
+        color = AppTheme.colors.secondaryVariant
     )
 }
 
@@ -100,8 +100,8 @@ internal fun Description(overview: String?) {
         Text(
             modifier = Modifier.padding(start = 4.dp),
             text = overview,
-            color = AppTheme.colors.secondaryText,
-            fontSize = 18.sp,
+            color = AppTheme.colors.secondaryVariant,
+            fontSize = 16.sp,
             fontWeight = FontWeight.Bold
         )
     }
@@ -120,7 +120,7 @@ internal fun CategoryTitleText(title: String) {
     Text(
         modifier = Modifier.padding(start = 4.dp),
         text = title,
-        color = AppTheme.colors.strongText,
+        color = AppTheme.colors.secondaryVariant,
         fontSize = 18.sp,
         fontWeight = FontWeight.Bold
     )
@@ -131,7 +131,7 @@ internal fun CategoryValueText(title: String) {
     Text(
         modifier = Modifier.padding(start = 4.dp),
         text = title,
-        color = AppTheme.colors.secondaryText,
+        color = AppTheme.colors.secondaryVariant,
         fontSize = 18.sp,
         fontWeight = FontWeight.Bold
     )

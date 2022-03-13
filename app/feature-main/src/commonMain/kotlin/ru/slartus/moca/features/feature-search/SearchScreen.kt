@@ -34,7 +34,7 @@ import ru.slartus.moca.`core-ui`.theme.LocalAppStrings
 import ru.slartus.moca.`core-ui`.views.AppNavigationIcon
 import ru.slartus.moca.`core-ui`.views.TopBarView
 import ru.slartus.moca.core.AppScreenName
-import ru.slartus.moca.core_ui.theme.AppTheme
+import ru.slartus.moca.`core-ui`.theme.AppTheme
 import ru.slartus.moca.domain.models.Movie
 import ru.slartus.moca.domain.models.Product
 import ru.slartus.moca.domain.models.ProductType
@@ -74,7 +74,7 @@ fun SearchScreen(productType: ProductType) {
     }
     Scaffold(
         scaffoldState = scaffoldState,
-        backgroundColor = AppTheme.colors.primaryBackground,
+        backgroundColor = AppTheme.colors.background,
         topBar = {
             ScreenTopBarView(searchBy, strings, rootController)
         }
@@ -184,7 +184,7 @@ private fun <T : Product> SearchResultItemView(
                 text = "${item.title} ${item.year ?: ""}",
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-                color = AppTheme.colors.primaryText,
+                color = AppTheme.colors.secondaryVariant,
                 fontWeight = FontWeight.Bold,
             )
             Text(
@@ -193,7 +193,7 @@ private fun <T : Product> SearchResultItemView(
                 text = item.originalTitle,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-                color = AppTheme.colors.primaryText
+                color = AppTheme.colors.secondaryVariant
             )
         }
 
@@ -206,13 +206,13 @@ fun SearchViewTextField(state: MutableState<TextFieldValue>) {
     val strings = LocalAppStrings.current
     Box(
         modifier = Modifier
-            .border(width = 1.dp, color = AppTheme.colors.primaryBackground)
+            .border(width = 1.dp, color = AppTheme.colors.background)
             .fillMaxWidth()
     ) {
         BasicTextField(
             modifier = Modifier
                 .focusRequester(focusRequester)
-                .background(AppTheme.colors.primaryBackground)
+                .background(AppTheme.colors.background)
                 .height(38.dp)
                 .fillMaxWidth(),
             value = state.value,
@@ -221,8 +221,8 @@ fun SearchViewTextField(state: MutableState<TextFieldValue>) {
             },
             singleLine = true,
             maxLines = 1,
-            textStyle = TextStyle(color = AppTheme.colors.primaryText),
-            cursorBrush = SolidColor(AppTheme.colors.primaryText),
+            textStyle = TextStyle(color = AppTheme.colors.secondaryVariant),
+            cursorBrush = SolidColor(AppTheme.colors.secondaryVariant),
             decorationBox = { innerTextField ->
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -238,7 +238,7 @@ fun SearchViewTextField(state: MutableState<TextFieldValue>) {
                         contentAlignment = Alignment.CenterStart
                     ) {
                         if (state.value == TextFieldValue(""))
-                            Text(strings.search, color = AppTheme.colors.secondaryText)
+                            Text(strings.search, color = AppTheme.colors.secondaryVariant)
                         innerTextField()
                     }
                     if (state.value != TextFieldValue("")) {

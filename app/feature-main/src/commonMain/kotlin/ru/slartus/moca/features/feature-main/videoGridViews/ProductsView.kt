@@ -10,7 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import org.kodein.di.compose.rememberInstance
 import ru.slartus.moca.`core-ui`.views.VideoCard
-import ru.slartus.moca.core_ui.theme.AppTheme
+import ru.slartus.moca.`core-ui`.theme.AppTheme
 import ru.slartus.moca.domain.models.Movie
 import ru.slartus.moca.domain.models.Product
 import ru.slartus.moca.domain.models.Series
@@ -88,7 +88,7 @@ private fun <T : Product> ProductsView(
             Text(
                 modifier = Modifier.align(Alignment.Center),
                 text = "No data",
-                color = AppTheme.colors.primaryText
+                color = AppTheme.colors.secondaryVariant
             )
     }
     if (refresh) {

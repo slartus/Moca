@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import ru.slartus.moca.core_ui.theme.AppTheme
+import ru.slartus.moca.`core-ui`.theme.AppTheme
 
 @Composable
 fun TopBarView(
@@ -23,13 +23,13 @@ fun TopBarView(
     modifier: Modifier = Modifier,
     navigationIcon: @Composable (() -> Unit)? = null,
     actions: @Composable RowScope.() -> Unit = {},
-    backgroundColor: Color = AppTheme.colors.actionBarColor,
-    contentColor: Color = AppTheme.colors.actionBarContentColor,
+    backgroundColor: Color = AppTheme.colors.primary,
+    contentColor: Color = AppTheme.colors.primaryVariant,
     elevation: Dp = 0.dp
 
 ) {
     val titleView: @Composable (() -> Unit) = {
-        Text(text = title, color = AppTheme.colors.actionBarContentColor)
+        Text(text = title, color = AppTheme.colors.primaryVariant)
     }
 
     TopBarView(
@@ -58,7 +58,7 @@ fun AppNavigationIcon(
             imageVector = imageVector,
             contentDescription = contentDescription,
             modifier = Modifier.size(24.dp),
-            tint = AppTheme.colors.actionBarContentColor
+            tint = AppTheme.colors.primaryVariant
         )
     }
 }
@@ -74,7 +74,7 @@ fun AppActionIcon(imageVector: ImageVector, contentDescription: String, onClick:
             imageVector = imageVector,
             contentDescription = contentDescription,
             modifier = Modifier.size(24.dp),
-            tint = AppTheme.colors.actionBarContentColor
+            tint = AppTheme.colors.primaryVariant
         )
     }
 }
@@ -85,8 +85,8 @@ fun TopBarView(
     modifier: Modifier = Modifier,
     navigationIcon: @Composable (() -> Unit)? = null,
     actions: @Composable RowScope.() -> Unit = {},
-    backgroundColor: Color = AppTheme.colors.primarySurface,
-    contentColor: Color = AppTheme.colors.actionBarContentColor,
+    backgroundColor: Color = AppTheme.colors.primary,
+    contentColor: Color = AppTheme.colors.primaryVariant,
     elevation: Dp = AppBarDefaults.TopAppBarElevation
 
 ) {

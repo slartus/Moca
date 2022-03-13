@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import icPlay
 import org.kodein.di.compose.rememberInstance
-import ru.slartus.moca.core_ui.theme.AppTheme
+import ru.slartus.moca.`core-ui`.theme.AppTheme
 import ru.slartus.moca.domain.models.Product
 
 
@@ -59,7 +59,7 @@ internal fun <T : Product> TorrentsListView(
                         }
                         Box(
                             modifier = Modifier.height(1.dp).fillMaxWidth()
-                                .background(color = AppTheme.colors.secondaryText)
+                                .background(color = AppTheme.colors.secondaryVariant)
 
                         )
                     }
@@ -92,7 +92,7 @@ private fun TorrentView(torrent: TorrentItem, onClick: () -> Unit) {
                     .fillMaxSize(),
                 painter = icPlay(),
                 contentDescription = "play",
-                tint = AppTheme.colors.actionBarContentColor
+                tint = AppTheme.colors.primaryVariant
             )
             if (torrent.isLoading)
                 CircularProgressIndicator(
@@ -107,14 +107,14 @@ private fun TorrentView(torrent: TorrentItem, onClick: () -> Unit) {
                 modifier = Modifier.fillMaxWidth(),
                 text = torrent.title,
                 fontSize = 16.sp,
-                color = AppTheme.colors.primaryText
+                color = AppTheme.colors.secondaryVariant
             )
             torrent.size?.let { size ->
                 Text(
                     modifier = Modifier.fillMaxWidth().padding(top = 1.dp),
                     text = size,
                     fontSize = 14.sp,
-                    color = AppTheme.colors.primaryText
+                    color = AppTheme.colors.secondaryVariant
                 )
             }
             Row(
@@ -125,7 +125,7 @@ private fun TorrentView(torrent: TorrentItem, onClick: () -> Unit) {
                     modifier = Modifier,
                     text = torrent.source,
                     fontSize = 12.sp,
-                    color = AppTheme.colors.secondaryText,
+                    color = AppTheme.colors.secondaryVariant,
 
                     )
 
@@ -136,7 +136,7 @@ private fun TorrentView(torrent: TorrentItem, onClick: () -> Unit) {
                         modifier = Modifier,
                         text = "$peersUp/$peersDown",
                         fontSize = 12.sp,
-                        color = AppTheme.colors.secondaryText
+                        color = AppTheme.colors.secondaryVariant
                     )
                 }
             }

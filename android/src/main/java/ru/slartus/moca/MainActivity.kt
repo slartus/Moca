@@ -14,7 +14,7 @@ import ru.alexgladkov.odyssey.compose.extensions.setupWithActivity
 import ru.alexgladkov.odyssey.compose.local.LocalRootController
 import ru.alexgladkov.odyssey.compose.navigation.RootComposeBuilder
 import ru.alexgladkov.odyssey.compose.navigation.bottom_sheet_navigation.ModalSheetNavigator
-import ru.slartus.moca.core_ui.theme.AppTheme
+import ru.slartus.moca.`core-ui`.theme.AppTheme
 import ru.slartus.moca.di.androidModule
 import withApp
 
@@ -33,32 +33,33 @@ class MainActivity : AppCompatActivity() {
             CompositionLocalProvider(
                 *providers
             ) {
-                val systemUiController = rememberSystemUiController()
-                val useDarkIcons = !AppTheme.colors.darkTheme
-                val statusBarColor = AppTheme.colors.actionBarColor
-                val navigationBarColor = AppTheme.colors.navigationBarColor
+                AppTheme(darkTheme = true) {
+                    val systemUiController = rememberSystemUiController()
+                    val useDarkIcons = AppTheme.colors.isLight
+                    val statusBarColor = AppTheme.colors.primary
+                    val navigationBarColor = AppTheme.colors.primary
 
-                SideEffect {
-                    systemUiController.setSystemBarsColor(
-                        color = statusBarColor,
-                        darkIcons = useDarkIcons
-                    )
-                    systemUiController.setNavigationBarColor(
-                        color = navigationBarColor,
-                        darkIcons = useDarkIcons
-                    )
-                }
+                    SideEffect {
+                        systemUiController.setSystemBarsColor(
+                            color = statusBarColor,
+                            darkIcons = useDarkIcons
+                        )
+                        systemUiController.setNavigationBarColor(
+                            color = navigationBarColor,
+                            darkIcons = useDarkIcons
+                        )
+                    }
 
-                val di = DI {
-                    import(androidModule)
-                }
+                    val di = DI {
+                        import(androidModule)
+                    }
 
-                withApp(di) {
-                    ModalSheetNavigator {
-                        Navigator()
+                    withApp(di) {
+                        ModalSheetNavigator {
+                            Navigator()
+                        }
                     }
                 }
-
             }
         }
     }

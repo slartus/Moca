@@ -10,7 +10,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import ru.slartus.moca.`core-ui`.modifiers.appClickable
-import ru.slartus.moca.core_ui.theme.AppTheme
+import ru.slartus.moca.`core-ui`.theme.AppTheme
 
 
 @Composable
@@ -27,13 +27,13 @@ internal fun DrawerMenuItem(
     ) {
         Icon(
             modifier = Modifier.size(24.dp),
-            tint = AppTheme.colors.primaryText,
+            tint = AppTheme.colors.secondaryVariant,
             painter = icon,
             contentDescription = null
         )
         Text(
             text = title,
-            color = AppTheme.colors.primaryText,
+            color = AppTheme.colors.secondaryVariant,
             modifier = Modifier.padding(start = 16.dp),
             maxLines = 1,
             fontWeight = FontWeight.Bold,

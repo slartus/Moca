@@ -12,7 +12,7 @@ import ru.alexgladkov.odyssey.core.animations.AnimationType
 import ru.slartus.moca.core.AppScreenName
 import ru.slartus.moca.core_ui.ScreenWidth
 import ru.slartus.moca.core_ui.screenWidth
-import ru.slartus.moca.core_ui.theme.AppTheme
+import ru.slartus.moca.`core-ui`.theme.AppTheme
 import ru.slartus.moca.domain.models.ProductType
 import ru.slartus.moca.features.`feature-main`.videoGridViews.MoviesView
 import ru.slartus.moca.features.`feature-main`.videoGridViews.SeriesView
@@ -76,7 +76,7 @@ fun MainScreen() {
         }
         Scaffold(
             scaffoldState = scaffoldState,
-            backgroundColor = AppTheme.colors.primaryBackground,
+            backgroundColor = AppTheme.colors.background,
             topBar = {
                 MainTopBarView(
                     title = viewState.title,

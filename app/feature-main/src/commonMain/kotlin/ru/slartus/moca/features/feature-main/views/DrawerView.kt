@@ -12,7 +12,7 @@ import icMovies
 import icSettings
 import icTv
 import ru.slartus.moca.`core-ui`.theme.LocalAppStrings
-import ru.slartus.moca.core_ui.theme.AppTheme
+import ru.slartus.moca.`core-ui`.theme.AppTheme
 import ru.slartus.moca.features.`feature-main`.Event
 import ru.slartus.moca.features.`feature-main`.EventListener
 
@@ -21,7 +21,7 @@ internal fun DrawerView(modifier: Modifier = Modifier, eventListener: EventListe
     val strings = LocalAppStrings.current
     Column(
         modifier = modifier
-            .background(AppTheme.colors.drawerColor)
+            .background(AppTheme.colors.surface)
             .fillMaxSize()
     ) {
         DrawerMenuItem(title = strings.movies, icon = icMovies()) {

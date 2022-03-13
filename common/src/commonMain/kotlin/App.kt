@@ -6,7 +6,7 @@ import org.kodein.di.compose.withDI
 import org.kodein.di.subDI
 import ru.slartus.moca.`core-ui`.theme.LocalAppStrings
 import ru.slartus.moca.core_ui.Platform
-import ru.slartus.moca.core_ui.theme.AppResources
+import ru.slartus.moca.`core-ui`.theme.AppResources
 import ru.slartus.moca.data.di.dataModule
 import ru.slartus.moca.domain.di.domainModule
 import ru.slartus.moca.features.`feature-main`.di.mainScreenModule
