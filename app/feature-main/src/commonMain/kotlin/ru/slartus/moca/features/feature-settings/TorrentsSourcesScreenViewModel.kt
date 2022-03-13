@@ -83,6 +83,14 @@ internal class TorrentsSourcesScreenViewModel(
             reload()
         }
     }
+
+    fun onDeleteClick(torrentSource: TorrentsSource) {
+        scope.launch {
+            repository.deleteSource(torrentSource)
+
+            reload()
+        }
+    }
 }
 
 

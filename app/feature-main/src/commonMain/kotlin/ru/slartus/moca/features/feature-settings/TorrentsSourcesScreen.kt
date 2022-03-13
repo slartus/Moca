@@ -9,13 +9,17 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
+import androidx.compose.ui.unit.sp
 import org.kodein.di.compose.rememberInstance
 import ru.alexgladkov.odyssey.compose.controllers.ModalSheetController
 import ru.alexgladkov.odyssey.compose.local.LocalRootController
@@ -24,6 +28,7 @@ import ru.slartus.moca.`core-ui`.theme.LocalAppStrings
 import ru.slartus.moca.`core-ui`.views.AppNavigationIcon
 import ru.slartus.moca.`core-ui`.views.TopBarView
 import ru.slartus.moca.`core-ui`.theme.AppTheme
+import ru.slartus.moca.domain.models.TorrentsSource
 
 @Composable
 fun TorrentsSourcesScreen() {
@@ -37,19 +42,18 @@ fun TorrentsSourcesScreen() {
         snackbarHostState = remember { SnackbarHostState() }
     )
 
-
     val modalSheetController = LocalRootController.current.findModalSheetController()
 
     Scaffold(
         scaffoldState = scaffoldState,
         backgroundColor = AppTheme.colors.background,
-        topBar = { ScreenTopBar(strings.settings) },
+        topBar = { ScreenTopBar(strings.torrentsSources) },
         floatingActionButton = {
             FloatingActionButton(
                 modifier = Modifier,
                 onClick = {
                     val modalSheetConfiguration =
-                        ModalSheetConfiguration(maxHeight = 0.7f, cornerRadius = 4)
+                        ModalSheetConfiguration(maxHeight = 0.5f, cornerRadius = 4)
                     modalSheetController.presentNew(modalSheetConfiguration) {
                         AddSourceView(modalSheetController, viewModel)
                     }
@@ -62,22 +66,58 @@ fun TorrentsSourcesScreen() {
         {
             viewState.data.forEach { torrentSource ->
                 item {
-                    Box(
-                        modifier = Modifier
-                            .padding(2.dp)
-                            .fillMaxWidth()
-                            .defaultMinSize(minHeight = 38.dp)
-                            .background(AppTheme.colors.secondary)
-                            .padding(2.dp)
-                    ) {
-                        Text(
-                            modifier = Modifier.fillMaxWidth().align(Alignment.CenterStart),
-                            text = torrentSource.title,
-                            color = AppTheme.colors.secondaryVariant
-                        )
-                    }
+                    TorrentsSourceView(torrentSource,
+                        onDeleteClick = {
+                            viewModel.onDeleteClick(torrentSource)
+                        })
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun TorrentsSourceView(torrentSource: TorrentsSource, onDeleteClick: () -> Unit) {
+    val strings = LocalAppStrings.current
+    Row(
+        modifier = Modifier
+            .padding(2.dp)
+            .fillMaxWidth()
+            .defaultMinSize(minHeight = 38.dp)
+            .background(AppTheme.colors.secondary)
+            .padding(2.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .align(CenterVertically)
+        ) {
+            Text(
+                modifier = Modifier,
+                text = torrentSource.title,
+                fontSize = 14.sp,
+                color = AppTheme.colors.secondaryVariant
+            )
+            Text(
+                modifier = Modifier,
+                text = torrentSource.url,
+                fontSize = 12.sp,
+                color = AppTheme.colors.secondaryVariant
+            )
+        }
+
+        IconButton(
+            modifier = Modifier
+                .align(CenterVertically),
+            onClick = {
+                onDeleteClick()
+            },
+        ) {
+            Icon(
+                imageVector = Icons.Default.Delete,
+                contentDescription = strings.delete,
+                tint = AppTheme.colors.highLight
+            )
         }
     }
 }
@@ -100,18 +140,19 @@ private fun AddSourceView(
         TextFieldView(
             modifier = Modifier.fillMaxWidth(),
             hint = strings.title,
-            title
+            singleLine = true,
+            textFieldValue = title
         )
         TextFieldView(
             modifier = Modifier.fillMaxWidth().padding(top = 4.dp),
             hint = strings.url,
-            url
+            textFieldValue = url
         )
         Button(
             modifier = Modifier,
             colors = AppTheme.buttonColors,
             onClick = {
-                if (!title.value.text.isEmpty() && !url.value.text.isEmpty()) {
+                if (title.value.text.isNotEmpty() && url.value.text.isNotEmpty()) {
                     viewModel.addTorrentSource(title.value.text, url.value.text)
                     modalSheetController.removeTopScreen()
                 }
@@ -126,23 +167,26 @@ private fun AddSourceView(
 @Composable
 private fun TextFieldView(
     modifier: Modifier = Modifier,
+    singleLine: Boolean = false,
+    maxLines: Int = Int.MAX_VALUE,
     hint: String, textFieldValue: MutableState<TextFieldValue>
 ) {
     val strings = LocalAppStrings.current
     BasicTextField(
         modifier = modifier
             .background(AppTheme.colors.background)
-            .height(38.dp),
+            .defaultMinSize(minHeight = 38.dp),
         value = textFieldValue.value,
         textStyle = TextStyle(color = AppTheme.colors.secondaryVariant),
         onValueChange = {
             textFieldValue.value = it
         },
-        singleLine = true,
+        singleLine = singleLine,
+        maxLines = maxLines,
         cursorBrush = SolidColor(AppTheme.colors.secondaryVariant),
         decorationBox = { innerTextField ->
             Row(
-                verticalAlignment = Alignment.CenterVertically,
+                verticalAlignment = CenterVertically,
                 modifier = Modifier.padding(horizontal = 10.dp)
             ) {
                 Box(

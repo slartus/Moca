@@ -63,4 +63,9 @@ class TorrentsSourcesRepositoryImpl(
         withContext(Dispatchers.Default) {
             database.torrentsSourcesQueries.insert(torrentsSource.title, torrentsSource.url)
         }
+
+    override suspend fun deleteSource(torrentSource: TorrentsSource) =
+        withContext(Dispatchers.Default) {
+            database.torrentsSourcesQueries.delete(torrentSource.title, torrentSource.url)
+        }
 }

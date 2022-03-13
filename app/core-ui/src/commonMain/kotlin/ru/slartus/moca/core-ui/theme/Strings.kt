@@ -17,7 +17,9 @@ data class AppStrings(
     val settings: String,
     val title: String,
     val url: String,
-    val addTorrentSource:String
+    val torrentsSources: String,
+    val addTorrentSource: String,
+    val delete: String
 )
 
 val ruStrings = AppStrings(
@@ -35,7 +37,9 @@ val ruStrings = AppStrings(
     settings = "Настройки",
     title = "Название",
     url = "Url",
-    addTorrentSource="Добавить источник торрентов"
+    torrentsSources = "Источники торрентов",
+    addTorrentSource = "Добавить источник торрентов",
+    delete = "Удалить"
 )
 
 val enStrings = AppStrings(
@@ -53,7 +57,9 @@ val enStrings = AppStrings(
     settings = "Settings",
     title = "Title",
     url = "Url",
-    addTorrentSource="Add torrents source"
+    torrentsSources = "Torrents sources",
+    addTorrentSource = "Add torrents source",
+    delete = "Delete"
 )
 
 

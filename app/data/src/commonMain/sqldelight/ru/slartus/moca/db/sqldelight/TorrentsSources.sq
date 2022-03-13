@@ -12,3 +12,7 @@ FROM torrents_sources;
 insert:
 INSERT INTO torrents_sources(title, url)
 VALUES (?, ?);
+
+delete:
+DELETE FROM torrents_sources
+WHERE title=? AND url=?;
