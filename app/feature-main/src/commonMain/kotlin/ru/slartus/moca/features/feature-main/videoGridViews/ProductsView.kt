@@ -60,9 +60,9 @@ private fun <T : Product> ProductsView(
     onItemClick: (item: T) -> Unit = {},
     onError: (ex: Exception) -> Unit = {}
 ) {
-    val viewState by screenViewModel.state.collectAsState()
-
-    viewState.actions.firstOrNull()?.let {
+    val viewState by screenViewModel.stateFlow.collectAsState()
+    val actions by screenViewModel.actionsFlow.collectAsState()
+    actions.firstOrNull()?.let {
         screenViewModel.actionReceived(it.id)
         when (it) {
             is Action.Error ->

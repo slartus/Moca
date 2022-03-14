@@ -12,7 +12,6 @@ import ru.alexgladkov.odyssey.core.animations.AnimationType
 import ru.slartus.moca.core.AppScreenName
 import ru.slartus.moca.core_ui.ScreenWidth
 import ru.slartus.moca.core_ui.screenWidth
-import ru.slartus.moca.`core-ui`.theme.AppTheme
 import ru.slartus.moca.domain.models.ProductType
 import ru.slartus.moca.features.`feature-main`.videoGridViews.MoviesView
 import ru.slartus.moca.features.`feature-main`.videoGridViews.SeriesView
@@ -26,11 +25,12 @@ fun MainScreen() {
     val coroutineScope = rememberCoroutineScope()
     val screenViewModel: MainScreenViewModel by rememberInstance()
     val viewState by screenViewModel.stateFlow.collectAsState()
+    val actions by screenViewModel.actionsFlow.collectAsState()
 
     val scaffoldState = rememberScaffoldState(
         drawerState = rememberDrawerState(DrawerValue.Closed) { drawerValue ->
             if (drawerValue == DrawerValue.Closed)
-                screenViewModel.onEvent(Event.OnDrawerClosed)
+                screenViewModel.obtainEvent(Event.OnDrawerClosed)
             true
         },
         snackbarHostState = remember { SnackbarHostState() }
@@ -45,7 +45,7 @@ fun MainScreen() {
         }
     }
     var refresh = false
-    viewState.actions.firstOrNull()?.let {
+    actions.firstOrNull()?.let {
         screenViewModel.actionReceived(it.id)
         when (it) {
             is Action.Error -> coroutineScope.launch {
@@ -80,9 +80,9 @@ fun MainScreen() {
                 MainTopBarView(
                     title = viewState.title,
                     screenWidth = screenWidth,
-                    onMenuClick = { screenViewModel.onEvent(Event.MenuClick) },
-                    onRefreshClick = { screenViewModel.onEvent(Event.RefreshClick) },
-                    onSearchClick = { screenViewModel.onEvent(Event.SearchClick) },
+                    onMenuClick = { screenViewModel.obtainEvent(Event.MenuClick) },
+                    onRefreshClick = { screenViewModel.obtainEvent(Event.RefreshClick) },
+                    onSearchClick = { screenViewModel.obtainEvent(Event.SearchClick) },
                 )
             },
             drawerShape = customDrawerShape(250.dp),
@@ -114,7 +114,7 @@ private fun SubScreenView(subScreen: ProductType, eventListener: EventListener, 
                 )
             },
             onError = {
-                eventListener.onEvent(Event.Error(it))
+                eventListener.obtainEvent(Event.Error(it))
             }
         )
         ProductType.Series -> SeriesView(
@@ -127,7 +127,7 @@ private fun SubScreenView(subScreen: ProductType, eventListener: EventListener, 
                     animationType = AnimationType.Present(300)
                 )
             },
-            onError = { eventListener.onEvent(Event.Error(it)) }
+            onError = { eventListener.obtainEvent(Event.Error(it)) }
         )
         ProductType.AnimationMovie -> MoviesView(
             tag = "animation.movies",
@@ -140,7 +140,7 @@ private fun SubScreenView(subScreen: ProductType, eventListener: EventListener, 
                 )
             },
             onError = {
-                eventListener.onEvent(Event.Error(it))
+                eventListener.obtainEvent(Event.Error(it))
             }
         )
         ProductType.AnimationSeries -> SeriesView(
@@ -153,7 +153,7 @@ private fun SubScreenView(subScreen: ProductType, eventListener: EventListener, 
                     animationType = AnimationType.Present(300)
                 )
             },
-            onError = { eventListener.onEvent(Event.Error(it)) }
+            onError = { eventListener.obtainEvent(Event.Error(it)) }
         )
     }
 

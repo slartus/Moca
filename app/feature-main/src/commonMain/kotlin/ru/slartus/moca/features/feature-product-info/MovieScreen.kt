@@ -29,6 +29,7 @@ fun MovieScreen(movie: Movie) {
     val viewModelFactory by rememberFactory<Movie, MovieScreenViewModel>()
     val viewModel by remember(movie) { mutableStateOf(viewModelFactory(movie)) }
     val viewState by viewModel.stateFlow.collectAsState()
+    val actions by viewModel.actionsFlow.collectAsState()
     val coroutineScope = rememberCoroutineScope()
 
     val strings = LocalAppStrings.current
@@ -36,7 +37,7 @@ fun MovieScreen(movie: Movie) {
         snackbarHostState = remember { SnackbarHostState() }
     )
 
-    viewState.actions.firstOrNull()?.let {
+    actions.firstOrNull()?.let {
         viewModel.actionReceived(it.id)
         when (it) {
             is Action.Error ->

@@ -57,13 +57,14 @@ fun SearchScreen(productType: ProductType) {
     }
 
     val searchState by searchViewModel.stateFlow.collectAsState()
+    val actions by searchViewModel.actionsFlow.collectAsState()
     val searchBy = remember { mutableStateOf(TextFieldValue(searchState.query)) }
     searchViewModel.onQueryChanged(searchState.query, searchBy.value.text)
 
     val scaffoldState = rememberScaffoldState(
         snackbarHostState = remember { SnackbarHostState() }
     )
-    searchState.actions.firstOrNull()?.let {
+    actions.firstOrNull()?.let {
         searchViewModel.actionReceived(it.id)
         when (it) {
             is Action.Error ->

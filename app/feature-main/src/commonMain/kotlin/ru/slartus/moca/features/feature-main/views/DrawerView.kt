@@ -25,21 +25,21 @@ internal fun DrawerView(modifier: Modifier = Modifier, eventListener: EventListe
             .fillMaxSize()
     ) {
         DrawerMenuItem(title = strings.movies, icon = icMovies()) {
-            eventListener.onEvent(Event.MenuMoviesClick)
+            eventListener.obtainEvent(Event.MenuMoviesClick)
         }
         DrawerMenuItem(title = strings.series, icon = icTv()) {
-            eventListener.onEvent(Event.MenuTvClick)
+            eventListener.obtainEvent(Event.MenuTvClick)
         }
         DrawerMenuItem(title = strings.animationMovies, icon = icCartoonMovies()) {
-            eventListener.onEvent(Event.MenuAnimationMoviesClick)
+            eventListener.obtainEvent(Event.MenuAnimationMoviesClick)
         }
         DrawerMenuItem(title = strings.animationSeries, icon = icCartoonTv()) {
-            eventListener.onEvent(Event.MenuAnimationTvClick)
+            eventListener.obtainEvent(Event.MenuAnimationTvClick)
         }
 
         Spacer(modifier = Modifier.weight(1f))
         DrawerMenuItem(title = strings.settings, icon = icSettings()) {
-            eventListener.onEvent(Event.MenuSettingsClick)
+            eventListener.obtainEvent(Event.MenuSettingsClick)
         }
     }
 }

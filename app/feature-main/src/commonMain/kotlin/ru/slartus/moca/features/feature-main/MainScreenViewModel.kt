@@ -1,40 +1,40 @@
 package ru.slartus.moca.features.`feature-main`
 
 import com.benasher44.uuid.uuid4
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
+import ru.slartus.moca.`core-ui`.base.BaseViewModel
 import ru.slartus.moca.`core-ui`.theme.AppResources
 import ru.slartus.moca.domain.models.ProductType
 
 
 class MainScreenViewModel(
     private val appResources: AppResources,
-    private val scope: CoroutineScope
-) : EventListener {
-    private val _stateFlow = MutableStateFlow(
-        ScreenState(
-            title = appResources.strings.movies,
-            subScreen = ProductType.Movie,
-            drawerOpened = false,
-            actions = emptyList(),
-        )
+    scope: CoroutineScope
+) : BaseViewModel<ScreenState, Action, Event>(
+    ScreenState(
+        title = appResources.strings.movies,
+        subScreen = ProductType.Movie,
+        drawerOpened = false
     )
+), EventListener {
+    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        callAction(
+            Action.Error(
+                message = throwable.message ?: throwable.toString()
+            )
+        )
+    }
+    private val scope = scope.plus(exceptionHandler + SupervisorJob())
 
-    val stateFlow: StateFlow<ScreenState> = _stateFlow.asStateFlow()
-
-    override fun onEvent(event: Event) {
+    override fun obtainEvent(viewEvent: Event) {
         scope.launch {
-            when (event) {
+            when (viewEvent) {
                 Event.MenuMoviesClick -> {
                     _stateFlow.update { screenState ->
                         ScreenState(
                             title = appResources.strings.movies,
                             subScreen = ProductType.Movie,
-                            actions = screenState.actions,
                             drawerOpened = false
                         )
                     }
@@ -44,7 +44,6 @@ class MainScreenViewModel(
                         ScreenState(
                             title = appResources.strings.series,
                             subScreen = ProductType.Series,
-                            actions = screenState.actions,
                             drawerOpened = false
                         )
                     }
@@ -54,7 +53,6 @@ class MainScreenViewModel(
                         ScreenState(
                             title = appResources.strings.animationMovies,
                             subScreen = ProductType.AnimationMovie,
-                            actions = screenState.actions,
                             drawerOpened = false
                         )
                     }
@@ -64,14 +62,13 @@ class MainScreenViewModel(
                         ScreenState(
                             title = appResources.strings.animationSeries,
                             subScreen = ProductType.AnimationSeries,
-                            actions = screenState.actions,
                             drawerOpened = false
                         )
                     }
                 }
-                is Event.Error -> addAction(
+                is Event.Error -> callAction(
                     Action.Error(
-                        message = event.error.message ?: event.error.toString()
+                        message = viewEvent.error.message ?: viewEvent.error.toString()
                     )
                 )
                 Event.MenuClick -> {
@@ -79,7 +76,6 @@ class MainScreenViewModel(
                         ScreenState(
                             title = screenState.title,
                             subScreen = screenState.subScreen,
-                            actions = screenState.actions,
                             drawerOpened = !screenState.drawerOpened
                         )
                     }
@@ -89,37 +85,14 @@ class MainScreenViewModel(
                         ScreenState(
                             title = screenState.title,
                             subScreen = screenState.subScreen,
-                            actions = screenState.actions,
                             drawerOpened = false
                         )
                     }
                 }
-                Event.RefreshClick -> addAction(Action.Refresh)
-                Event.SearchClick -> addAction(Action.OpenSearchScreen)
-                Event.MenuSettingsClick -> addAction(Action.OpenSettingsScreen)
+                Event.RefreshClick -> callAction(Action.Refresh)
+                Event.SearchClick -> callAction(Action.OpenSearchScreen)
+                Event.MenuSettingsClick -> callAction(Action.OpenSettingsScreen)
             }
-        }
-    }
-
-    private fun addAction(action: Action) {
-        _stateFlow.update { screenState ->
-            ScreenState(
-                title = screenState.title,
-                subScreen = screenState.subScreen,
-                actions = screenState.actions + action,
-                drawerOpened = screenState.drawerOpened
-            )
-        }
-    }
-
-    fun actionReceived(messageId: String) {
-        _stateFlow.update { screenState ->
-            ScreenState(
-                title = screenState.title,
-                subScreen = screenState.subScreen,
-                actions = screenState.actions.filterNot { it.id == messageId },
-                drawerOpened = screenState.drawerOpened
-            )
         }
     }
 }
@@ -128,12 +101,11 @@ class MainScreenViewModel(
 data class ScreenState(
     val title: String,
     val subScreen: ProductType,
-    val actions: List<Action>,
     val drawerOpened: Boolean
 )
 
-sealed class Action {
-    val id: String = uuid4().toString()
+sealed class Action : ru.slartus.moca.`core-ui`.base.Action {
+    override val id: String = uuid4().toString()
 
     data class Error(val message: String) : Action()
     object OpenSearchScreen : Action()

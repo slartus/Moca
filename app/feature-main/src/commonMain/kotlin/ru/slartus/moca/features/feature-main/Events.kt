@@ -2,7 +2,7 @@ package ru.slartus.moca.features.`feature-main`
 
 
 interface EventListener {
-    fun onEvent(event: Event)
+    fun obtainEvent(viewEvent: Event)
 }
 
 sealed class Event {

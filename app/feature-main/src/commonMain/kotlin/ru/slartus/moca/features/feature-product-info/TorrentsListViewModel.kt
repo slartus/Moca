@@ -3,10 +3,9 @@ package ru.slartus.moca.features.`feature-product-info`
 import AppFile
 import com.benasher44.uuid.uuid4
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import ru.slartus.moca.`core-ui`.base.Action
+import ru.slartus.moca.`core-ui`.base.BaseViewModel
 import ru.slartus.moca.domain.models.Product
 import ru.slartus.moca.domain.models.Torrent
 import ru.slartus.moca.domain.repositories.TorrentsSourcesRepository
@@ -14,6 +13,11 @@ import ru.slartus.moca.domain.repositories.TorrentsSourcesRepository
 internal class TorrentsListViewModel(
     scope: CoroutineScope,
     private val repository: TorrentsSourcesRepository
+): BaseViewModel<TorrentsViewState, TorrentsAction, Any>(
+    TorrentsViewState(
+        isLoading = false,
+        data = emptyList()
+    )
 ) {
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         if (throwable.cause !is CancellationException) {
@@ -21,25 +25,14 @@ internal class TorrentsListViewModel(
         }
     }
     private val scope = scope.plus(exceptionHandler + SupervisorJob())
-    private val _state = MutableStateFlow(
-        TorrentsViewState(
-            isLoading = false,
-            data = emptyList(),
-            actions = emptyList()
-        )
-    )
     private var product: Product = Product()
-
-    val stateFlow: StateFlow<TorrentsViewState> = _state.asStateFlow()
-
     fun setProduct(product: Product) {
         if (this.product != product) {
             this.product = product
-            _state.update { state ->
+            _stateFlow.update { state ->
                 TorrentsViewState(
                     isLoading = state.isLoading,
-                    data = emptyList(),
-                    actions = emptyList()
+                    data = emptyList()
                 )
             }
 
@@ -48,11 +41,10 @@ internal class TorrentsListViewModel(
     }
 
     private fun reload() {
-        _state.update { state ->
+        _stateFlow.update { state ->
             TorrentsViewState(
                 isLoading = true,
-                data = state.data,
-                actions = state.actions
+                data = state.data
             )
         }
 
@@ -61,90 +53,67 @@ internal class TorrentsListViewModel(
             sources.map { source ->
                 launch(SupervisorJob() + exceptionHandler) {
                     val torrents = repository.findIn(source, product)
-                    _state.update { state ->
+                    _stateFlow.update { state ->
                         TorrentsViewState(
                             isLoading = state.isLoading,
-                            data = state.data + torrents.map { it.map() },
-                            actions = state.actions
+                            data = state.data + torrents.map { it.map() }
                         )
                     }
                 }
             }.joinAll()
-            _state.update { state ->
+            _stateFlow.update { state ->
                 TorrentsViewState(
                     isLoading = false,
-                    data = state.data,
-                    actions = state.actions
+                    data = state.data
                 )
             }
         }
 
     }
 
-    fun actionReceived(messageId: String) {
-        _state.update { screenState ->
-            TorrentsViewState(
-                isLoading = false,
-                data = screenState.data,
-                actions = screenState.actions.filterNot { it.id == messageId },
-            )
-        }
-    }
-
     private fun onError(exception: Throwable) {
-        _state.update { screenState ->
-            TorrentsViewState(
-                isLoading = false,
-                data = screenState.data,
-                actions = screenState.actions + TorrentsAction.Error(
-                    exception.message ?: exception.toString()
-                )
-            )
-        }
+        callAction(TorrentsAction.Error(
+            exception.message ?: exception.toString()
+        ))
     }
 
     fun onTorrentClick(torrent: TorrentItem) {
         scope.launch {
             try {
-                _state.update { screenState ->
+                _stateFlow.update { screenState ->
                     TorrentsViewState(
                         isLoading = screenState.isLoading,
-                        data = screenState.data.map { if (torrent.id == it.id) it.copy(isLoading = true) else it },
-                        actions = screenState.actions
+                        data = screenState.data.map { if (torrent.id == it.id) it.copy(isLoading = true) else it }
                     )
                 }
 
                 val appFile = AppFile.createTempFile("tmp_", ".torrent")
                 repository.download(torrent.map(), appFile)
-                _state.update { screenState ->
-                    TorrentsViewState(
-                        isLoading = screenState.isLoading,
-                        data = screenState.data,
-                        actions = screenState.actions + TorrentsAction.OpenFile(appFile)
-                    )
-                }
+                callAction(TorrentsAction.OpenFile(appFile))
             } finally {
-                _state.update { screenState ->
+                _stateFlow.update { screenState ->
                     TorrentsViewState(
                         isLoading = screenState.isLoading,
-                        data = screenState.data.map { if (torrent.id == it.id) it.copy(isLoading = false) else it },
-                        actions = screenState.actions
+                        data = screenState.data.map { if (torrent.id == it.id) it.copy(isLoading = false) else it }
                     )
                 }
             }
         }
+    }
+
+    override fun obtainEvent(viewEvent: Any) {
+
     }
 }
 
 
 internal data class TorrentsViewState(
     val isLoading: Boolean,
-    val data: List<TorrentItem>,
-    val actions: List<TorrentsAction>
+    val data: List<TorrentItem>
 )
 
-internal sealed class TorrentsAction {
-    val id: String = uuid4().toString()
+internal sealed class TorrentsAction:Action {
+    override val id: String = uuid4().toString()
 
     class OpenFile(val appFile: AppFile) : TorrentsAction()
     class Error(val message: String) : TorrentsAction()

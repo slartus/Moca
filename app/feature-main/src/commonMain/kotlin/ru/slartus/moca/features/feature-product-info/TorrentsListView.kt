@@ -33,9 +33,10 @@ internal fun <T : Product> TorrentsListView(
         viewModel.setProduct(product)
     }
     val viewState by viewModel.stateFlow.collectAsState()
+    val actions by viewModel.actionsFlow.collectAsState()
     val platformListener by rememberInstance<PlatformListener>()
 
-    viewState.actions.firstOrNull()?.let {
+    actions.firstOrNull()?.let {
         viewModel.actionReceived(it.id)
         when (it) {
             is TorrentsAction.Error -> onError(it.message)

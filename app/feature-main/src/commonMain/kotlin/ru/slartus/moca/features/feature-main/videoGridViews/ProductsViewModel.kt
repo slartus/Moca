@@ -1,56 +1,49 @@
 package ru.slartus.moca.features.`feature-main`.videoGridViews
 
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
+import ru.slartus.moca.`core-ui`.base.BaseViewModel
 import ru.slartus.moca.domain.models.Product
 import ru.slartus.moca.domain.repositories.ProductsRepository
 
 internal class ProductsViewModel<T : Product>(
     private val popularMoviesRepository: ProductsRepository<T>,
-    private val scope: CoroutineScope
+    scope: CoroutineScope
+) : BaseViewModel<GridViewState<T>, Action, Any>(
+    GridViewState(
+        isLoading = true,
+        data = emptyList()
+    )
 ) {
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         onError(throwable)
     }
-    private val coroutineContext = exceptionHandler + SupervisorJob()
-    private val _state = MutableStateFlow(
-        GridViewState(
-            isLoading = true,
-            data = emptyList<T>(),
-            actions = emptyList()
-        )
-    )
+    private val scope = scope.plus(exceptionHandler + SupervisorJob())
 
-    val state: StateFlow<GridViewState<T>> = _state.asStateFlow()
 
     init {
-        scope.launch(coroutineContext) {
+        scope.launch {
             popularMoviesRepository.items
                 .collect {
-                    _state.update { state ->
+                    _stateFlow.update { _ ->
                         GridViewState(
                             isLoading = false,
-                            data = it,
-                            actions = state.actions
+                            data = it
                         )
                     }
                 }
         }
-        scope.launch(coroutineContext) {
+        scope.launch {
             popularMoviesRepository.reload()
         }
     }
 
     fun reload() {
-        scope.launch(coroutineContext) {
-            _state.update { state ->
+        scope.launch {
+            _stateFlow.update { state ->
                 GridViewState(
                     isLoading = true,
-                    data = state.data,
-                    actions = state.actions
+                    data = state.data
                 )
             }
             popularMoviesRepository.reload()
@@ -58,33 +51,24 @@ internal class ProductsViewModel<T : Product>(
     }
 
     fun loadMore() {
-        scope.launch(coroutineContext) {
+        scope.launch {
             popularMoviesRepository.loadMore()
         }
     }
 
-    fun actionReceived(messageId: String) {
-        _state.update { screenState ->
-            GridViewState(
-                isLoading = screenState.isLoading,
-                data = screenState.data,
-                actions = screenState.actions.filterNot { it.id == messageId }
-            )
-        }
-    }
 
     private fun onError(exception: Throwable) {
-        _state.update { screenState ->
-            GridViewState(
-                isLoading = false,
-                data = screenState.data,
-                actions = screenState.actions + Action.Error(
-                    Exception(
-                        exception.message,
-                        exception
-                    )
+        callAction(
+            Action.Error(
+                Exception(
+                    exception.message,
+                    exception
                 )
             )
-        }
+        )
+    }
+
+    override fun obtainEvent(viewEvent: Any) {
+        TODO("Not yet implemented")
     }
 }
