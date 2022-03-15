@@ -13,17 +13,12 @@ import ru.slartus.moca.domain.repositories.TorrentsSourcesRepository
 internal class TorrentsListViewModel(
     scope: CoroutineScope,
     private val repository: TorrentsSourcesRepository
-): BaseViewModel<TorrentsViewState, TorrentsAction, Any>(
+) : BaseViewModel<TorrentsViewState, TorrentsAction, Any>(
     TorrentsViewState(
         isLoading = false,
         data = emptyList()
     )
 ) {
-    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        if (throwable.cause !is CancellationException) {
-            onError(throwable)
-        }
-    }
     private val scope = scope.plus(exceptionHandler + SupervisorJob())
     private var product: Product = Product()
     fun setProduct(product: Product) {
@@ -71,10 +66,12 @@ internal class TorrentsListViewModel(
 
     }
 
-    private fun onError(exception: Throwable) {
-        callAction(TorrentsAction.Error(
-            exception.message ?: exception.toString()
-        ))
+    override fun onError(throwable: Throwable) {
+        callAction(
+            TorrentsAction.Error(
+                throwable.message ?: throwable.toString()
+            )
+        )
     }
 
     fun onTorrentClick(torrent: TorrentItem) {
@@ -112,7 +109,7 @@ internal data class TorrentsViewState(
     val data: List<TorrentItem>
 )
 
-internal sealed class TorrentsAction:Action {
+internal sealed class TorrentsAction : Action {
     override val id: String = uuid4().toString()
 
     class OpenFile(val appFile: AppFile) : TorrentsAction()

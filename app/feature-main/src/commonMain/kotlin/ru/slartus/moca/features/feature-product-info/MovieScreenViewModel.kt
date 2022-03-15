@@ -1,18 +1,17 @@
 package ru.slartus.moca.features.`feature-product-info`
 
 import com.benasher44.uuid.uuid4
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.plus
 import ru.slartus.moca.`core-ui`.base.BaseViewModel
 import ru.slartus.moca.domain.models.Movie
 import ru.slartus.moca.domain.models.MovieDetails
 import ru.slartus.moca.domain.models.mapToDetails
 import ru.slartus.moca.domain.repositories.MovieRepository
 import ru.slartus.moca.domain.repositories.TorrentsSourcesRepository
-import kotlin.math.acos
 
 internal class MovieScreenViewModel(
     private val movie: Movie,
@@ -26,9 +25,6 @@ internal class MovieScreenViewModel(
         hasTorrentsSources = false
     )
 ) {
-    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        onError(throwable)
-    }
     private val scope = scope.plus(exceptionHandler + SupervisorJob())
 
     init {
@@ -54,9 +50,9 @@ internal class MovieScreenViewModel(
         }
     }
 
-    private fun onError(exception: Throwable) {
+    override fun onError(throwable: Throwable) {
         callAction(Action.Error(
-            exception.message ?: exception.toString()
+            throwable.message ?: throwable.toString()
         ))
     }
 

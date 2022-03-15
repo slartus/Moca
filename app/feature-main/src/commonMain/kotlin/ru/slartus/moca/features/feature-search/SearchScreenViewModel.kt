@@ -22,11 +22,6 @@ internal class SearchScreenViewModel<T : Product>(
         data = SearchResult<T>(emptyList())
     )
 ) {
-    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        if (throwable.cause !is CancellationException) {
-            onError(throwable)
-        }
-    }
     private val coroutineContext = exceptionHandler + SupervisorJob()
 
     private var searchJob: Job = Job()
@@ -67,11 +62,10 @@ internal class SearchScreenViewModel<T : Product>(
         }
     }
 
-
-    private fun onError(exception: Throwable) {
+    override fun onError(throwable: Throwable) {
         callAction(
             Action.Error(
-                exception.message ?: exception.toString()
+                throwable.message ?: throwable.toString()
             )
         )
     }

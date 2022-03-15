@@ -15,9 +15,6 @@ internal class ProductsViewModel<T : Product>(
         data = emptyList()
     )
 ) {
-    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        onError(throwable)
-    }
     private val scope = scope.plus(exceptionHandler + SupervisorJob())
 
 
@@ -57,12 +54,12 @@ internal class ProductsViewModel<T : Product>(
     }
 
 
-    private fun onError(exception: Throwable) {
+    override fun onError(throwable: Throwable) {
         callAction(
             Action.Error(
                 Exception(
-                    exception.message,
-                    exception
+                    throwable.message,
+                    throwable
                 )
             )
         )

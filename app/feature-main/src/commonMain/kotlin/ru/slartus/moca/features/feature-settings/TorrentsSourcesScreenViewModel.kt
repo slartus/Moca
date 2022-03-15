@@ -1,15 +1,14 @@
 package ru.slartus.moca.features.`feature-settings`
 
 import com.benasher44.uuid.uuid4
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.plus
 import ru.slartus.moca.`core-ui`.base.BaseViewModel
 import ru.slartus.moca.domain.models.TorrentsSource
 import ru.slartus.moca.domain.repositories.TorrentsSourcesRepository
-import ru.slartus.moca.features.`feature-search`.SearchViewState
 
 internal class TorrentsSourcesScreenViewModel(
     scope: CoroutineScope,
@@ -20,11 +19,6 @@ internal class TorrentsSourcesScreenViewModel(
         data = emptyList()
     )
 ) {
-    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        if (throwable.cause !is CancellationException) {
-            onError(throwable)
-        }
-    }
     private val scope = scope.plus(exceptionHandler + SupervisorJob())
 
     init {
@@ -50,10 +44,10 @@ internal class TorrentsSourcesScreenViewModel(
         }
     }
 
-    private fun onError(exception: Throwable) {
+    override fun onError(throwable: Throwable) {
         callAction(
             Action.Error(
-                exception.message ?: exception.toString()
+                throwable.message ?: throwable.toString()
             )
         )
     }

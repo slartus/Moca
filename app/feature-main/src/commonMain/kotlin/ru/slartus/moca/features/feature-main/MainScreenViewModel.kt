@@ -18,13 +18,6 @@ class MainScreenViewModel(
         drawerOpened = false
     )
 ), EventListener {
-    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        callAction(
-            Action.Error(
-                message = throwable.message ?: throwable.toString()
-            )
-        )
-    }
     private val scope = scope.plus(exceptionHandler + SupervisorJob())
 
     override fun obtainEvent(viewEvent: Event) {
@@ -94,6 +87,12 @@ class MainScreenViewModel(
                 Event.MenuSettingsClick -> callAction(Action.OpenSettingsScreen)
             }
         }
+    }
+
+    override fun onError(throwable: Throwable) {
+        callAction(Action.Error(
+            message = throwable.message ?: throwable.toString()
+        ))
     }
 }
 
