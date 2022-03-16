@@ -16,7 +16,7 @@ data class Rate(
     val rateCount: Int
 )
 
-fun Movie.mapToDetails() = MovieDetails(
+fun Movie.mapToDetails() = ProductDetails(
     id = this.id,
     title = this.title,
     originalTitle = this.originalTitle,

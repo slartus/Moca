@@ -7,21 +7,22 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
 import ru.slartus.moca.`core-ui`.base.BaseViewModel
-import ru.slartus.moca.domain.models.Movie
 import ru.slartus.moca.domain.models.ProductDetails
+import ru.slartus.moca.domain.models.Series
 import ru.slartus.moca.domain.models.mapToDetails
 import ru.slartus.moca.domain.repositories.MovieRepository
+import ru.slartus.moca.domain.repositories.SerieRepository
 import ru.slartus.moca.domain.repositories.TorrentsSourcesRepository
 
-internal class MovieScreenViewModel(
-    private val movie: Movie,
-    private val repository: MovieRepository,
+internal class SeriesScreenViewModel(
+    private val series: Series,
+    private val repository: SerieRepository,
     private val torrentsSourcesRepository: TorrentsSourcesRepository,
     scope: CoroutineScope,
-) : BaseViewModel<MovieViewState, Action, Any>(
-    MovieViewState(
+) : BaseViewModel<SeriesViewState, SeriesAction, Any>(
+    SeriesViewState(
         isLoading = true,
-        data = movie.mapToDetails(),
+        data = series.mapToDetails(),
         hasTorrentsSources = false
     )
 ) {
@@ -29,9 +30,9 @@ internal class MovieScreenViewModel(
 
     init {
         this.scope.launch {
-            val details = repository.loadDetails(movie.id)
+            val details = repository.loadDetails(series.id)
             _stateFlow.update { state ->
-                MovieViewState(
+                SeriesViewState(
                     isLoading = false,
                     data = details,
                     hasTorrentsSources = state.hasTorrentsSources
@@ -41,7 +42,7 @@ internal class MovieScreenViewModel(
         this.scope.launch {
             val sources = torrentsSourcesRepository.getSources()
             _stateFlow.update { state ->
-                MovieViewState(
+                SeriesViewState(
                     isLoading = state.isLoading,
                     data = state.data,
                     hasTorrentsSources = sources.any()
@@ -51,7 +52,7 @@ internal class MovieScreenViewModel(
     }
 
     override fun onError(throwable: Throwable) {
-        callAction(Action.Error(
+        callAction(SeriesAction.Error(
             throwable.message ?: throwable.toString()
         ))
     }
@@ -61,14 +62,14 @@ internal class MovieScreenViewModel(
     }
 }
 
-internal data class MovieViewState(
+internal data class SeriesViewState(
     val isLoading: Boolean,
     val data: ProductDetails,
     val hasTorrentsSources: Boolean
 )
 
-internal sealed class Action() : ru.slartus.moca.`core-ui`.base.Action {
+internal sealed class SeriesAction() : ru.slartus.moca.`core-ui`.base.Action {
     override val id: String = uuid4().toString()
 
-    class Error(val message: String) : Action()
+    class Error(val message: String) : SeriesAction()
 }

@@ -1,6 +1,6 @@
 package ru.slartus.moca.domain.models
 
-data class MovieDetails(
+data class ProductDetails(
     val id: String,
     val title: String,
     val originalTitle: String,

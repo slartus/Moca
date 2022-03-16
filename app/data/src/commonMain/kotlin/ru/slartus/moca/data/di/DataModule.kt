@@ -47,6 +47,10 @@ val dataModule = DI.Module("dataModule") {
         MovieRepositoryImpl(instance("tmdb"))
     }
 
+    bindProvider<SerieRepository> {
+        SerieRepositoryImpl(instance("tmdb"))
+    }
+
     bindProvider<TorrentsRepository> {
         TorrentsRepositoryImpl(
             listOf(

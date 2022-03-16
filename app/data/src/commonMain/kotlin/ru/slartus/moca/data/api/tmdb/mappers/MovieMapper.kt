@@ -6,7 +6,7 @@ import ru.slartus.moca.data.api.tmdb.models.Genre as DataGenre
 import ru.slartus.moca.data.api.tmdb.models.MovieDetails as DataMovieDetails
 import ru.slartus.moca.domain.models.Genre as RepositoryGenre
 import ru.slartus.moca.domain.models.Movie as RepositoryMovie
-import ru.slartus.moca.domain.models.MovieDetails as RepositoryMovieDetails
+import ru.slartus.moca.domain.models.ProductDetails as RepositoryMovieDetails
 
 internal fun DataMovie.map(): RepositoryMovie? {
     val id = this.id ?: return null
@@ -59,6 +59,6 @@ internal fun DataMovieDetails.map(): RepositoryMovieDetails {
     )
 }
 
-private fun List<DataGenre>.map() = this
+internal fun List<DataGenre>.map() = this
     .filter { it.id != null && it.name != null }
     .map { RepositoryGenre(it.id?.toString()!!, it.name!!) }

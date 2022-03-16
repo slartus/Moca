@@ -9,3 +9,14 @@ data class Series(
     val rates: List<Rate> = emptyList(),
     val overview: String? = null
 ) : Product
+
+
+fun Series.mapToDetails() = ProductDetails(
+    id = this.id,
+    title = this.title,
+    originalTitle = this.originalTitle,
+    posterUrl = this.posterUrl,
+    year = this.year,
+    rates = this.rates.map { it },
+    overview = this.overview
+)

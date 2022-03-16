@@ -1,17 +1,16 @@
 package ru.slartus.moca.data.api.tmdb
 
+import io.github.aakira.napier.Napier
 import io.ktor.client.*
 import io.ktor.client.request.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import ru.slartus.moca.data.api.tmdb.mappers.buildVideoUrl
 import ru.slartus.moca.data.api.tmdb.mappers.map
 import ru.slartus.moca.data.api.tmdb.models.*
 import ru.slartus.moca.domain.CatalogApi
 import kotlin.jvm.JvmInline
 import ru.slartus.moca.domain.models.Movie as RepositoryMovie
-import ru.slartus.moca.domain.models.MovieDetails as RepositoryMovieDetails
+import ru.slartus.moca.domain.models.ProductDetails as RepositoryMovieDetails
 import ru.slartus.moca.domain.models.Series as RepositoryTv
 
 class TmdbApi(val client: HttpClient) : CatalogApi {
@@ -67,6 +66,27 @@ class TmdbApi(val client: HttpClient) : CatalogApi {
                 buildVideoUrl(site, key)
             })
         }
+
+    override suspend fun getSeriesDetails(seriesId: String): ru.slartus.moca.domain.models.ProductDetails =
+        withContext(Dispatchers.Default) {
+            val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
+                Napier.e("getSeriesDetails", throwable)
+            }
+            val detailsRequest =
+                async(SupervisorJob() + coroutineExceptionHandler) { TV().getDetails(seriesId.toInt()) }
+            val videosRequest =
+                async(SupervisorJob() + coroutineExceptionHandler) { TV().getVideos(seriesId.toInt()) }
+
+            val details = detailsRequest.await()
+            val videos = videosRequest.await()
+
+            return@withContext details.copy(videos = videos.mapNotNull { video ->
+                val site = video.site ?: return@mapNotNull null
+                val key = video.key ?: return@mapNotNull null
+                buildVideoUrl(site, key)
+            })
+        }
+
 
     override suspend fun findMovies(query: String): List<ru.slartus.moca.domain.models.Movie> {
         return Search().searchMovies(query, false)
@@ -142,6 +162,17 @@ class TmdbApi(val client: HttpClient) : CatalogApi {
             val response: PagedResponse<Tv> =
                 client.get("$END_POINT/tv/popular?page=${page.page}&$DEFAULT_PARAMS")
             return (response.results ?: emptyList()).mapNotNull { it.map() }
+        }
+
+        suspend fun getDetails(seriesId: Int): RepositoryMovieDetails {
+            val response: SeriesDetails = client.get("$END_POINT/tv/$seriesId?$DEFAULT_PARAMS")
+            return response.map()
+        }
+
+        internal suspend fun getVideos(seriesId: Int): List<Video> {
+            val response: VideosResponse =
+                client.get("$END_POINT/tv/$seriesId/videos?$DEFAULT_PARAMS")
+            return response.results ?: emptyList()
         }
     }
 
