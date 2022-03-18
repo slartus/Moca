@@ -131,7 +131,8 @@ private fun AddSourceView(
         modifier = Modifier
             .fillMaxWidth()
             .background(color = AppTheme.colors.secondary)
-            .padding(4.dp),
+            .padding(4.dp)
+            .padding(bottom = 12.dp),
     ) {
         val title = remember { mutableStateOf(TextFieldValue("")) }
         val url = remember { mutableStateOf(TextFieldValue("")) }
@@ -146,6 +147,11 @@ private fun AddSourceView(
             hint = strings.url,
             textFieldValue = url
         )
+        Text(
+            text = "Используй в запросе \$title, \$original_title, \$year и \$type. Например, http:\\\\mysite.ru?search=\$title / \$original_title&year=\$year&type=\$type",
+            color = AppTheme.colors.secondaryVariant,
+            fontSize = 12.sp
+        )
         Button(
             modifier = Modifier.align(End),
             colors = AppTheme.buttonColors,
@@ -156,7 +162,7 @@ private fun AddSourceView(
                 }
             }
         ) {
-            Text(text = "Добавить", color = AppTheme.colors.secondaryVariant)
+            Text(text = strings.add, color = AppTheme.colors.secondaryVariant)
         }
     }
 
