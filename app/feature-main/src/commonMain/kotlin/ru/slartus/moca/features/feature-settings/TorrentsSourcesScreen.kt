@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
+import androidx.compose.ui.Alignment.Companion.End
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
@@ -51,9 +52,7 @@ fun TorrentsSourcesScreen() {
             FloatingActionButton(
                 modifier = Modifier,
                 onClick = {
-                    val modalSheetConfiguration =
-                        ModalSheetConfiguration(maxHeight = 0.5f, cornerRadius = 4)
-                    modalSheetController.presentNew(modalSheetConfiguration) {
+                    modalSheetController.presentNew(ModalSheetConfiguration()) {
                         AddSourceView(modalSheetController, viewModel)
                     }
                 }) {
@@ -130,7 +129,7 @@ private fun AddSourceView(
 
     Column(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth()
             .background(color = AppTheme.colors.secondary)
             .padding(4.dp),
     ) {
@@ -148,7 +147,7 @@ private fun AddSourceView(
             textFieldValue = url
         )
         Button(
-            modifier = Modifier,
+            modifier = Modifier.align(End),
             colors = AppTheme.buttonColors,
             onClick = {
                 if (title.value.text.isNotEmpty() && url.value.text.isNotEmpty()) {

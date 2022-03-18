@@ -17,7 +17,7 @@ object AppTheme {
         @Composable
         get() = DefaultButtonColors(
             backgroundColor = colors.highLight,
-            contentColor = colors.secondaryVariant,
+            contentColor = colors.primaryVariant,
             disabledBackgroundColor = colors.highLight,
             disabledContentColor = colors.secondaryVariant
         )
