@@ -27,7 +27,7 @@ internal fun DataMovie.map(): RepositoryMovie? {
             PosterSize.W500,
             posterPath
         ),
-        year = this.release_date,
+        year = this.release_date?.take(4),
         rates = rates,
         overview = this.overview
     )
@@ -52,7 +52,7 @@ internal fun DataMovieDetails.map(): RepositoryMovieDetails {
             PosterSize.W342,
             posterPath
         ),
-        year = this.release_date,
+        year = this.release_date?.take(4),
         rates = rates,
         overview = this.overview,
         genres = genres

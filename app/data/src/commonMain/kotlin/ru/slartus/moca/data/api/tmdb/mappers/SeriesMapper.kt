@@ -26,7 +26,7 @@ internal fun DataTv.map(): RepositoryTv? {
             PosterSize.W342,
             posterPath
         ),
-        year = this.first_air_date,
+        year = this.first_air_date?.take(4),
         rates = rates,
         overview = this.overview
     )
@@ -51,7 +51,7 @@ internal fun DataDetails.map(): ProductDetails {
             PosterSize.W342,
             posterPath
         ),
-        year = this.release_date,
+        year = this.release_date?.take(4),
         rates = rates,
         overview = this.overview,
         genres = genres
