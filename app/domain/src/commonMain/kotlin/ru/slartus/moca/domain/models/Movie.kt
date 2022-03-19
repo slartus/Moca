@@ -1,5 +1,8 @@
 package ru.slartus.moca.domain.models
 
+import androidx.compose.runtime.Immutable
+
+@Immutable
 data class Movie(
     override val id: String,
     override val title: String,

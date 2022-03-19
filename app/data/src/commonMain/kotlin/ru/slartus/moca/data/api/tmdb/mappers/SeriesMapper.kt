@@ -45,13 +45,13 @@ internal fun DataDetails.map(): ProductDetails {
     val genres: List<Genre> = (this.genres ?: emptyList()).map()
     return ProductDetails(
         id = id.toString(),
-        title = this.title ?: this.original_title ?: "No title",
-        originalTitle = this.original_title ?: this.title ?: "No title",
+        title = this.name ?: this.original_name ?: "No title",
+        originalTitle = this.original_name ?: this.name ?: "No title",
         posterUrl = if (posterPath == null) null else buildImageUrl(
             PosterSize.W342,
             posterPath
         ),
-        year = this.release_date?.take(4),
+        year = this.first_air_date?.take(4),
         rates = rates,
         overview = this.overview,
         genres = genres

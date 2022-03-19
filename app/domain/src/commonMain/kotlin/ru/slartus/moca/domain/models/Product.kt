@@ -1,5 +1,8 @@
 package ru.slartus.moca.domain.models
 
+import androidx.compose.runtime.Immutable
+
+@Immutable
 interface Product {
     val id: String
     val title: String
