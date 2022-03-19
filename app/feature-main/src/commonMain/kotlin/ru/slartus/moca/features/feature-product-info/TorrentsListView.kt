@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -52,18 +53,16 @@ internal fun <T : Product> TorrentsListView(
                 strokeWidth = 1.dp
             )
         LazyColumn(modifier = Modifier.fillMaxSize()) {
-            viewState.data.forEach { torrent ->
-                item {
-                    Column {
-                        TorrentView(torrent) {
-                            viewModel.onTorrentClick(torrent)
-                        }
-                        Box(
-                            modifier = Modifier.height(1.dp).fillMaxWidth()
-                                .background(color = AppTheme.colors.secondaryVariant)
-
-                        )
+            items(viewState.data) { torrent ->
+                Column {
+                    TorrentView(torrent) {
+                        viewModel.onTorrentClick(torrent)
                     }
+                    Box(
+                        modifier = Modifier.height(1.dp).fillMaxWidth()
+                            .background(color = AppTheme.colors.secondaryVariant)
+
+                    )
                 }
             }
         }

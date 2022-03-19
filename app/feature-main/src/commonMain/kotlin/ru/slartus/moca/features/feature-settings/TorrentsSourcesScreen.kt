@@ -3,6 +3,7 @@ package ru.slartus.moca.features.`feature-settings`
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -62,13 +63,11 @@ fun TorrentsSourcesScreen() {
     ) {
         LazyColumn(modifier = Modifier.fillMaxWidth())
         {
-            viewState.data.forEach { torrentSource ->
-                item {
-                    TorrentsSourceView(torrentSource,
-                        onDeleteClick = {
-                            viewModel.onDeleteClick(torrentSource)
-                        })
-                }
+            items(viewState.data) { torrentSource ->
+                TorrentsSourceView(torrentSource,
+                    onDeleteClick = {
+                        viewModel.onDeleteClick(torrentSource)
+                    })
             }
         }
     }

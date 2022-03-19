@@ -49,15 +49,13 @@ internal fun VideoGridView(
             modifier = Modifier.fillMaxSize(),
             cells = GridCells.Fixed(cellsCount),
         ) {
-            data.forEach { card ->
-                item {
-                    VideoCardView(
-                        modifier = Modifier,
-                        card = card,
-                        cellWidth = cellWidth
-                    ) {
-                        onCardClick(card)
-                    }
+            items(data) { card ->
+                VideoCardView(
+                    modifier = Modifier,
+                    card = card,
+                    cellWidth = cellWidth
+                ) {
+                    onCardClick(card)
                 }
             }
         }

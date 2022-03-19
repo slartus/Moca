@@ -6,6 +6,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -126,19 +127,17 @@ private fun <T : Product> SearchResultView(
     rootController: RootController
 ) {
     LazyColumn(modifier = Modifier.fillMaxSize()) {
-        items.forEach { item ->
-            item {
-                SearchResultItemView(item) {
-                    val screenName = when (productType) {
-                        ProductType.Movie, ProductType.AnimationMovie -> AppScreenName.MovieInfo.name
-                        ProductType.AnimationSeries, ProductType.Series -> AppScreenName.SeriesInfo.name
-                    }
-                    rootController.launch(
-                        screenName,
-                        params = item,
-                        animationType = AnimationType.Push(300)
-                    )
+        items(items) { item ->
+            SearchResultItemView(item) {
+                val screenName = when (productType) {
+                    ProductType.Movie, ProductType.AnimationMovie -> AppScreenName.MovieInfo.name
+                    ProductType.AnimationSeries, ProductType.Series -> AppScreenName.SeriesInfo.name
                 }
+                rootController.launch(
+                    screenName,
+                    params = item,
+                    animationType = AnimationType.Push(300)
+                )
             }
         }
     }
