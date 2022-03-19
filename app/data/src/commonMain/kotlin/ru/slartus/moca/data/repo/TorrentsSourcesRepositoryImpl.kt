@@ -27,7 +27,7 @@ class TorrentsSourcesRepositoryImpl(
     TorrentsSourcesRepository {
     override suspend fun getSources(): List<TorrentsSource> = withContext(Dispatchers.Default) {
         database.torrentsSourcesQueries.selectAll().executeAsList().map {
-            TorrentsSource(it.title, it.url)
+            TorrentsSource(it.id, it.title, it.url)
         }
     }
 
@@ -61,11 +61,11 @@ class TorrentsSourcesRepositoryImpl(
 
     override suspend fun addSource(torrentsSource: TorrentsSource) =
         withContext(Dispatchers.Default) {
-            database.torrentsSourcesQueries.insert(torrentsSource.title, torrentsSource.url)
+            database.torrentsSourcesQueries.insert( torrentsSource.title, torrentsSource.url)
         }
 
-    override suspend fun deleteSource(torrentSource: TorrentsSource) =
+    override suspend fun deleteSource(id: Long) =
         withContext(Dispatchers.Default) {
-            database.torrentsSourcesQueries.delete(torrentSource.title, torrentSource.url)
+            database.torrentsSourcesQueries.delete(id)
         }
 }

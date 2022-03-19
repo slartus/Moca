@@ -54,7 +54,7 @@ internal class TorrentsSourcesScreenViewModel(
 
     fun addTorrentSource(title: String, query: String) {
         scope.launch {
-            repository.addSource(TorrentsSource(title, query))
+            repository.addSource(TorrentsSource(title = title, url = query))
 
             reload()
         }
@@ -62,7 +62,7 @@ internal class TorrentsSourcesScreenViewModel(
 
     fun onDeleteClick(torrentSource: TorrentsSource) {
         scope.launch {
-            repository.deleteSource(torrentSource)
+            repository.deleteSource(torrentSource.id!!)
 
             reload()
         }
