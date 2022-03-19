@@ -9,6 +9,15 @@ actual class AppFile(private val file: File) {
     actual fun length(): Long = file.length()
 
     actual companion object {
-        actual fun createTempFile(prefix: String, suffix: String) = AppFile(File("$prefix$suffix"))
+        actual fun createTempFile(prefix: String, suffix: String): AppFile {
+            var fileName = "$prefix$suffix"
+            var c = 1;
+            while (File(fileName).exists()) {
+                fileName = "${prefix} (${c++})$suffix"
+            }
+            val file = File(fileName)
+
+            return AppFile(file)
+        }
     }
 }
