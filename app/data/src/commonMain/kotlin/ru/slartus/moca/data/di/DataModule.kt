@@ -87,5 +87,12 @@ val dataModule = DI.Module("dataModule") {
         )
     }
 
+    bindSingleton<VideoSourcesRepository> {
+        VideoSourcesRepositoryImpl(
+            database = instance(),
+            client = instance()
+        )
+    }
+
 }
 

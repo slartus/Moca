@@ -1,0 +1,21 @@
+CREATE TABLE video_sources (
+  id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+  title TEXT NOT NULL,
+  url TEXT NOT NULL
+);
+
+selectAll:
+SELECT *
+FROM video_sources;
+
+insert:
+INSERT INTO video_sources(title, url)
+VALUES ( ?, ?);
+
+update:
+UPDATE video_sources SET title=?, url=?
+WHERE id=?;
+
+delete:
+DELETE FROM video_sources
+WHERE id=?;
