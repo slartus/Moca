@@ -52,17 +52,16 @@ internal fun <T : Product> TorrentsListView(
                 color = AppTheme.colors.highLight,
                 strokeWidth = 1.dp
             )
-        LazyColumn(modifier = Modifier.fillMaxSize()) {
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(top = 4.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
             items(viewState.data) { torrent ->
                 Column {
                     TorrentView(torrent) {
                         viewModel.onTorrentClick(torrent)
                     }
-                    Box(
-                        modifier = Modifier.height(1.dp).fillMaxWidth()
-                            .background(color = AppTheme.colors.secondaryVariant)
-
-                    )
                 }
             }
         }
@@ -74,6 +73,7 @@ private fun TorrentView(torrent: TorrentItem, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .background(color = AppTheme.colors.primary)
             .clickable {
                 if (!torrent.isLoading)
                     onClick()
@@ -83,7 +83,6 @@ private fun TorrentView(torrent: TorrentItem, onClick: () -> Unit) {
     ) {
         Box(
             modifier = Modifier
-                .padding(start = 5.dp)
                 .size(50.dp)
                 .padding(3.dp).align(CenterVertically)
         ) {
@@ -102,7 +101,7 @@ private fun TorrentView(torrent: TorrentItem, onClick: () -> Unit) {
                 )
         }
 
-        Column(modifier = Modifier.fillMaxSize()) {
+        Column(modifier = Modifier.padding(start = 10.dp).fillMaxSize()) {
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = torrent.title,
