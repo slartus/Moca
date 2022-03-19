@@ -52,9 +52,12 @@ internal class TorrentsSourcesScreenViewModel(
         )
     }
 
-    fun addTorrentSource(title: String, query: String) {
+    fun addTorrentSource(id: Long?, title: String, query: String) {
         scope.launch {
-            repository.addSource(TorrentsSource(title = title, url = query))
+            if (id == null)
+                repository.addSource(TorrentsSource(title = title, url = query))
+            else
+                repository.updateSource(TorrentsSource(id = id, title = title, url = query))
 
             reload()
         }

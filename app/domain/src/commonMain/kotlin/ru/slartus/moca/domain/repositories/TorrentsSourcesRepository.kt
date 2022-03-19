@@ -10,5 +10,6 @@ interface TorrentsSourcesRepository {
     suspend fun <T : Product> findIn(source: TorrentsSource, product: T): List<Torrent>
     suspend fun download(torrent: Torrent, output: AppFile)
     suspend fun addSource(torrentsSource: TorrentsSource)
+    suspend fun updateSource(torrentsSource: TorrentsSource)
     suspend fun deleteSource(id: Long)
 }

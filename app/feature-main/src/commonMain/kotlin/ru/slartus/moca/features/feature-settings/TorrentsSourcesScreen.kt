@@ -56,7 +56,7 @@ fun TorrentsSourcesScreen() {
                 modifier = Modifier,
                 onClick = {
                     modalSheetController.presentNew(ModalSheetConfiguration()) {
-                        AddSourceView(modalSheetController, viewModel)
+                        AddSourceView(modalSheetController, viewModel, null)
                     }
                 }) {
                 Icon(Icons.Default.Add, strings.addTorrentSource)
@@ -68,7 +68,9 @@ fun TorrentsSourcesScreen() {
             items(viewState.data) { torrentSource ->
                 TorrentsSourceView(torrentSource,
                     onSourceClick = {
-                        platformListener.copyToClipboard(torrentSource.url)
+                        modalSheetController.presentNew(ModalSheetConfiguration()) {
+                            AddSourceView(modalSheetController, viewModel, torrentSource)
+                        }
                     },
                     onDeleteClick = {
                         viewModel.onDeleteClick(torrentSource)
@@ -134,10 +136,14 @@ private fun TorrentsSourceView(
 @Composable
 private fun AddSourceView(
     modalSheetController: ModalSheetController,
-    viewModel: TorrentsSourcesScreenViewModel
+    viewModel: TorrentsSourcesScreenViewModel,
+    torrentsSource: TorrentsSource?
 ) {
     val strings = LocalAppStrings.current
 
+    val isNew = remember {
+        torrentsSource == null
+    }
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -145,8 +151,8 @@ private fun AddSourceView(
             .padding(4.dp)
             .padding(bottom = 12.dp),
     ) {
-        val title = remember { mutableStateOf(TextFieldValue("")) }
-        val url = remember { mutableStateOf(TextFieldValue("")) }
+        val title = remember { mutableStateOf(TextFieldValue(torrentsSource?.title.orEmpty())) }
+        val url = remember { mutableStateOf(TextFieldValue(torrentsSource?.url.orEmpty())) }
         TextFieldView(
             modifier = Modifier.fillMaxWidth(),
             hint = strings.title,
@@ -168,12 +174,15 @@ private fun AddSourceView(
             colors = AppTheme.buttonColors,
             onClick = {
                 if (title.value.text.isNotEmpty() && url.value.text.isNotEmpty()) {
-                    viewModel.addTorrentSource(title.value.text, url.value.text)
+                    viewModel.addTorrentSource(torrentsSource?.id, title.value.text, url.value.text)
                     modalSheetController.removeTopScreen()
                 }
             }
         ) {
-            Text(text = strings.add, color = AppTheme.colors.secondaryVariant)
+            Text(
+                text = if (isNew) strings.add else strings.save,
+                color = AppTheme.colors.secondaryVariant
+            )
         }
     }
 

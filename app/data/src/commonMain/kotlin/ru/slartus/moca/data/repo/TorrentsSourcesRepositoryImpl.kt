@@ -61,7 +61,16 @@ class TorrentsSourcesRepositoryImpl(
 
     override suspend fun addSource(torrentsSource: TorrentsSource) =
         withContext(Dispatchers.Default) {
-            database.torrentsSourcesQueries.insert( torrentsSource.title, torrentsSource.url)
+            database.torrentsSourcesQueries.insert(torrentsSource.title, torrentsSource.url)
+        }
+
+    override suspend fun updateSource(torrentsSource: TorrentsSource) =
+        withContext(Dispatchers.Default) {
+            database.torrentsSourcesQueries.update(
+                torrentsSource.title,
+                torrentsSource.url,
+                torrentsSource.id!!
+            )
         }
 
     override suspend fun deleteSource(id: Long) =
