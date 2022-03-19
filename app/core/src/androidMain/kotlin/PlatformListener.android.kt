@@ -1,8 +1,8 @@
-import android.content.ActivityNotFoundException
-import android.content.Context
-import android.content.Intent
+import android.R.attr.label
+import android.content.*
 import android.net.Uri
 import android.widget.Toast
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.FileProvider
 import java.lang.ref.WeakReference
 
@@ -28,11 +28,17 @@ actual class PlatformListener(context: Context) {
             val intent = Intent(Intent.ACTION_VIEW, fileUri)
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-           /// intent.setDataAndType(fileUri, contentResolver.getType(fileUri))
+            /// intent.setDataAndType(fileUri, contentResolver.getType(fileUri))
             context.startActivity(intent)
         } catch (e: IllegalArgumentException) {
             e.printStackTrace()
         }
 
+    }
+
+    actual fun copyToClipboard(text: String) {
+        val clipboardManager = getSystemService(context, ClipboardManager::class.java)
+        val clip = ClipData.newPlainText("", text)
+        clipboardManager?.setPrimaryClip(clip)
     }
 }

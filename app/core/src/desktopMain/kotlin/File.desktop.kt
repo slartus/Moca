@@ -1,6 +1,6 @@
 import java.io.File
 
-actual class AppFile(val file: File) {
+actual class AppFile(private val file: File) {
     actual val path: String
         get() = file.path
 

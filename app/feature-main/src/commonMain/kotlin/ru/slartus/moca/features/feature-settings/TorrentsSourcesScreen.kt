@@ -1,6 +1,8 @@
 package ru.slartus.moca.features.`feature-settings`
 
+import PlatformListener
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -33,7 +35,7 @@ import ru.slartus.moca.domain.models.TorrentsSource
 
 @Composable
 fun TorrentsSourcesScreen() {
-
+    val platformListener by rememberInstance<PlatformListener>()
     val viewModel by rememberInstance<TorrentsSourcesScreenViewModel>()
 
     val viewState by viewModel.stateFlow.collectAsState()
@@ -65,6 +67,9 @@ fun TorrentsSourcesScreen() {
         {
             items(viewState.data) { torrentSource ->
                 TorrentsSourceView(torrentSource,
+                    onSourceClick = {
+                        platformListener.copyToClipboard(torrentSource.url)
+                    },
                     onDeleteClick = {
                         viewModel.onDeleteClick(torrentSource)
                     })
@@ -74,12 +79,19 @@ fun TorrentsSourcesScreen() {
 }
 
 @Composable
-private fun TorrentsSourceView(torrentSource: TorrentsSource, onDeleteClick: () -> Unit) {
+private fun TorrentsSourceView(
+    torrentSource: TorrentsSource,
+    onSourceClick: () -> Unit,
+    onDeleteClick: () -> Unit
+) {
     val strings = LocalAppStrings.current
     Row(
         modifier = Modifier
             .padding(2.dp)
             .fillMaxWidth()
+            .clickable {
+                onSourceClick()
+            }
             .defaultMinSize(minHeight = 38.dp)
             .background(AppTheme.colors.secondary)
             .padding(2.dp)
