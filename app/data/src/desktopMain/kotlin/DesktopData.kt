@@ -7,13 +7,16 @@ import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
 import io.ktor.client.features.logging.*
 import ru.slartus.moca.db.MocaDatabase
+import java.io.File
 
 actual fun getHttpClient() = DataAppResolve.getHttpClient()
 
 actual class SqlDelightDriverFactory {
     actual fun createDriver(): SqlDriver {
-        val driver: SqlDriver = JdbcSqliteDriver(JdbcSqliteDriver.IN_MEMORY)
-        MocaDatabase.Schema.create(driver)
+        val driver: SqlDriver = JdbcSqliteDriver("jdbc:sqlite:moca.db")
+        if (!File("moca.db").exists()) {
+            MocaDatabase.Schema.create(driver)
+        }
         return driver
     }
 }
