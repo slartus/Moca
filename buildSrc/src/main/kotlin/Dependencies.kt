@@ -11,7 +11,7 @@ object Dependencies {
     }
 
     object Network {
-        private const val ktor = "1.6.3"
+        private const val ktor = "1.6.8"
         const val ktorClientCore = "io.ktor:ktor-client-core:$ktor"
         const val ktorClientSerialization = "io.ktor:ktor-client-serialization:$ktor"
         const val ktorClientCio = "io.ktor:ktor-client-cio:$ktor"
