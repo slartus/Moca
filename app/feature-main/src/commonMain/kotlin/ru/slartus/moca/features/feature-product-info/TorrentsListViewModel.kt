@@ -83,8 +83,13 @@ internal class TorrentsListViewModel(
                         data = screenState.data.map { if (torrent.id == it.id) it.copy(isLoading = true) else it }
                     )
                 }
+                val fileName = torrent.title
+                    .replace(Regex("[^\\p{L}\\w]"), "_")
+                    .replace(Regex("_+"), "_")
+                    .take(32)// why not
 
-                val appFile = AppFile.createTempFile("tmp_", ".torrent")
+                val appFile =
+                    AppFile.createTempFile(fileName, ".torrent")
                 repository.download(torrent.map(), appFile)
                 callAction(TorrentsAction.OpenFile(appFile))
             } finally {
