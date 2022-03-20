@@ -2,31 +2,28 @@ package ru.slartus.moca.data.repo
 
 import AppFile
 import io.ktor.client.*
-import io.ktor.client.call.*
 import io.ktor.client.request.*
-import io.ktor.client.statement.*
-import io.ktor.http.*
-import io.ktor.utils.io.*
-import io.ktor.utils.io.core.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.slartus.moca.data.utils.DownloadManager
 import ru.slartus.moca.db.MocaDatabase
 import ru.slartus.moca.domain.models.Product
 import ru.slartus.moca.domain.models.Torrent
-import ru.slartus.moca.data.models.Torrent as DataTorrent
 import ru.slartus.moca.domain.models.TorrentsSource
 import ru.slartus.moca.domain.repositories.TorrentsSourcesRepository
-import kotlin.math.min
+import ru.slartus.moca.data.models.Torrent as DataTorrent
 
 class TorrentsSourcesRepositoryImpl(
     private val client: HttpClient,
-    private val database: MocaDatabase,
+    database: MocaDatabase,
     private val downloadManager: DownloadManager
 ) :
     TorrentsSourcesRepository {
+
+    private val queries = database.torrentsSourcesQueries
+
     override suspend fun getSources(): List<TorrentsSource> = withContext(Dispatchers.Default) {
-        database.torrentsSourcesQueries.selectAll().executeAsList().map {
+        queries.selectAll().executeAsList().map {
             TorrentsSource(it.id, it.title, it.url)
         }
     }
@@ -61,12 +58,12 @@ class TorrentsSourcesRepositoryImpl(
 
     override suspend fun addSource(torrentsSource: TorrentsSource) =
         withContext(Dispatchers.Default) {
-            database.torrentsSourcesQueries.insert(torrentsSource.title, torrentsSource.url)
+            queries.insert(torrentsSource.title, torrentsSource.url)
         }
 
     override suspend fun updateSource(torrentsSource: TorrentsSource) =
         withContext(Dispatchers.Default) {
-            database.torrentsSourcesQueries.update(
+            queries.update(
                 torrentsSource.title,
                 torrentsSource.url,
                 torrentsSource.id!!
@@ -75,6 +72,6 @@ class TorrentsSourcesRepositoryImpl(
 
     override suspend fun deleteSource(id: Long) =
         withContext(Dispatchers.Default) {
-            database.torrentsSourcesQueries.delete(id)
+            queries.delete(id)
         }
 }

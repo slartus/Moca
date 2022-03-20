@@ -11,6 +11,8 @@ import ru.slartus.moca.features.`feature-product-info`.MovieScreen
 import ru.slartus.moca.features.`feature-product-info`.SeriesScreen
 import ru.slartus.moca.features.`feature-search`.SearchScreen
 import ru.slartus.moca.features.`feature-settings`.SettingsScreen
+import ru.slartus.moca.features.`feature-settings`.TorrentsSourcesScreen
+import ru.slartus.moca.features.`feature-settings`.VideoSourcesScreen
 
 fun RootComposeBuilder.generateGraph() {
     screen(name = AppScreenName.Main.name) {
@@ -32,4 +34,11 @@ fun RootComposeBuilder.generateGraph() {
         SeriesScreen(it as Series)
     }
 
+    screen(name = AppScreenName.TorrentsSources.name) {
+        TorrentsSourcesScreen()
+    }
+
+    screen(name = AppScreenName.VideoSources.name) {
+        VideoSourcesScreen()
+    }
 }

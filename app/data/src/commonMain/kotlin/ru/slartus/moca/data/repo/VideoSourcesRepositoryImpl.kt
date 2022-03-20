@@ -11,11 +11,14 @@ import ru.slartus.moca.data.models.Video as DataVideo
 
 class VideoSourcesRepositoryImpl(
     private val client: HttpClient,
-    private val database: MocaDatabase
+    database: MocaDatabase
 ) :
     VideoSourcesRepository {
+
+    private val queries = database.videoSourcesQueries
+
     override suspend fun getSources(): List<VideoSource> = withContext(Dispatchers.Default) {
-        database.videoSourcesQueries.selectAll().executeAsList().map {
+        queries.selectAll().executeAsList().map {
             VideoSource(it.id, it.title, it.url)
         }
     }
@@ -42,12 +45,12 @@ class VideoSourcesRepositoryImpl(
 
     override suspend fun addSource(source: VideoSource) =
         withContext(Dispatchers.Default) {
-            database.torrentsSourcesQueries.insert(source.title, source.url)
+            queries.insert(source.title, source.url)
         }
 
     override suspend fun updateSource(source: VideoSource) =
         withContext(Dispatchers.Default) {
-            database.torrentsSourcesQueries.update(
+            queries.update(
                 source.title,
                 source.url,
                 source.id!!
@@ -56,6 +59,6 @@ class VideoSourcesRepositoryImpl(
 
     override suspend fun deleteSource(id: Long) =
         withContext(Dispatchers.Default) {
-            database.torrentsSourcesQueries.delete(id)
+            queries.delete(id)
         }
 }
