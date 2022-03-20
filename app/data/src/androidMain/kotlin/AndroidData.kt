@@ -33,7 +33,7 @@ object DataAppResolve {
             level = LogLevel.HEADERS
         }
         HttpResponseValidator {
-            validateResponse { response ->
+            validateResponse {
 //                val error = response.receive<Error>()
 //                if (error. != 0) {
 //                    throw CustomResponseException(response, "Code: ${error.code}, message: ${error.message}")

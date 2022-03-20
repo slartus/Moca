@@ -2,15 +2,10 @@ package ru.slartus.moca.features.`feature-search`
 
 import com.benasher44.uuid.uuid4
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import ru.slartus.moca.`core-ui`.base.BaseViewModel
 import ru.slartus.moca.domain.models.Product
 import ru.slartus.moca.domain.repositories.SearchRepository
-import ru.slartus.moca.features.`feature-product-info`.TorrentsAction
-import ru.slartus.moca.features.`feature-product-info`.TorrentsViewState
 
 internal class SearchScreenViewModel<T : Product>(
     private val scope: CoroutineScope,
@@ -19,7 +14,7 @@ internal class SearchScreenViewModel<T : Product>(
     SearchViewState(
         isLoading = false,
         query = "",
-        data = SearchResult<T>(emptyList())
+        data = SearchResult(emptyList())
     )
 ) {
     private val coroutineContext = exceptionHandler + SupervisorJob()
@@ -29,7 +24,7 @@ internal class SearchScreenViewModel<T : Product>(
         if (oldQuery == query) return
         searchJob.cancel()
         if (query.isEmpty()) {
-            _stateFlow.update { state ->
+            _stateFlow.update {
                 SearchViewState(
                     isLoading = false,
                     query = query,
@@ -49,7 +44,7 @@ internal class SearchScreenViewModel<T : Product>(
                 }
                 val items = repository.search(query)
                 if (isActive) {
-                    _stateFlow.update { state ->
+                    _stateFlow.update {
                         SearchViewState(
                             isLoading = false,
                             query = query,
@@ -85,7 +80,7 @@ internal data class SearchViewState<T : Product>(
     val data: SearchResult<T>
 )
 
-internal sealed class Action() : ru.slartus.moca.`core-ui`.base.Action {
+internal sealed class Action : ru.slartus.moca.`core-ui`.base.Action {
     override val id: String = uuid4().toString()
 
     class Error(val message: String) : Action()

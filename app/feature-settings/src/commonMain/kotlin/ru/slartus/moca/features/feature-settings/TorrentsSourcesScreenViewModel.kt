@@ -35,7 +35,7 @@ internal class TorrentsSourcesScreenViewModel(
 
         scope.launch {
             val items = repository.getSources()
-            _stateFlow.update { state ->
+            _stateFlow.update { _ ->
                 TorrentsSourcesViewState(
                     isLoading = false,
                     data = items

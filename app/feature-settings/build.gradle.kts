@@ -16,25 +16,19 @@ kotlin {
             dependencies {
                 implementation(project(":app:core"))
                 implementation(project(":app:core-ui"))
-                implementation(project(":app:data"))
                 implementation(project(":app:domain"))
-                implementation(project(":app:feature-main"))
-                implementation(project(":app:feature-settings"))
-                implementation(project(":app:feature-search"))
-                implementation(project(":app:feature-product-info"))
 
                 api(compose.runtime)
                 api(compose.foundation)
                 api(compose.material)
                 // Needed only for preview.
                 implementation(compose.preview)
-                implementation(Dependencies.Network.ktorClientCore)
                 implementation(Dependencies.DI.kodein)
 
                 implementation(Dependencies.Navigation.odysseyCore)
                 implementation(Dependencies.Navigation.odysseyCompose)
                 implementation(Dependencies.Logging.napier)
-
+                implementation(Dependencies.Tools.uuid)
             }
         }
         named("androidMain") {

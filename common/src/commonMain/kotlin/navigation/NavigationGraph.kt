@@ -18,9 +18,7 @@ fun RootComposeBuilder.generateGraph() {
     screen(name = AppScreenName.Main.name) {
         MainScreen()
     }
-    screen(name = AppScreenName.Settings.name) {
-        SettingsScreen()
-    }
+
 
     screen(name = AppScreenName.Search.name) {
         SearchScreen(it as ProductType)
@@ -32,6 +30,10 @@ fun RootComposeBuilder.generateGraph() {
 
     screen(name = AppScreenName.SeriesInfo.name) {
         SeriesScreen(it as Series)
+    }
+
+    screen(name = AppScreenName.Settings.name) {
+        SettingsScreen()
     }
 
     screen(name = AppScreenName.TorrentsSources.name) {

@@ -5,7 +5,6 @@ import ru.slartus.moca.domain.models.Movie
 import ru.slartus.moca.domain.models.Series
 import ru.slartus.moca.features.`feature-main`.MainScreenViewModel
 import ru.slartus.moca.features.`feature-main`.videoGridViews.ProductsViewModel
-import ru.slartus.moca.features.`feature-product-info`.MovieScreenViewModel
 
 val mainScreenModule = DI.Module("mainScreenModule") {
     bindSingleton { MainScreenViewModel(instance(), instance()) }

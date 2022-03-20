@@ -24,7 +24,7 @@ class MainScreenViewModel(
         scope.launch {
             when (viewEvent) {
                 Event.MenuMoviesClick -> {
-                    _stateFlow.update { screenState ->
+                    _stateFlow.update {
                         ScreenState(
                             title = appResources.strings.movies,
                             subScreen = ProductType.Movie,
@@ -33,7 +33,7 @@ class MainScreenViewModel(
                     }
                 }
                 Event.MenuTvClick -> {
-                    _stateFlow.update { screenState ->
+                    _stateFlow.update {
                         ScreenState(
                             title = appResources.strings.series,
                             subScreen = ProductType.Series,
@@ -42,7 +42,7 @@ class MainScreenViewModel(
                     }
                 }
                 Event.MenuAnimationMoviesClick -> {
-                    _stateFlow.update { screenState ->
+                    _stateFlow.update {
                         ScreenState(
                             title = appResources.strings.animationMovies,
                             subScreen = ProductType.AnimationMovie,
@@ -51,7 +51,7 @@ class MainScreenViewModel(
                     }
                 }
                 Event.MenuAnimationTvClick -> {
-                    _stateFlow.update { screenState ->
+                    _stateFlow.update {
                         ScreenState(
                             title = appResources.strings.animationSeries,
                             subScreen = ProductType.AnimationSeries,

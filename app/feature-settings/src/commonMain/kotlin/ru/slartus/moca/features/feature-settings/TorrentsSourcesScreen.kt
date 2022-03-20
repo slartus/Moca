@@ -35,7 +35,6 @@ import ru.slartus.moca.domain.models.TorrentsSource
 
 @Composable
 fun TorrentsSourcesScreen() {
-    val platformListener by rememberInstance<PlatformListener>()
     val viewModel by rememberInstance<TorrentsSourcesScreenViewModel>()
 
     val viewState by viewModel.stateFlow.collectAsState()
