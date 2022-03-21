@@ -10,6 +10,7 @@ import ru.slartus.moca.domain.models.Series
 import ru.slartus.moca.features.`feature-product-info`.MovieScreenViewModel
 import ru.slartus.moca.features.`feature-product-info`.SeriesScreenViewModel
 import ru.slartus.moca.features.`feature-product-info`.TorrentsListViewModel
+import ru.slartus.moca.features.`feature-product-info`.VideoListViewModel
 
 val productInfoModule = DI.Module("productInfoModule") {
     bindFactory { movie: Movie ->
@@ -17,6 +18,7 @@ val productInfoModule = DI.Module("productInfoModule") {
             movie = movie,
             repository = instance(),
             torrentsSourcesRepository = instance(),
+            videoSourcesRepository = instance(),
             scope = instance()
         )
     }
@@ -30,6 +32,12 @@ val productInfoModule = DI.Module("productInfoModule") {
     }
     bindSingleton {
         TorrentsListViewModel(
+            scope = instance(),
+            repository = instance()
+        )
+    }
+    bindSingleton {
+        VideoListViewModel(
             scope = instance(),
             repository = instance()
         )

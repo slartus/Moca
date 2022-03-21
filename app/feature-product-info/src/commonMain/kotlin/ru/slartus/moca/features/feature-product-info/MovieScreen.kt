@@ -24,6 +24,8 @@ import ru.slartus.moca.features.`feature-product-info`.views.PosterView
 import ru.slartus.moca.features.`feature-product-info`.views.Title
 import ru.slartus.moca.features.`feature-product-info`.views.TopBar
 
+typealias Render = @Composable () -> Unit
+
 @Composable
 fun MovieScreen(movie: Movie) {
     val viewModelFactory by rememberFactory<Movie, MovieScreenViewModel>()
@@ -52,13 +54,13 @@ fun MovieScreen(movie: Movie) {
         topBar = { TopBar(movie.title) }
     ) {
         var tabIndex by remember { mutableStateOf(0) }
-        val tabTitles by remember(viewState.hasTorrentsSources) {
-            val titles = (listOf(strings.description) +
-                if (viewState.hasTorrentsSources) listOf(strings.torrents) else emptyList()
-                )
-                .map { it.uppercase() }
-            mutableStateOf(titles)
+        val tabs = remember(viewState.hasTorrentsSources, viewState.hasVideoSources) {
+            listOf(TabItem.Info(strings.description)) +
+                (if (viewState.hasVideoSources) listOf(TabItem.Video(strings.video)) else emptyList()) +
+                (if (viewState.hasTorrentsSources) listOf(TabItem.Torrents(strings.torrents)) else emptyList())
+
         }
+        val tabTitles = tabs.map { it.title.uppercase() }
         Column {
             TabRow(
                 backgroundColor = AppTheme.colors.primary,
@@ -73,9 +75,14 @@ fun MovieScreen(movie: Movie) {
                     )
                 }
             }
-            when (tabIndex) {
-                0 -> InfoView(viewState = viewState)
-                1 -> TorrentsListView(movie){
+            when (tabs[tabIndex]){
+                is TabItem.Info -> InfoView(viewState = viewState)
+                is TabItem.Video -> VideoListView(movie) {
+                    coroutineScope.launch {
+                        scaffoldState.snackbarHostState.showSnackbar(it)
+                    }
+                }
+                is TabItem.Torrents -> TorrentsListView(movie) {
                     coroutineScope.launch {
                         scaffoldState.snackbarHostState.showSnackbar(it)
                     }
@@ -83,6 +90,12 @@ fun MovieScreen(movie: Movie) {
             }
         }
     }
+}
+
+private sealed class TabItem(val title: String) {
+    class Info( title: String) : TabItem(title)
+    class Video( title: String) : TabItem(title)
+    class Torrents( title: String) : TabItem(title)
 }
 
 @Composable
