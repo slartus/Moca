@@ -73,10 +73,8 @@ internal class VideoListViewModel(
         )
     }
 
-    fun onVideoClick(Video: VideoItem) {
-        scope.launch {
-
-        }
+    fun onVideoClick(video: VideoItem) {
+        callAction(VideoAction.ShowVideo(video.url))
     }
 
     override fun obtainEvent(viewEvent: Any) {
@@ -93,6 +91,7 @@ internal data class VideoViewState(
 internal sealed class VideoAction : Action {
     override val id: String = uuid4().toString()
 
+    class ShowVideo(val url: String) : VideoAction()
     class Error(val message: String) : VideoAction()
 }
 

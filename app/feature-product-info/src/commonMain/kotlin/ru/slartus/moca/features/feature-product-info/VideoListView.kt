@@ -35,11 +35,12 @@ internal fun <T : Product> VideoListView(
     }
     val viewState by viewModel.stateFlow.collectAsState()
     val actions by viewModel.actionsFlow.collectAsState()
-
+    val platformListener by rememberInstance<PlatformListener>()
     actions.firstOrNull()?.let {
         viewModel.actionReceived(it.id)
         when (it) {
             is VideoAction.Error -> onError(it.message)
+            is VideoAction.ShowVideo -> platformListener.playUrl(it.url)
         }
     }
 

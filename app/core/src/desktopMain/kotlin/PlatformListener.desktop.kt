@@ -40,5 +40,8 @@ actual class PlatformListener {
         clipboardObj.setContents(stringSelectionObj, null)
     }
 
+    actual fun playUrl(url: String) {
+        openUrl(url)
+    }
 
 }

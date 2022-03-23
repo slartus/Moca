@@ -1,8 +1,8 @@
-import android.R.attr.label
 import android.content.*
 import android.net.Uri
 import android.widget.Toast
 import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.content.FileProvider
 import java.lang.ref.WeakReference
 
@@ -40,5 +40,17 @@ actual class PlatformListener(context: Context) {
         val clipboardManager = getSystemService(context, ClipboardManager::class.java)
         val clip = ClipData.newPlainText("", text)
         clipboardManager?.setPrimaryClip(clip)
+    }
+
+    actual fun playUrl(url: String) {
+        try {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            intent.setDataAndType(Uri.parse(url), "video/mp4")
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            context.startActivity(intent)
+        } catch (e: IllegalArgumentException) {
+            e.printStackTrace()
+        }
+
     }
 }
