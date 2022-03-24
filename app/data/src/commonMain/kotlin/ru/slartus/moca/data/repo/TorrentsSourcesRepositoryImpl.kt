@@ -1,6 +1,7 @@
 package ru.slartus.moca.data.repo
 
 import AppFile
+import coroutines.IO
 import io.ktor.client.*
 import io.ktor.client.request.*
 import kotlinx.coroutines.Dispatchers
@@ -22,7 +23,7 @@ class TorrentsSourcesRepositoryImpl(
 
     private val queries = database.torrentsSourcesQueries
 
-    override suspend fun getSources(): List<TorrentsSource> = withContext(Dispatchers.Default) {
+    override suspend fun getSources(): List<TorrentsSource> = withContext(Dispatchers.IO) {
         queries.selectAll().executeAsList().map {
             TorrentsSource(it.id, it.title, it.url)
         }
@@ -57,12 +58,12 @@ class TorrentsSourcesRepositoryImpl(
     }
 
     override suspend fun addSource(torrentsSource: TorrentsSource) =
-        withContext(Dispatchers.Default) {
+        withContext(Dispatchers.IO) {
             queries.insert(torrentsSource.title, torrentsSource.url)
         }
 
     override suspend fun updateSource(torrentsSource: TorrentsSource) =
-        withContext(Dispatchers.Default) {
+        withContext(Dispatchers.IO) {
             queries.update(
                 torrentsSource.title,
                 torrentsSource.url,
@@ -71,7 +72,7 @@ class TorrentsSourcesRepositoryImpl(
         }
 
     override suspend fun deleteSource(id: Long) =
-        withContext(Dispatchers.Default) {
+        withContext(Dispatchers.IO) {
             queries.delete(id)
         }
 }

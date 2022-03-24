@@ -1,5 +1,6 @@
 package ru.slartus.moca.data.api.sampleTorrentsApi
 
+import coroutines.IO
 import io.ktor.client.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -11,7 +12,7 @@ class SampleTorrentsApi(val client: HttpClient) : TorrentsApi {
     override val name: String = "FakeSource"
 
     override suspend fun find(title: String): List<RepositoryTorrent> =
-        withContext(Dispatchers.Default) {
+        withContext(Dispatchers.IO) {
             listOf(
                 Torrent(
                     null, null, null, null, null

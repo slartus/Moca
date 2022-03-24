@@ -1,5 +1,6 @@
 package ru.slartus.moca.data.repo
 
+import coroutines.IO
 import io.ktor.client.*
 import io.ktor.client.request.*
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +18,7 @@ class VideoSourcesRepositoryImpl(
 
     private val queries = database.videoSourcesQueries
 
-    override suspend fun getSources(): List<VideoSource> = withContext(Dispatchers.Default) {
+    override suspend fun getSources(): List<VideoSource> = withContext(Dispatchers.IO) {
         queries.selectAll().executeAsList().map {
             VideoSource(it.id, it.title, it.url)
         }
@@ -44,12 +45,12 @@ class VideoSourcesRepositoryImpl(
 
 
     override suspend fun addSource(source: VideoSource) =
-        withContext(Dispatchers.Default) {
+        withContext(Dispatchers.IO) {
             queries.insert(source.title, source.url)
         }
 
     override suspend fun updateSource(source: VideoSource) =
-        withContext(Dispatchers.Default) {
+        withContext(Dispatchers.IO) {
             queries.update(
                 source.title,
                 source.url,
@@ -58,7 +59,7 @@ class VideoSourcesRepositoryImpl(
         }
 
     override suspend fun deleteSource(id: Long) =
-        withContext(Dispatchers.Default) {
+        withContext(Dispatchers.IO) {
             queries.delete(id)
         }
 }

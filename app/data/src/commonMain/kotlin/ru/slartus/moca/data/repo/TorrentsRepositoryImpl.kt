@@ -1,5 +1,6 @@
 package ru.slartus.moca.data.repo
 
+import coroutines.IO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -19,7 +20,7 @@ class TorrentsRepositoryImpl(private val apis: List<TorrentsApi>) : TorrentsRepo
     override val items = _items.asSharedFlow()
 
     override suspend fun find(title: String) {
-        withContext(Dispatchers.Default) {
+        withContext(Dispatchers.IO) {
             apis.map { api ->
                 launch(SupervisorJob()) {
                     val items = api.find(title)

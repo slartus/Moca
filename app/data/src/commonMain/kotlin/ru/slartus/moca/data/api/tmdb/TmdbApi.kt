@@ -1,5 +1,6 @@
 package ru.slartus.moca.data.api.tmdb
 
+import coroutines.IO
 import io.github.aakira.napier.Napier
 import io.ktor.client.*
 import io.ktor.client.request.*
@@ -53,7 +54,7 @@ class TmdbApi(val client: HttpClient) : CatalogApi {
     }
 
     override suspend fun getMovieDetails(movieId: String): RepositoryMovieDetails =
-        withContext(Dispatchers.Default) {
+        withContext(Dispatchers.IO) {
             val detailsRequest = async { Movies().getDetails(movieId.toInt()) }
             val videosRequest = async { Movies().getVideos(movieId.toInt()) }
 
@@ -68,7 +69,7 @@ class TmdbApi(val client: HttpClient) : CatalogApi {
         }
 
     override suspend fun getSeriesDetails(seriesId: String): ru.slartus.moca.domain.models.ProductDetails =
-        withContext(Dispatchers.Default) {
+        withContext(Dispatchers.IO) {
             val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
                 Napier.e("getSeriesDetails", throwable)
             }
