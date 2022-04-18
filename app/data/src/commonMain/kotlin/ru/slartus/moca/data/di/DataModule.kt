@@ -1,11 +1,10 @@
 package ru.slartus.moca.data.di
 
+import CatalogScope
 import SqlDelightDriverFactory
 import getHttpClient
-import org.kodein.di.DI
-import org.kodein.di.bindProvider
-import org.kodein.di.bindSingleton
-import org.kodein.di.instance
+import org.kodein.di.*
+import ru.slartus.moca.data.api.CustomCatalog
 import ru.slartus.moca.domain.CatalogApi
 import ru.slartus.moca.data.api.mock.MockApi
 import ru.slartus.moca.data.api.sampleTorrentsApi.SampleTorrentsApi
@@ -19,9 +18,11 @@ import ru.slartus.moca.domain.models.Movie
 import ru.slartus.moca.domain.models.Series
 import ru.slartus.moca.domain.repositories.*
 
+private const val TAG_TMDB = "tmdb"
 val dataModule = DI.Module("dataModule") {
     bindSingleton { getHttpClient() }
-    bindSingleton<CatalogApi>(tag = "tmdb") { TmdbApi(instance()) }
+    bindSingleton<CatalogApi>(tag = TAG_TMDB) { TmdbApi(instance()) }
+    bindSingleton<CatalogApi>(tag = "moca_tmdb") { CustomCatalog(instance(), "") }
     bindSingleton<CatalogApi>(tag = "mock") { MockApi(instance()) }
     bindSingleton<TorrentsApi>(tag = "sample") { SampleTorrentsApi(instance()) }
 
@@ -31,24 +32,24 @@ val dataModule = DI.Module("dataModule") {
     }
 
     bindSingleton<ProductsRepository<Movie>>(tag = "movies") {
-        MoviesRepositoryImpl(listOf(instance("tmdb")))
+        MoviesRepositoryImpl(listOf(instance(TAG_TMDB)))
     }
     bindSingleton<ProductsRepository<Series>>(tag = "series") {
-        SeriesRepositoryImpl(listOf(instance("tmdb")))
+        SeriesRepositoryImpl(listOf(instance(TAG_TMDB)))
     }
     bindSingleton<ProductsRepository<Movie>>(tag = "animation.movies") {
-        PopularAnimationMoviesRepositoryImpl(listOf(instance("tmdb")))
+        PopularAnimationMoviesRepositoryImpl(listOf(instance(TAG_TMDB)))
     }
     bindSingleton<ProductsRepository<Series>>(tag = "animation.series") {
-        PopularAnimationSeriesRepositoryImpl(listOf(instance("tmdb")))
+        PopularAnimationSeriesRepositoryImpl(listOf(instance(TAG_TMDB)))
     }
 
     bindProvider<MovieRepository> {
-        MovieRepositoryImpl(instance("tmdb"))
+        MovieRepositoryImpl(instance(TAG_TMDB))
     }
 
     bindProvider<SerieRepository> {
-        SerieRepositoryImpl(instance("tmdb"))
+        SerieRepositoryImpl(instance(TAG_TMDB))
     }
 
     bindProvider<TorrentsRepository> {
@@ -60,19 +61,19 @@ val dataModule = DI.Module("dataModule") {
     }
 
     bindSingleton<SearchRepository<Movie>>(tag = "movies") {
-        MoviesSearchRepositoryImpl(listOf(instance("tmdb")))
+        MoviesSearchRepositoryImpl(listOf(instance(TAG_TMDB)))
     }
 
     bindSingleton<SearchRepository<Series>>(tag = "series") {
-        SeriesSearchRepositoryImpl(listOf(instance("tmdb")))
+        SeriesSearchRepositoryImpl(listOf(instance(TAG_TMDB)))
     }
 
     bindSingleton<SearchRepository<Movie>>(tag = "animation.movies") {
-        AnimationMoviesSearchRepositoryImpl(listOf(instance("tmdb")))
+        AnimationMoviesSearchRepositoryImpl(listOf(instance(TAG_TMDB)))
     }
 
     bindSingleton<SearchRepository<Series>>(tag = "animation.series") {
-        AnimationSeriesSearchRepositoryImpl(listOf(instance("tmdb")))
+        AnimationSeriesSearchRepositoryImpl(listOf(instance(TAG_TMDB)))
     }
 
     bindProvider<DownloadManager> {
@@ -94,5 +95,10 @@ val dataModule = DI.Module("dataModule") {
         )
     }
 
+    bindSingleton<CatalogSourcesRepository> {
+        CatalogSourcesRepositoryImpl(
+            database = instance()
+        )
+    }
 }
 

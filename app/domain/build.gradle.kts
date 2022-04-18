@@ -21,6 +21,7 @@ kotlin {
                 // Needed only for preview.
                 implementation(compose.preview)
                 implementation(Dependencies.DI.kodein)
+                implementation(Dependencies.Network.ktorClientSerialization)
             }
         }
         named("androidMain") {

@@ -8,14 +8,14 @@ import ru.slartus.moca.domain.repositories.ProductsRepository
 
 internal class ProductsViewModel<T : Product>(
     private val popularMoviesRepository: ProductsRepository<T>,
-    scope: CoroutineScope
+    scope1: CoroutineScope
 ) : BaseViewModel<GridViewState<T>, Action, Any>(
     GridViewState(
         isLoading = true,
         data = emptyList()
     )
 ) {
-    private val scope = scope.plus(exceptionHandler + SupervisorJob())
+    private val scope = scope1.plus(exceptionHandler + SupervisorJob())
 
 
     init {
@@ -55,6 +55,12 @@ internal class ProductsViewModel<T : Product>(
 
 
     override fun onError(throwable: Throwable) {
+        _stateFlow.update { state ->
+            GridViewState(
+                isLoading = false,
+                data = state.data
+            )
+        }
         callAction(
             Action.Error(
                 Exception(

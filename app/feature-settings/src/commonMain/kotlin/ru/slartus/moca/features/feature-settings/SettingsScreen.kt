@@ -46,6 +46,9 @@ fun SettingsScreen() {
         }
     ) {
         ContentView(
+            onCatalogSourcesClick = {
+                rootController.launch(AppScreenName.CatalogSources.name)
+            },
             onVideoSourcesClick = {
                 rootController.launch(AppScreenName.VideoSources.name)
             },
@@ -59,15 +62,19 @@ fun SettingsScreen() {
 
 @Composable
 private fun ContentView(
+    onCatalogSourcesClick: () -> Unit,
     onVideoSourcesClick: () -> Unit,
     onTorrentsSourcesClick: () -> Unit,
 ) {
     val strings = LocalAppStrings.current
     Column {
-        SettingsItem(title = strings.videoSources){
+        SettingsItem(title = strings.catalogSources) {
+            onCatalogSourcesClick()
+        }
+        SettingsItem(title = strings.videoSources) {
             onVideoSourcesClick()
         }
-        SettingsItem(title = strings.torrentsSources){
+        SettingsItem(title = strings.torrentsSources) {
             onTorrentsSourcesClick()
         }
     }

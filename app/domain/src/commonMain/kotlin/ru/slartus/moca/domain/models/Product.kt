@@ -1,6 +1,7 @@
 package ru.slartus.moca.domain.models
 
 import androidx.compose.runtime.Immutable
+import kotlinx.serialization.Serializable
 
 @Immutable
 interface Product {
@@ -15,6 +16,7 @@ interface Product {
     }
 }
 
+@Serializable
 class ProductEmpty(
     override val id: String = "",
     override val title: String = "",
@@ -23,6 +25,7 @@ class ProductEmpty(
     override val posterUrl: String? = null
 ) : Product
 
+@Serializable
 enum class ProductType {
     Movie, Series, AnimationMovie, AnimationSeries
 }

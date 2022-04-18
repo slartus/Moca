@@ -1,8 +1,10 @@
 package ru.slartus.moca.domain.models
 
 import androidx.compose.runtime.Immutable
+import kotlinx.serialization.Serializable
 
 @Immutable
+@Serializable
 data class Movie(
     override val id: String,
     override val title: String,
@@ -13,6 +15,7 @@ data class Movie(
     val overview: String? = null
 ) : Product
 
+@Serializable
 data class Rate(
     val title: String,
     val rate: Float,

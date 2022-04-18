@@ -1,0 +1,23 @@
+CREATE TABLE catalog_sources (
+  id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+  title TEXT NOT NULL,
+  url TEXT NOT NULL
+);
+
+CREATE INDEX dbcatalog_sources_title ON catalog_sources(title);
+
+selectAll:
+SELECT *
+FROM catalog_sources;
+
+insert:
+INSERT INTO catalog_sources(title, url)
+VALUES ( ?, ?);
+
+update:
+UPDATE catalog_sources SET title=?, url=?
+WHERE id=?;
+
+delete:
+DELETE FROM catalog_sources
+WHERE id=?;

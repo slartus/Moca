@@ -1,7 +1,9 @@
 package ru.slartus.moca.domain.models
 
 import androidx.compose.runtime.Immutable
+import kotlinx.serialization.Serializable
 
+@Serializable
 @Immutable
 data class ProductDetails(
     val id: String,
