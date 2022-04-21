@@ -1,6 +1,5 @@
 package ru.slartus.moca.features.`feature-settings`
 
-import CatalogScope
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -24,9 +23,10 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.kodein.di.compose.rememberInstance
-import ru.alexgladkov.odyssey.compose.controllers.ModalSheetController
+import ru.alexgladkov.odyssey.compose.controllers.ModalController
+import ru.alexgladkov.odyssey.compose.extensions.present
 import ru.alexgladkov.odyssey.compose.local.LocalRootController
-import ru.alexgladkov.odyssey.compose.navigation.bottom_sheet_navigation.ModalSheetConfiguration
+import ru.alexgladkov.odyssey.compose.navigation.modal_navigation.ModalSheetConfiguration
 import ru.slartus.moca.`core-ui`.theme.AppTheme
 import ru.slartus.moca.`core-ui`.theme.LocalAppStrings
 import ru.slartus.moca.`core-ui`.views.AppNavigationIcon
@@ -44,7 +44,7 @@ fun CatalogSourcesScreen() {
         snackbarHostState = remember { SnackbarHostState() }
     )
 
-    val modalSheetController = LocalRootController.current.findModalSheetController()
+    val modalSheetController = LocalRootController.current.findModalController()
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -54,7 +54,7 @@ fun CatalogSourcesScreen() {
             FloatingActionButton(
                 modifier = Modifier,
                 onClick = {
-                    modalSheetController.presentNew(ModalSheetConfiguration()) {
+                    modalSheetController.present(ModalSheetConfiguration()) {
                         AddSourceView(modalSheetController, viewModel, null)
                     }
                 }) {
@@ -67,7 +67,7 @@ fun CatalogSourcesScreen() {
             items(viewState.data) { source ->
                 CatalogSourceView(source,
                     onSourceClick = {
-                        modalSheetController.presentNew(ModalSheetConfiguration()) {
+                        modalSheetController.present(ModalSheetConfiguration()) {
                             AddSourceView(modalSheetController, viewModel, source)
                         }
                     },
@@ -139,7 +139,7 @@ private fun CatalogSourceView(
 
 @Composable
 private fun AddSourceView(
-    modalSheetController: ModalSheetController,
+    modalSheetController: ModalController,
     viewModel: CatalogSourcesScreenViewModel,
     source: CatalogSource?
 ) {
@@ -179,7 +179,7 @@ private fun AddSourceView(
             onClick = {
                 if (title.value.text.isNotEmpty() && url.value.text.isNotEmpty()) {
                     viewModel.addTorrentSource(source?.id, title.value.text, url.value.text)
-                    modalSheetController.removeTopScreen()
+                    modalSheetController.popBackStack()
                 }
             }
         ) {

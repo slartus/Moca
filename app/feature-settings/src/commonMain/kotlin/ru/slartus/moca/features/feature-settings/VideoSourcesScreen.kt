@@ -23,9 +23,10 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.kodein.di.compose.rememberInstance
-import ru.alexgladkov.odyssey.compose.controllers.ModalSheetController
+import ru.alexgladkov.odyssey.compose.controllers.ModalController
+import ru.alexgladkov.odyssey.compose.extensions.present
 import ru.alexgladkov.odyssey.compose.local.LocalRootController
-import ru.alexgladkov.odyssey.compose.navigation.bottom_sheet_navigation.ModalSheetConfiguration
+import ru.alexgladkov.odyssey.compose.navigation.modal_navigation.ModalSheetConfiguration
 import ru.slartus.moca.`core-ui`.theme.AppTheme
 import ru.slartus.moca.`core-ui`.theme.LocalAppStrings
 import ru.slartus.moca.`core-ui`.views.AppNavigationIcon
@@ -43,7 +44,7 @@ fun VideoSourcesScreen() {
         snackbarHostState = remember { SnackbarHostState() }
     )
 
-    val modalSheetController = LocalRootController.current.findModalSheetController()
+    val modalSheetController = LocalRootController.current.findModalController()
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -53,7 +54,7 @@ fun VideoSourcesScreen() {
             FloatingActionButton(
                 modifier = Modifier,
                 onClick = {
-                    modalSheetController.presentNew(ModalSheetConfiguration()) {
+                    modalSheetController.present(ModalSheetConfiguration()) {
                         AddSourceView(modalSheetController, viewModel, null)
                     }
                 }) {
@@ -66,7 +67,7 @@ fun VideoSourcesScreen() {
             items(viewState.data) { source ->
                 VideoSourceView(source,
                     onSourceClick = {
-                        modalSheetController.presentNew(ModalSheetConfiguration()) {
+                        modalSheetController.present(ModalSheetConfiguration()) {
                             AddSourceView(modalSheetController, viewModel, source)
                         }
                     },
@@ -133,7 +134,7 @@ private fun VideoSourceView(
 
 @Composable
 private fun AddSourceView(
-    modalSheetController: ModalSheetController,
+    modalSheetController: ModalController,
     viewModel: VideoSourcesScreenViewModel,
     source: VideoSource?
 ) {
@@ -173,7 +174,7 @@ private fun AddSourceView(
             onClick = {
                 if (title.value.text.isNotEmpty() && url.value.text.isNotEmpty()) {
                     viewModel.addTorrentSource(source?.id, title.value.text, url.value.text)
-                    modalSheetController.removeTopScreen()
+                    modalSheetController.popBackStack()
                 }
             }
         ) {

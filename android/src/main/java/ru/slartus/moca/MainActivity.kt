@@ -13,7 +13,7 @@ import ru.alexgladkov.odyssey.compose.base.Navigator
 import ru.alexgladkov.odyssey.compose.extensions.setupWithActivity
 import ru.alexgladkov.odyssey.compose.local.LocalRootController
 import ru.alexgladkov.odyssey.compose.navigation.RootComposeBuilder
-import ru.alexgladkov.odyssey.compose.navigation.bottom_sheet_navigation.ModalSheetNavigator
+import ru.alexgladkov.odyssey.compose.navigation.modal_navigation.ModalNavigator
 import ru.slartus.moca.`core-ui`.theme.AppTheme
 import ru.slartus.moca.di.androidModule
 import withApp
@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     withApp(di) {
-                        ModalSheetNavigator {
+                        ModalNavigator {
                             Navigator()
                         }
                     }

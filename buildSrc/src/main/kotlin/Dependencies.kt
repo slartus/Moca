@@ -4,7 +4,7 @@ object Dependencies {
     }
 
     object Navigation {
-        private const val odyssey = "0.4.2"
+        private const val odyssey = "1.0.0-beta05"
         const val odysseyCore = "io.github.alexgladkov:odyssey-core:$odyssey"// For core classes
         const val odysseyCompose =
             "io.github.alexgladkov:odyssey-compose:$odyssey" // For compose extensions
