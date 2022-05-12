@@ -58,6 +58,7 @@ fun VideoSourcesScreen() {
                         AddSourceView(modalSheetController, viewModel, null)
                     }
                 }) {
+
                 Icon(Icons.Default.Add, strings.addTorrentSource)
             }
         }
